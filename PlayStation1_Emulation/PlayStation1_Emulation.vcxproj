@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CommonTypes.h" />
     <ClInclude Include="CPU.h" />
     <ClInclude Include="Memory.h" />
   </ItemGroup>

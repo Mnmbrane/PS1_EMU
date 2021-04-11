@@ -1,27 +1,31 @@
 #pragma once
+#include "CommonTypes.h"
 
 class Memory;
 
 class CPU
 {
 public:
-   using Word = unsigned int;
-   using HalfWord = unsigned short;
-   using Byte = unsigned char;
+   static CPU* GetInstance();
+   ~CPU();
 
    // Fetch instructions from memory
-   void FetchInstructions(const Memory& mem);
+   Instruction FetchInstructions(const Memory& mem);
+
 
 private:
+
+   CPU();
+   CPU& operator=(const CPU&) {};
    // TODO: Might not need cache if we are emulating?
    // Instruction cache 4KB
    // Word mInstructionBuffer[4096 / sizeof(Word)];
    // Data Cache 1KB 
    // Word mDataBuffer[1024 / sizeof(Word)];
 
-   // General Purpose Registers
-   struct GeneralRegister
+   typedef struct
    {
+      // General Purpose Registers
       Word ZR;                               // Constant 0
       Word AT;                               // Reserved for the assembler
       Word V0, V1;                           // Values for results and expression evaluation
@@ -34,10 +38,15 @@ private:
       Word SP;                               // Stack Pointer
       Word FP;                               // Frame Pointer
       Word RA;                               // Return address (set by function call)
-   };
 
-   Word HI; // Multiplication 64 bit high result or division remainder
-   Word LO; // Multiplication 64 bit low result or division quotient
-   Word PC; // Program Counter 
+      // Other Registers
+      Word HI; // Multiplication 64 bit high result or division remainder
+      Word LO; // Multiplication 64 bit low result or division quotient
+      Word PC; // Program Counter 
+   } CPURegisterType;
+
+   static CPU* inst;
+
+   CPURegisterType mRegister;
 };
 
