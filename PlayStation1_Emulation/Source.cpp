@@ -3,6 +3,6 @@
 
 int main()
 {
-   //CPU* cpu = CPU::GetInstance();
+   CPU* cpu = CPU::GetInstance();
    return 0;
 }

@@ -1,4 +1,6 @@
 #include "CPU.h"
+#include "Memory.h"
+#include "string.h" // memset
 
 // Initialize this instance to null
 CPU* CPU::inst = nullptr;
@@ -13,7 +15,8 @@ CPU* CPU::GetInstance()
 }
 
 CPU::CPU() :
-   mRegister{}
+   mRegister{},
+   mMemory(nullptr)
 {
 }
 
@@ -23,9 +26,22 @@ CPU::~CPU()
    inst = nullptr;
 }
 
-Instruction CPU::FetchInstructions(const Memory& mem)
+void CPU::Reset()
 {
-   // Get the first 32-bits from memory
+   memset(&mRegister, 0, sizeof(mRegister));
 
-   return 0;
+   // reset the PC to the beginning of the BIOS
+   mRegister.PC = 0xbfc00000;
+   mMemory->Reset();
+}
+
+void CPU::InitMemory(Memory* memory)
+{
+   mMemory = memory;
+}
+
+Instruction CPU::FetchInstructions()
+{
+   // Get the memory pointed to by PC
+   return mMemory->GetWord(this->mRegister.PC);
 }

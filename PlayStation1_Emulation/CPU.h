@@ -9,14 +9,22 @@ public:
    static CPU* GetInstance();
    ~CPU();
 
+   // Reset registers and Memory
+   void Reset();
+
+   // Initialize memory to what's passed in
+   void InitMemory(Memory* memory);
+
    // Fetch instructions from memory
-   Instruction FetchInstructions(const Memory& mem);
+   Instruction FetchInstructions();
 
 
 private:
 
    CPU();
    CPU& operator=(const CPU&) {};
+
+   void RunCycle();
    // TODO: Might not need cache if we are emulating?
    // Instruction cache 4KB
    // Word mInstructionBuffer[4096 / sizeof(Word)];
@@ -48,5 +56,7 @@ private:
    static CPU* inst;
 
    CPURegisterType mRegister;
+   
+   Memory* mMemory;
 };
 
