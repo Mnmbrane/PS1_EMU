@@ -2,14 +2,18 @@
 
 #include "string.h" // memset
 
-Memory::Memory() :
-   mData{}
+using namespace CommonTypes;
+
+Memory::Memory() //:
 {
+   mData = new Byte[0x7FFFFFF];
+
 }
 
 Memory::~Memory()
 {
-   Reset();
+   delete [] mData;
+   mData = nullptr;
 }
 
 void Memory::Reset()

@@ -1,6 +1,8 @@
 #pragma once
 #include "CommonTypes.h"
 
+using namespace CommonTypes;
+
 class Memory
 {
 public:
@@ -11,6 +13,6 @@ public:
    Word GetWord(const Word& address);
 private:
    // TODO: Fix the size
-   Byte mData[0x7FFFFFFF];
+   Byte* mData;
 };
 

@@ -1,48 +1,51 @@
 #pragma once
 
-using Word = unsigned int;
-using HalfWord = unsigned short;
-using Byte = unsigned char;
-using Instruction = Word;
-
-constexpr Word opSize = 6;
-constexpr Word rsSize = 5;
-constexpr Word rtSize = 5;
-constexpr Word immediateSize = 16;
-constexpr Word targetSize = 26;
-constexpr Word rdSize = 5;
-constexpr Word shamtSize = 5;
-constexpr Word functSize = 6;
-constexpr Word otherSize = 26;
-
-typedef struct
+namespace CommonTypes
 {
-   unsigned int op         : opSize;
-   unsigned int rs         : rsSize;
-   unsigned int rt         : rtSize;
-   unsigned int immediate  : immediateSize;
+   using Word = unsigned int;
+   using HalfWord = unsigned short;
+   using Byte = unsigned char;
+   using Instruction = Word;
 
-} InstructionSetImmediateType;
 
-typedef struct
-{
-   unsigned int op      : opSize;
-   unsigned int target  : targetSize;
+   constexpr Word opSize = 6;
+   constexpr Word rsSize = 5;
+   constexpr Word rtSize = 5;
+   constexpr Word immediateSize = 16;
+   constexpr Word targetSize = 26;
+   constexpr Word rdSize = 5;
+   constexpr Word shamtSize = 5;
+   constexpr Word functSize = 6;
+   constexpr Word otherSize = 26;
 
-} InstructionSetJumpType;
+   // beginning of the BIOS
+   constexpr Word PC_RESET_VAL = 0xbfc00000;
 
-typedef struct
-{
-   unsigned int op      : opSize;
-   unsigned int rs      : rsSize;
-   unsigned int rt      : rtSize;
-   unsigned int rd      : rdSize;
-   unsigned int shamt   : shamtSize;
-   unsigned int funct   : functSize;
+   typedef struct
+   {
+      unsigned int op         : opSize;
+      unsigned int rs         : rsSize;
+      unsigned int rt         : rtSize;
+      unsigned int immediate  : immediateSize;
 
-} InstructionSetRegisterType;
+   } InstructionSetImmediateType;
 
-enum OPCODE
-{
+   typedef struct
+   {
+      unsigned int op      : opSize;
+      unsigned int target  : targetSize;
 
-} opcodeType;
+   } InstructionSetJumpType;
+
+   typedef struct
+   {
+      unsigned int op      : opSize;
+      unsigned int rs      : rsSize;
+      unsigned int rt      : rtSize;
+      unsigned int rd      : rdSize;
+      unsigned int shamt   : shamtSize;
+      unsigned int funct   : functSize;
+
+   } InstructionSetRegisterType;
+
+}

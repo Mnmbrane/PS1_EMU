@@ -1,29 +1,24 @@
 #include "CPU.h"
 #include "Memory.h"
-#include "string.h" // memset
+#include <string.h> // memset
+#include <exception>
 
-// Initialize this instance to null
-CPU* CPU::inst = nullptr;
+using namespace CommonTypes;
 
-CPU* CPU::GetInstance()
-{
-   if ( inst == nullptr )
-   {
-      inst = new CPU();
-   }
-   return inst;
-}
-
-CPU::CPU() :
+CPU::CPU(Memory* memory) :
    mRegister{},
-   mMemory(nullptr)
+   mMemory(memory)
 {
+   // make sure memory is not null or we'll have a problem
+   if ( memory == nullptr )
+   {
+      throw std::exception();
+   }
 }
 
 CPU::~CPU()
 {
-   delete inst;
-   inst = nullptr;
+
 }
 
 void CPU::Reset()
@@ -31,7 +26,7 @@ void CPU::Reset()
    memset(&mRegister, 0, sizeof(mRegister));
 
    // reset the PC to the beginning of the BIOS
-   mRegister.PC = 0xbfc00000;
+   mRegister.PC = PC_RESET_VAL;
    mMemory->Reset();
 }
 
@@ -40,8 +35,21 @@ void CPU::InitMemory(Memory* memory)
    mMemory = memory;
 }
 
-Instruction CPU::FetchInstructions()
+Instruction CPU::FetchInstruction()
 {
    // Get the memory pointed to by PC
    return mMemory->GetWord(this->mRegister.PC);
+}
+
+void CPU::DecodeInstruction(Instruction instruction)
+{
+}
+
+void CPU::ExecuteInstruction()
+{
+}
+
+// TODO
+void CPU::Run()
+{
 }

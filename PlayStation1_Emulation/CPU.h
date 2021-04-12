@@ -3,10 +3,12 @@
 
 class Memory;
 
+using namespace CommonTypes;
+
 class CPU
 {
 public:
-   static CPU* GetInstance();
+   CPU(Memory* memory);
    ~CPU();
 
    // Reset registers and Memory
@@ -16,15 +18,24 @@ public:
    void InitMemory(Memory* memory);
 
    // Fetch instructions from memory
-   Instruction FetchInstructions();
+   Instruction FetchInstruction();
 
+   void DecodeInstruction(Instruction instruction);
+
+   void ExecuteInstruction();
+
+   // 1. Fetch the instruction located at address PC
+   // 2. Incremete the PC to point to the next instruction
+   // 3. Execute the instruction
+   // 4. Repeat
+   void Run();
 
 private:
-
-   CPU();
+   CPU() = delete; // Don't allow default construction
    CPU& operator=(const CPU&) {};
 
    void RunCycle();
+
    // TODO: Might not need cache if we are emulating?
    // Instruction cache 4KB
    // Word mInstructionBuffer[4096 / sizeof(Word)];
@@ -52,8 +63,6 @@ private:
       Word LO; // Multiplication 64 bit low result or division quotient
       Word PC; // Program Counter 
    } CPURegisterType;
-
-   static CPU* inst;
 
    CPURegisterType mRegister;
    
