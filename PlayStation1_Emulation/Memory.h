@@ -1,18 +1,19 @@
 #pragma once
 #include "CommonTypes.h"
 
-using namespace PSEmu;
-
-class Memory
+namespace PSEmu
 {
-public:
-   Memory();
-   ~Memory();
+   class Memory
+   {
+   public:
+      Memory();
+      ~Memory();
 
-   void Reset();
-   Word GetWord(const Word& address);
-private:
-   // TODO: Fix the size
-   Byte* mData;
-};
+      void Reset();
+      Word GetWord(const Word& address);
+   private:
+      // TODO: Fix the size
+      Byte* mData;
+   };
+}
 

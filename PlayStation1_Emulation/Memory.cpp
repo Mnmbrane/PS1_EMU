@@ -1,5 +1,4 @@
 #include "Memory.h"
-
 #include "string.h" // memset
 
 using namespace PSEmu;
