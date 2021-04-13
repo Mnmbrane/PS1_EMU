@@ -1,7 +1,7 @@
 #pragma once
 #include "CommonTypes.h"
 
-using namespace CommonTypes;
+using namespace PSEmu;
 
 class Memory
 {

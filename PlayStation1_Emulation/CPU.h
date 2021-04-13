@@ -3,7 +3,7 @@
 
 class Memory;
 
-using namespace CommonTypes;
+using namespace PSEmu;
 
 class CPU
 {

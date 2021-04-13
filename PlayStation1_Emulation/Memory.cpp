@@ -2,7 +2,7 @@
 
 #include "string.h" // memset
 
-using namespace CommonTypes;
+using namespace PSEmu;
 
 Memory::Memory() //:
 {

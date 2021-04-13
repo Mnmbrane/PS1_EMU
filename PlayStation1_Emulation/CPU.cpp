@@ -3,7 +3,7 @@
 #include <string.h> // memset
 #include <exception>
 
-using namespace CommonTypes;
+using namespace PSEmu;
 
 CPU::CPU(Memory* memory) :
    mRegister{},
