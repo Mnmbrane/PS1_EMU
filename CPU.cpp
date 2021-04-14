@@ -4,7 +4,6 @@
 #include <exception>
 
 using namespace PSEmu;
-
 CPU::CPU(Memory* memory) :
    mRegister{},
    mMemory(memory)

@@ -15,11 +15,9 @@
 **/.history
 
 ### CMAKE ###
-CMakeLists.txt.user
-CMakeCache.txt
 CMakeFiles
-CMakeScripts
-Testing
+CMakeCache.txt
 Makefile
-install_manifest.txt
-_deps
+
+### Executable ###
+PS1_EMU

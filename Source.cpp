@@ -4,10 +4,13 @@
 
 int main()
 {
-   Memory* mem = nullptr;
-   CPU* cpu = new CPU(mem);
+   PSEmu::Memory* mem = new PSEmu::Memory();
+   PSEmu::CPU* cpu = new PSEmu::CPU(mem);
 
-   delete cpu;
-   delete mem;
+   if(cpu != nullptr)
+      delete cpu;
+
+   if(mem != nullptr)
+      delete mem;
    return 0;
 }

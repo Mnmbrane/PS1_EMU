@@ -1,7 +1,10 @@
 #pragma once
 #include "CommonTypes.h"
 
-class Memory;
+namespace PSEmu
+{
+   class Memory;
+}
 
 namespace PSEmu
 {
@@ -32,7 +35,6 @@ namespace PSEmu
 
    private:
       CPU() = delete; // Don't allow default construction
-      CPU& operator=(const CPU&) {};
 
       void RunCycle();
 
@@ -66,7 +68,7 @@ namespace PSEmu
 
       CPURegisterType mRegister;
    
-      Memory* mMemory;
+      PSEmu::Memory* mMemory;
    };
 }
 

@@ -1,11 +1,5 @@
-cmake_minimum_required(VERSION 3.0.0)
-project(PS1_EMU VERSION 0.1.0)
+cmake_minimum_required(VERSION  3.16.3)
 
-include(CTest)
-enable_testing()
+project(PS1_EMU)
 
-add_library(PS1_EMU PS1_EMU.cpp)
-
-set(CPACK_PROJECT_NAME ${PROJECT_NAME})
-set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
-include(CPack)
+add_executable(${PROJECT_NAME} Source.cpp CPU.cpp Memory.cpp)
