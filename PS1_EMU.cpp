@@ -8,9 +8,16 @@ int main()
    PSEmu::CPU* cpu = new PSEmu::CPU(mem);
 
    if(cpu != nullptr)
+   {
       delete cpu;
+      cpu = nullptr;
+   }
 
    if(mem != nullptr)
+   {
       delete mem;
+      mem = nullptr;
+   }
+
    return 0;
 }
