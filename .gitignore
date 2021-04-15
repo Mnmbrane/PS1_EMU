@@ -3,6 +3,7 @@
 *.make
 *.tcl
 *.a
+*.pc
 
 ### VisualStudioCode ###
 .vscode/*
@@ -11,6 +12,9 @@
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+### GTEST ###
+!lib/googletest/*
 
 ### VisualStudioCode Patch ###
 # Ignore all local history of files
@@ -23,3 +27,4 @@ Makefile
 
 ### Executable  ###
 PS1_EMU
+PS1_EMU_TEST
