@@ -2,9 +2,11 @@
 *.cmake
 *.make
 *.tcl
+*.a
 
 ### VisualStudioCode ###
 .vscode/*
+!.vscode/c_cpp_properties.json
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
@@ -19,5 +21,5 @@ CMakeFiles
 CMakeCache.txt
 Makefile
 
-### Executable ###
+### Executable  ###
 PS1_EMU
