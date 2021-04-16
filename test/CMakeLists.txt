@@ -1,9 +1,6 @@
-file(GLOB_RECURSE TEST_SOURCES LIST_DIRECTORIES false *.h *.cpp)
+file(GLOB Sources "*.cpp")
 
-set(BINARY ${PROJECT_NAME}_TEST)
+add_executable(${PROJECT_NAME}_TEST ${Sources} )
 
-add_executable(${BINARY} ${TEST_SOURCES})
+add_test(NAME ${PROJECT_NAME}_TEST COMMAND ${PROJECT_NAME}_TEST)
 
-add_test(NAME ${BINARY} COMMAND ${BINARY})
-
-target_link_libraries(${BINARY} PUBLIC Ps1Emu gtest)
