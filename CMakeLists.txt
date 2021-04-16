@@ -14,4 +14,5 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include)
 
 # Test
 target_link_libraries(${PROJECT_NAME}_TEST gtest)
+target_link_libraries(${PROJECT_NAME}_TEST Ps1Emu)
 target_include_directories(${PROJECT_NAME}_TEST PUBLIC ${PROJECT_SOURCE_DIR}/include)

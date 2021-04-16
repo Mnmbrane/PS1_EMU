@@ -1,7 +1,9 @@
 #include "CPU.h"
 #include "Memory.h"
+#include "ExceptionString.h"
 #include <string.h> // memset
-#include <exception>
+#include <stdexcept> // invalid_argument
+
 
 using namespace PSEmu;
 CPU::CPU(Memory* memory) :
@@ -11,7 +13,7 @@ CPU::CPU(Memory* memory) :
    // make sure memory is not null or we'll have a problem
    if ( memory == nullptr )
    {
-      throw std::exception();
+      throw std::invalid_argument(ExceptionString::Null_Memory_Arg);
    }
 }
 
@@ -25,19 +27,14 @@ void CPU::Reset()
    memset(&mRegister, 0, sizeof(mRegister));
 
    // reset the PC to the beginning of the BIOS
-   mRegister.PC = PC_RESET_VAL;
+   mRegister[PC] = static_cast<RegisterType>(PC_RESET_VAL);
    mMemory->Reset();
-}
-
-void CPU::InitMemory(Memory* memory)
-{
-   mMemory = memory;
 }
 
 Instruction CPU::FetchInstruction()
 {
    // Get the memory pointed to by PC
-   return mMemory->GetWord(this->mRegister.PC);
+   return mMemory->GetWord(mRegister[PC]);
 }
 
 void CPU::DecodeInstruction(Instruction instruction)
@@ -51,4 +48,14 @@ void CPU::ExecuteInstruction()
 // TODO
 void CPU::Run()
 {
+}
+
+void CPU::SetRegister(RegisterType reg, Word val) 
+{
+   mRegister[reg] = static_cast<RegisterType>(val);
+}
+
+Word CPU::GetRegister(RegisterType reg) 
+{
+   return mRegister[reg];
 }
