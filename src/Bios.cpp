@@ -9,7 +9,6 @@
 
 using namespace PSEmu;
 
-const char* BIOS_FILE_LOC = "external_bin/SCPH1001.BIN";
 const Byte BIOS_CHECK_SUM[20] = { 0x10, 0x15, 0x5d, 0x8d, 0x6e,
                                   0x6e, 0x83, 0x2d, 0x6e, 0xa6,
                                   0x6d, 0xb9, 0xbc, 0x09, 0x83,
@@ -39,6 +38,9 @@ bool Bios::Initialize()
 
       // Read to a mData
       biosFile.read(reinterpret_cast<char*>(mData), BIOS_SIZE);
+
+      // Close file
+      biosFile.close();
 
       // Checksum
       if(Checksum() == false)

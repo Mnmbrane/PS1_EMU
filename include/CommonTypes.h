@@ -28,6 +28,8 @@ namespace PSEmu
       MAX_REG_NUM
    } RegisterType;
 
+   const constexpr char* BIOS_FILE_LOC = "external_bin/bios.bin";
+
    // Sizes of fields contained within Instructions
    constexpr Word OP_SIZE = 6;
    constexpr Word RS_SIZE = 5;
