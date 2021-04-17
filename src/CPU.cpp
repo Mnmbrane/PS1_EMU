@@ -1,11 +1,11 @@
 #include "CPU.h"
 #include "Bios.h"
-#include "ExceptionString.h"
 #include <string.h> // memset
 #include <stdexcept> // invalid_argument
 
 
 using namespace PSEmu;
+
 CPU::CPU() :
    mRegister{},
    mBios(new Bios())
@@ -17,12 +17,14 @@ CPU::~CPU()
 
 }
 
-void CPU::Initialize() 
+bool CPU::Initialize() 
 {
    // Initialize the bios
    mBios->Initialize();
    // Initialize the memory
    // TODO
+
+   return true;
 }
 
 void CPU::Reset()

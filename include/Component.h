@@ -1,8 +1,11 @@
 #pragma once
 
-class I_Component
+namespace PSEmu
 {
-public:
-   virtual void Initialize() = 0;
-   virtual void Reset() = 0;
-};
+   class I_Component
+   {
+   public:
+      virtual bool Initialize() = 0;
+      virtual void Reset() = 0;
+   };
+}

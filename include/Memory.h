@@ -12,7 +12,7 @@ namespace PSEmu
       virtual ~I_Memory();
 
       virtual void Reset();
-      virtual Word GetWord(const Word& address) = 0;
+      virtual Word GetWord(const Word& address);
    
    protected:
       Byte* mData;

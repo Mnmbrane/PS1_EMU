@@ -9,10 +9,16 @@ namespace PSEmu
    Bios();
    ~Bios();
 
-   virtual void Initialize();
+   virtual bool Initialize();
    virtual void Reset();
    virtual Word GetWord(const Word& address);
 
    private:
+   // Checks if file size is equal to 512
+   bool CheckSize();
+
+   bool Checksum();
+
+   
    };
 }
