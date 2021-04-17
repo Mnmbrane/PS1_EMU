@@ -1,25 +1,28 @@
 #include "CPU.h"
-#include "Memory.h"
+#include "Bios.h"
 #include "ExceptionString.h"
 #include <string.h> // memset
 #include <stdexcept> // invalid_argument
 
 
 using namespace PSEmu;
-CPU::CPU(Memory* memory) :
+CPU::CPU() :
    mRegister{},
-   mMemory(memory)
+   mBios(new Bios())
 {
-   // make sure memory is not null or we'll have a problem
-   if ( memory == nullptr )
-   {
-      throw std::invalid_argument(ExceptionString::Null_Memory_Arg);
-   }
 }
 
 CPU::~CPU()
 {
 
+}
+
+void CPU::Initialize() 
+{
+   // Initialize the bios
+   mBios->Initialize();
+   // Initialize the memory
+   // TODO
 }
 
 void CPU::Reset()
@@ -28,7 +31,6 @@ void CPU::Reset()
 
    // reset the PC to the beginning of the BIOS
    mRegister[PC] = PC_RESET_VAL;
-   mMemory->Reset();
 }
 
 void CPU::IncrementPC()
@@ -41,7 +43,9 @@ void CPU::IncrementPC()
 Instruction CPU::FetchInstruction()
 {
    // Get the memory pointed to by PC
-   return mMemory->GetWord(mRegister[PC]);
+   // TODO
+   // return mMemory->GetWord(mRegister[PC]);
+   return 0;
 }
 
 void CPU::ExecuteInstruction(Instruction instruction)
@@ -52,12 +56,13 @@ void CPU::ExecuteInstruction(Instruction instruction)
 void CPU::RunNextInstruction()
 {
    // Get word at pointed to by PC in memory
-   Word instruction = mMemory->GetWord(mRegister[PC]);
+   // TODO:
+   // Word instruction = mMemory->GetWord(mRegister[PC]);
 
    IncrementPC();
 
    // Execute the current instruction
-   ExecuteInstruction(instruction);
+   // TODO: ExecuteInstruction(instruction);
 }
 
 void CPU::SetRegister(RegisterType reg, Word val) 

@@ -1,7 +1,6 @@
 #include "gtest/gtest.h"
 
 #include "CPU.h"
-#include "Memory.h"
 
 #include <stdexcept> // invalid_argument
 
@@ -12,22 +11,14 @@ struct CPUTest : public testing::Test
 {
    virtual void SetUp()
    {
-      mMem = new Memory();
-      mCPU = new CPU(mMem);
+      mCPU = new CPU();
    }
    virtual void TearDown()
    {
       delete mCPU;
-      delete mMem;
    }
    CPU* mCPU;
-   Memory* mMem;
 };
-
-TEST(TestConstruction, NullMemory)
-{
-   EXPECT_THROW(CPU(nullptr), std::invalid_argument);
-}
 
 TEST_F(CPUTest, TestReset)
 {

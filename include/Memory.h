@@ -1,20 +1,25 @@
 #pragma once
 
 #include "CommonTypes.h"
+#include "Component.h"
 
 namespace PSEmu
 {
-   class Memory
+   class I_Memory : public I_Component
    {
    public:
-      Memory();
-      ~Memory();
+      I_Memory(Word Size);
+      virtual ~I_Memory();
 
-      void Reset();
-      Word GetWord(const Word& address);
-   private:
-      // TODO: Fix the size
+      virtual void Reset();
+      virtual Word GetWord(const Word& address) = 0;
+   
+   protected:
       Byte* mData;
+
+   private:
+      I_Memory() = delete;
+      // TODO: Fix the size
    };
 }
 

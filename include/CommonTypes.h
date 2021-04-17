@@ -45,7 +45,8 @@ namespace PSEmu
    // Size of instructions is 4 bytes
    constexpr Word INSTRUCTION_SIZE = 0x4;
 
-   // Max memory size - 4GB
+   // Memory sizes
+   constexpr Word BIOS_SIZE = 0x200;
    constexpr Word MAX_MEM_SIZE = 0xFFFFFFFF;
 
    typedef struct

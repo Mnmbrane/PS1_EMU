@@ -1,21 +1,24 @@
 #pragma once
 #include "CommonTypes.h"
+#include "Component.h"
 
 namespace PSEmu
 {
-   class Memory;
+   class Bios;
 }
 
 namespace PSEmu
 {
-   class CPU
+   class CPU : public I_Component
    {
    public:
-      CPU(Memory* memory);
+      CPU();
       ~CPU();
 
+      virtual void Initialize();
+
       // Reset registers and Memory
-      void Reset();
+      virtual void Reset();
 
       // Fetch instructions from memory
       Instruction FetchInstruction();
@@ -33,7 +36,6 @@ namespace PSEmu
       Word GetRegister(RegisterType reg);
 
    private:
-      CPU() = delete; // Don't allow default construction
 
       // Increment the PC to the next instruction
       void IncrementPC();
@@ -46,7 +48,7 @@ namespace PSEmu
 
       Word mRegister[MAX_REG_NUM];
    
-      PSEmu::Memory* mMemory;
+      PSEmu::Bios* mBios;
    };
 }
 
