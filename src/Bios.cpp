@@ -35,7 +35,6 @@ bool Bios::Initialize()
    else
    {
       // Read file
-      // TODO: File location should be referenced in CommonTypes
       std::ifstream biosFile(BIOS_FILE_LOC, std::ios::binary);
 
       // Read to a mData
@@ -47,11 +46,7 @@ bool Bios::Initialize()
          printf("Bad Bios Checksum\n");
          return false;
       }
-
-      // Place into mData
-      return true;
    }
-
    // Place into mData
    return true;
 }
