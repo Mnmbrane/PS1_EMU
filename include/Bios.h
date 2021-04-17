@@ -11,7 +11,7 @@ namespace PSEmu
 
    virtual bool Initialize();
    virtual void Reset();
-   virtual Word GetWord(const Word& address);
+   virtual Word GetWord(const Word& offset);
 
    private:
    // Checks if file size is equal to 512

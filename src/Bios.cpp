@@ -56,10 +56,14 @@ void Bios::Reset()
    memset((void*)mData, 0, BIOS_SIZE);
 }
 
-Word Bios::GetWord(const Word& address) 
+Word Bios::GetWord(const Word& offset) 
 {
-   // TODO
-   return 0;
+   Word retData = 0;
+
+   // Get offset and push 4 bytes of data into retData
+   memcpy((void*)&retData, (void*)&(mData[offset]), sizeof(Word));
+
+   return retData;
 }
 
 bool Bios::CheckSize() 
