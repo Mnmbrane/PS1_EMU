@@ -4,11 +4,8 @@
 
 namespace PSEmu
 {
-   class Bios;
-}
+   class MMU;
 
-namespace PSEmu
-{
    class CPU : public I_Component
    {
    public:
@@ -47,8 +44,8 @@ namespace PSEmu
       // Word mDataBuffer[1024 / sizeof(Word)];
 
       Word mRegister[MAX_REG_NUM];
-   
-      PSEmu::Bios* mBios;
+
+      MMU* mMMU;
    };
 }
 

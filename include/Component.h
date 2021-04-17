@@ -7,5 +7,6 @@ namespace PSEmu
    public:
       virtual bool Initialize() = 0;
       virtual void Reset() = 0;
+
    };
 }

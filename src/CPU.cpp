@@ -1,5 +1,7 @@
 #include "CPU.h"
 #include "Bios.h"
+#include "MMU.h"
+
 #include <string.h> // memset
 #include <stdexcept> // invalid_argument
 
@@ -8,7 +10,7 @@ using namespace PSEmu;
 
 CPU::CPU() :
    mRegister{},
-   mBios(new Bios())
+   mMMU(new MMU())
 {
 }
 
@@ -19,9 +21,8 @@ CPU::~CPU()
 
 bool CPU::Initialize() 
 {
-   // Initialize the bios
-   mBios->Initialize();
    // Initialize the memory
+   mMMU->Initialize();
    // TODO
 
    return true;
