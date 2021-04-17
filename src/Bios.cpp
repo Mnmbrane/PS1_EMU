@@ -9,7 +9,7 @@
 
 using namespace PSEmu;
 
-const char* FILE_LOC = "external_bin/SCPH1001.BIN";
+const char* BIOS_FILE_LOC = "external_bin/SCPH1001.BIN";
 const Byte BIOS_CHECK_SUM[20] = { 0x10, 0x15, 0x5d, 0x8d, 0x6e,
                                   0x6e, 0x83, 0x2d, 0x6e, 0xa6,
                                   0x6d, 0xb9, 0xbc, 0x09, 0x83,
@@ -36,7 +36,7 @@ bool Bios::Initialize()
    {
       // Read file
       // TODO: File location should be referenced in CommonTypes
-      std::ifstream biosFile(FILE_LOC, std::ios::binary);
+      std::ifstream biosFile(BIOS_FILE_LOC, std::ios::binary);
 
       // Read to a mData
       biosFile.read(reinterpret_cast<char*>(mData), BIOS_SIZE);
@@ -70,13 +70,14 @@ Word Bios::GetWord(const Word& address)
 bool Bios::CheckSize() 
 {
    struct stat results;
-   if(stat(FILE_LOC, &results) == 0)
+   if(stat(BIOS_FILE_LOC, &results) == 0)
    {
       return results.st_size == BIOS_SIZE;
    }
    else
    {
       // An error occured
+      printf("Could not read file %s\n", BIOS_FILE_LOC);
       return false;
    }
 }
@@ -84,12 +85,6 @@ bool Bios::CheckSize()
 bool Bios::Checksum()
 {
    unsigned char* hash = SHA1(mData, BIOS_SIZE, nullptr);
-   for(int i = 0; i < sizeof(BIOS_CHECK_SUM); i++)
-   {
-      if(hash[i] != BIOS_CHECK_SUM[i])
-      {
-         return false;
-      }
-   }
-   return true;
+
+   return (memcmp((void*) hash, (void*)BIOS_CHECK_SUM, sizeof(BIOS_CHECK_SUM)) == 0);
 }
