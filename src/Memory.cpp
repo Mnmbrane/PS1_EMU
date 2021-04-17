@@ -1,12 +1,11 @@
 #include "Memory.h"
 #include "string.h" // memset
-
+#include <stdio.h>
 using namespace PSEmu;
 
 Memory::Memory() //:
 {
-   mData = new Byte[0x7FFFFFF];
-
+   mData = new Byte[MAX_MEM_SIZE];
 }
 
 Memory::~Memory()
