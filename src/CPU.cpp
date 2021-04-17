@@ -27,8 +27,15 @@ void CPU::Reset()
    memset(&mRegister, 0, sizeof(mRegister));
 
    // reset the PC to the beginning of the BIOS
-   mRegister[PC] = static_cast<RegisterType>(PC_RESET_VAL);
+   mRegister[PC] = PC_RESET_VAL;
    mMemory->Reset();
+}
+
+void CPU::IncrementPC()
+{
+   // Increment PC by instruction size
+   // This will point to the next instruction
+   mRegister[PC] += INSTRUCTION_SIZE;
 }
 
 Instruction CPU::FetchInstruction()
@@ -37,22 +44,25 @@ Instruction CPU::FetchInstruction()
    return mMemory->GetWord(mRegister[PC]);
 }
 
-void CPU::DecodeInstruction(Instruction instruction)
+void CPU::ExecuteInstruction(Instruction instruction)
 {
+   // TODO
 }
 
-void CPU::ExecuteInstruction()
+void CPU::RunNextInstruction()
 {
-}
+   // Get word at pointed to by PC in memory
+   Word instruction = mMemory->GetWord(mRegister[PC]);
 
-// TODO
-void CPU::Run()
-{
+   IncrementPC();
+
+   // Execute the current instruction
+   ExecuteInstruction(instruction);
 }
 
 void CPU::SetRegister(RegisterType reg, Word val) 
 {
-   mRegister[reg] = static_cast<RegisterType>(val);
+   mRegister[reg] = val;
 }
 
 Word CPU::GetRegister(RegisterType reg) 

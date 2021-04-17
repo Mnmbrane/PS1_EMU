@@ -42,6 +42,9 @@ namespace PSEmu
    // beginning of the BIOS
    constexpr Word PC_RESET_VAL = 0xbfc00000;
 
+   // Size of instructions is 4 bytes
+   constexpr Word INSTRUCTION_SIZE = 0x4;
+
    typedef struct
    {
       unsigned int op         : OP_SIZE;

@@ -4,8 +4,6 @@
 #include "Memory.h"
 
 #include <stdexcept> // invalid_argument
-#include <time.h>    // time
-#include <stdlib.h>  // rand
 
 using namespace PSEmu;
 
@@ -33,10 +31,10 @@ TEST(TestConstruction, NullMemory)
 
 TEST_F(CPUTest, TestReset)
 {
-   srand(time(NULL));
    for(int reg = 0; reg < MAX_REG_NUM; reg++)
    {
-      mCPU->SetRegister(static_cast<RegisterType>(reg), rand() % 0xFFFF);
+      // Set register to 0xFFFF + reg which is just arbitrary
+      mCPU->SetRegister(static_cast<RegisterType>(reg), reg + 0xFFFF);
    }
    mCPU->Reset();
 

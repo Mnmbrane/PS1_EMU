@@ -20,15 +20,13 @@ namespace PSEmu
       // Fetch instructions from memory
       Instruction FetchInstruction();
 
-      void DecodeInstruction(Instruction instruction);
-
-      void ExecuteInstruction();
+      void ExecuteInstruction(Instruction instruction);
 
       // 1. Fetch the instruction located at address PC
       // 2. Incremete the PC to point to the next instruction
       // 3. Execute the instruction
       // 4. Repeat
-      void Run();
+      void RunNextInstruction();
 
       void SetRegister(RegisterType reg, Word val);
 
@@ -37,7 +35,8 @@ namespace PSEmu
    private:
       CPU() = delete; // Don't allow default construction
 
-      void RunCycle();
+      // Increment the PC to the next instruction
+      void IncrementPC();
 
       // TODO: Might not need cache if we are emulating?
       // Instruction cache 4KB
@@ -45,7 +44,7 @@ namespace PSEmu
       // Data Cache 1KB 
       // Word mDataBuffer[1024 / sizeof(Word)];
 
-      RegisterType mRegister[MAX_REG_NUM];
+      Word mRegister[MAX_REG_NUM];
    
       PSEmu::Memory* mMemory;
    };
