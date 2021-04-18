@@ -6,10 +6,9 @@
 int main()
 {
    PSEmu::CPU* cpu = new PSEmu::CPU();
-   PSEmu::Bios bios;
+   cpu->Initialize();
 
-
-   bios.Initialize();
+   cpu->RunNextInstruction();
 
    if(cpu != nullptr)
    {

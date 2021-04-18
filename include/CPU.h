@@ -20,7 +20,7 @@ namespace PSEmu
       // Fetch instructions from memory
       Instruction FetchInstruction();
 
-      void ExecuteInstruction(Instruction instruction);
+      void ExecuteInstruction(const Instruction& instruction);
 
       // 1. Fetch the instruction located at address PC
       // 2. Incremete the PC to point to the next instruction

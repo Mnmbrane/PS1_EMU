@@ -52,21 +52,23 @@ Instruction CPU::FetchInstruction()
    return 0;
 }
 
-void CPU::ExecuteInstruction(Instruction instruction)
+void CPU::ExecuteInstruction(const Instruction& instruction)
 {
    // TODO
+   // Print the instructions
+   printf("Instruction = %x\n", instruction);
 }
 
 void CPU::RunNextInstruction()
 {
    // Get word at pointed to by PC in memory
    // TODO:
-   // Word instruction = mMemory->GetWord(mRegister[PC]);
+    Word instruction = mMMU->GetWord(mRegister[PC]);
 
    IncrementPC();
 
    // Execute the current instruction
-   // TODO: ExecuteInstruction(instruction);
+   ExecuteInstruction(instruction);
 }
 
 void CPU::ResetRegisters() 
