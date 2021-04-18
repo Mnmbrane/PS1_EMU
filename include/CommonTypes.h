@@ -41,7 +41,8 @@ namespace PSEmu
    constexpr Word FUNCT_SIZE = 6;
 
    // beginning of the BIOS
-   constexpr Word PC_RESET_VAL = 0xbfc00000;
+   constexpr Word BIOS_START_ADDR = 0xbfc00000;
+   constexpr Word PC_RESET_VAL = BIOS_START_ADDR;
 
    // Size of instructions is 4 bytes
    constexpr Word INSTRUCTION_SIZE = 0x4;

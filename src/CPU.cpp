@@ -16,24 +16,25 @@ CPU::CPU() :
 
 CPU::~CPU()
 {
-
+   delete mMMU;
 }
 
 bool CPU::Initialize() 
 {
+   bool retVal = false;
    // Initialize the memory
-   mMMU->Initialize();
-   // TODO
+   retVal = mMMU->Initialize();
+   
+   ResetRegisters();
 
    return true;
 }
 
 void CPU::Reset()
 {
-   memset(&mRegister, 0, sizeof(mRegister));
-
-   // reset the PC to the beginning of the BIOS
-   mRegister[PC] = PC_RESET_VAL;
+   mMMU->Reset();
+   
+   ResetRegisters();
 }
 
 void CPU::IncrementPC()
@@ -66,6 +67,14 @@ void CPU::RunNextInstruction()
 
    // Execute the current instruction
    // TODO: ExecuteInstruction(instruction);
+}
+
+void CPU::ResetRegisters() 
+{
+   memset(&mRegister, 0, sizeof(mRegister));
+
+   // reset the PC to the beginning of the BIOS
+   mRegister[PC] = PC_RESET_VAL;
 }
 
 void CPU::SetRegister(RegisterType reg, Word val) 

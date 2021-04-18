@@ -13,6 +13,9 @@ namespace PSEmu
       ~MMU();
       virtual bool Initialize();
       virtual void Reset();
+
+      // Get word from a location
+      Word GetWord(const Word& addr);
    private:
       Bios* mBios;
    };

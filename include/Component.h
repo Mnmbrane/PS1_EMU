@@ -1,4 +1,5 @@
 #pragma once
+#include "CommonTypes.h"
 
 namespace PSEmu
 {

@@ -28,6 +28,8 @@ namespace PSEmu
       // 4. Repeat
       void RunNextInstruction();
 
+      void ResetRegisters();
+
       void SetRegister(RegisterType reg, Word val);
 
       Word GetRegister(RegisterType reg);
