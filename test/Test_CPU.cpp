@@ -52,6 +52,7 @@ TEST_F(CPUTest, DecodeInstructionTest)
    InstructionDecodeType dIns = mCPU->DecodeInstruction(ins);
 
    EXPECT_EQ(E_INSTRUCTION_IMM, dIns.insSelect);
-   EXPECT_EQ(0b001111, dIns.instruction.immType.op);
-
+   EXPECT_EQ(15, dIns.instruction.immType.op);
+   EXPECT_EQ(8, dIns.instruction.immType.rt);
+   EXPECT_EQ(19, dIns.instruction.immType.immediate);
 }

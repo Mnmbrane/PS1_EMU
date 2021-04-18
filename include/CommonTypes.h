@@ -1,5 +1,7 @@
 #pragma once
 
+#include "CommonVal.h"
+
 namespace PSEmu
 {
    using Word = unsigned int;
@@ -27,29 +29,6 @@ namespace PSEmu
 
       MAX_REG_NUM
    } RegisterType;
-
-   const constexpr char* BIOS_FILE_LOC = "external_bin/bios.bin";
-
-   // Sizes of fields contained within Instructions
-   constexpr Word OP_SIZE = 6;
-   constexpr Word RS_SIZE = 5;
-   constexpr Word RT_SIZE = 5;
-   constexpr Word IMM_SIZE = 16;
-   constexpr Word TARGET_SIZE = 26;
-   constexpr Word RD_SIZE = 5;
-   constexpr Word SHAMT_SIZE = 5;
-   constexpr Word FUNCT_SIZE = 6;
-
-   // beginning of the BIOS
-   constexpr Word BIOS_START_ADDR = 0xbfc00000;
-   constexpr Word PC_RESET_VAL = BIOS_START_ADDR;
-
-   // Size of instructions is 4 bytes
-   constexpr Word INSTRUCTION_SIZE = 0x4;
-
-   // Memory sizes
-   constexpr Word BIOS_SIZE = 0x200 * 0x400;
-   constexpr Word MAX_MEM_SIZE = 0xFFFFFFFF;
 
    typedef struct
    {
@@ -99,4 +78,8 @@ namespace PSEmu
       InsSelectType insSelect;
    } InstructionDecodeType;
 
+   enum OpcodeType
+   {
+      E_LUI // Load Upper Immediate
+   };
 }
