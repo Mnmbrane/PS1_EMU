@@ -17,9 +17,6 @@ namespace PSEmu
       // Reset registers and Memory
       virtual void Reset();
 
-      // Fetch instructions from memory
-      Instruction FetchInstruction();
-
       void ExecuteInstruction(const Instruction& instruction);
 
       // 1. Fetch the instruction located at address PC

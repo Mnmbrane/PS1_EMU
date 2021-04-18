@@ -44,14 +44,6 @@ void CPU::IncrementPC()
    mRegister[PC] += INSTRUCTION_SIZE;
 }
 
-Instruction CPU::FetchInstruction()
-{
-   // Get the memory pointed to by PC
-   // TODO
-   // return mMemory->GetWord(mRegister[PC]);
-   return 0;
-}
-
 void CPU::ExecuteInstruction(const Instruction& instruction)
 {
    // TODO
@@ -62,7 +54,7 @@ void CPU::ExecuteInstruction(const Instruction& instruction)
 void CPU::RunNextInstruction()
 {
    // Get word at pointed to by PC in memory
-   // TODO:
+   // Get instruction from memory
     Word instruction = mMMU->GetWord(mRegister[PC]);
 
    IncrementPC();
