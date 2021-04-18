@@ -80,6 +80,6 @@ namespace PSEmu
 
    enum OpcodeType
    {
-      E_LUI // Load Upper Immediate
+      E_LUI = 0b001111 // Load Upper Immediate
    };
 }

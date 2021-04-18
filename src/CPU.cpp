@@ -131,7 +131,7 @@ InsSelectType CPU::GetInstructionSetSelect(const Instruction& instruction)
    Word opcode = instruction >> 26;
    switch(opcode)
    {
-      case 0b001111: selectType = E_INSTRUCTION_IMM;
+      case E_LUI: selectType = E_INSTRUCTION_IMM;
          break;
    }
    return selectType;
