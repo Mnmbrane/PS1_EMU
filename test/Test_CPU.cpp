@@ -1,6 +1,7 @@
 #include "gtest/gtest.h"
 
 #include "CPU.h"
+#include "CommonTypes.h"
 
 using namespace PSEmu;
 
@@ -42,4 +43,15 @@ TEST_F(CPUTest, TestReset)
    }
 
    // Everything else is zero
+}
+
+TEST_F(CPUTest, DecodeInstructionTest)
+{ 
+   // Test instructions
+   Instruction ins = 0x3c080013;
+   InstructionDecodeType dIns = mCPU->DecodeInstruction(ins);
+
+   EXPECT_EQ(E_INSTRUCTION_IMM, dIns.insSelect);
+   EXPECT_EQ(0b001111, dIns.instruction.immType.op);
+
 }

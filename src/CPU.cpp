@@ -66,11 +66,11 @@ void CPU::RunNextInstruction()
 {
    // Get word at pointed to by PC in memory
    // Get instruction from memory
-    Word instruction = mMMU->GetWord(mRegister[PC]);
+    Instruction ins = mMMU->GetWord(mRegister[PC]);
 
    // Decode instruction
    InstructionDecodeType decodedInstruction = {};
-   decodedInstruction = DecodeInstruction(instruction);
+   decodedInstruction = DecodeInstruction(ins);
 
    // Execute the current decoded instruction
    ExecuteInstruction(decodedInstruction);
@@ -102,7 +102,8 @@ InsSelectType CPU::GetInstructionSetSelect(const Instruction& instruction)
    Word opcode = instruction >> 26;
    switch(opcode)
    {
-
+      case 0b001111: selectType = E_INSTRUCTION_IMM;
+         break;
    }
    return selectType;
 }

@@ -53,28 +53,28 @@ namespace PSEmu
 
    typedef struct
    {
-      unsigned int op         : OP_SIZE;
-      unsigned int rs         : RS_SIZE;
-      unsigned int rt         : RT_SIZE;
       unsigned int immediate  : IMM_SIZE;
+      unsigned int rt         : RT_SIZE;
+      unsigned int rs         : RS_SIZE;
+      unsigned int op         : OP_SIZE;
 
    } InstructionSetImmediateType;
 
    typedef struct
    {
-      unsigned int op      : OP_SIZE;
       unsigned int target  : TARGET_SIZE;
+      unsigned int op      : OP_SIZE;
 
    } InstructionSetJumpType;
 
    typedef struct
    {
-      unsigned int op      : OP_SIZE;
-      unsigned int rs      : RS_SIZE;
-      unsigned int rt      : RT_SIZE;
-      unsigned int rd      : RD_SIZE;
-      unsigned int shamt   : SHAMT_SIZE;
       unsigned int funct   : FUNCT_SIZE;
+      unsigned int shamt   : SHAMT_SIZE;
+      unsigned int rd      : RD_SIZE;
+      unsigned int rt      : RT_SIZE;
+      unsigned int rs      : RS_SIZE;
+      unsigned int op      : OP_SIZE;
 
    } InstructionSetRegisterType;
 
