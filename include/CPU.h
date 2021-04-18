@@ -40,6 +40,12 @@ namespace PSEmu
       // Increment the PC to the next instruction
       void IncrementPC();
 
+      void ExecuteImm(const InstructionDecodeType& decodedInstruction);
+
+      void ExecuteReg(const InstructionDecodeType& decodedInstruction);
+
+      void ExecuteJump(const InstructionDecodeType& decodedInstruction);
+
       // TODO: Might not need cache if we are emulating?
       // Instruction cache 4KB
       // Word mInstructionBuffer[4096 / sizeof(Word)];

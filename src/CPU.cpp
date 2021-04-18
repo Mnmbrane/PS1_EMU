@@ -51,7 +51,21 @@ InstructionDecodeType CPU::DecodeInstruction(const Instruction& instruction)
 
 void CPU::ExecuteInstruction(const InstructionDecodeType& instruction)
 {
-   // TODO
+   switch(instruction.insSelect)
+   {
+      case E_INSTRUCTION_IMM:
+         ExecuteImm(instruction);
+         break;
+      case E_INSTRUCTION_REG:
+         ExecuteReg(instruction);
+         break;
+      case E_INSTRUCTION_JUMP:
+         ExecuteJump(instruction);
+         break;
+      default:
+         printf("ERROR: Wrong instruction type");
+         break;
+   }
 }
 
 void CPU::IncrementPC()
@@ -59,6 +73,21 @@ void CPU::IncrementPC()
    // Increment PC by instruction size
    // This will point to the next instruction
    mRegister[PC] += sizeof(Instruction);
+}
+
+void CPU::ExecuteImm(const InstructionDecodeType& decodedInstruction) 
+{
+   
+}
+
+void CPU::ExecuteReg(const InstructionDecodeType& decodedInstruction) 
+{
+   
+}
+
+void CPU::ExecuteJump(const InstructionDecodeType& decodedInstruction) 
+{
+   
 }
 
 
@@ -107,3 +136,4 @@ InsSelectType CPU::GetInstructionSetSelect(const Instruction& instruction)
    }
    return selectType;
 }
+
