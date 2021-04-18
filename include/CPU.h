@@ -29,9 +29,13 @@ namespace PSEmu
 
       void ResetRegisters();
 
-      void SetRegister(RegisterType reg, Word val);
+      void SetGenRegister(const GeneralRegisterType& regIndex, Word val);
 
-      Word GetRegister(RegisterType reg);
+      Word GetGenRegister(const GeneralRegisterType& regIndex);
+
+      void SetSpecRegister(const SpecialRegisterType& regIndex, Word val);
+
+      Word GetSpecRegister(const SpecialRegisterType& regIndex);
 
    private:
 
@@ -52,7 +56,7 @@ namespace PSEmu
       // Data Cache 1KB 
       // Word mDataBuffer[1024 / sizeof(Word)];
 
-      Word mRegister[MAX_REG_NUM];
+      RegisterType mRegister;
 
       MMU* mMMU;
    };

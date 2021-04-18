@@ -1,6 +1,7 @@
 #include "CPU.h"
 #include "Bios.h"
 #include "MMU.h"
+#include "InstructExecHelper.h"
 
 #include <string.h> // memset
 #include <stdexcept> // invalid_argument
@@ -72,7 +73,7 @@ void CPU::IncrementPC()
 {
    // Increment PC by instruction size
    // This will point to the next instruction
-   mRegister[PC] += sizeof(Instruction);
+   mRegister.specReg[PC] += sizeof(Instruction);
 }
 
 void CPU::ExecuteImm(const InstructionDecodeType& decodedInstruction) 
@@ -95,7 +96,7 @@ void CPU::RunNextInstruction()
 {
    // Get word at pointed to by PC in memory
    // Get instruction from memory
-    Instruction ins = mMMU->GetWord(mRegister[PC]);
+    Instruction ins = mMMU->GetWord(mRegister.specReg[PC]);
 
    // Decode instruction
    InstructionDecodeType decodedInstruction = {};
@@ -109,20 +110,32 @@ void CPU::RunNextInstruction()
 
 void CPU::ResetRegisters() 
 {
-   memset(&mRegister, 0, sizeof(mRegister));
+   // Set everything to garbage
+   memset(&mRegister.genReg, GARBAGE, sizeof(mRegister.genReg));
+   mRegister.genReg[ZR] = 0;
 
    // reset the PC to the beginning of the BIOS
-   mRegister[PC] = PC_RESET_VAL;
+   mRegister.specReg[PC] = PC_RESET_VAL;
 }
 
-void CPU::SetRegister(RegisterType reg, Word val) 
+void CPU::SetGenRegister(const GeneralRegisterType& regIndex, Word val) 
 {
-   mRegister[reg] = val;
+   mRegister.genReg[regIndex] = val;
 }
 
-Word CPU::GetRegister(RegisterType reg) 
+Word CPU::GetGenRegister(const GeneralRegisterType& regIndex) 
 {
-   return mRegister[reg];
+   return mRegister.genReg[regIndex];
+}
+
+void CPU::SetSpecRegister(const SpecialRegisterType& regIndex, Word val) 
+{
+   mRegister.specReg[regIndex] = val;
+}
+
+Word CPU::GetSpecRegister(const SpecialRegisterType& regIndex) 
+{
+   return mRegister.specReg[regIndex];
 }
 
 InsSelectType CPU::GetInstructionSetSelect(const Instruction& instruction) 

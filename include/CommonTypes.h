@@ -23,11 +23,23 @@ namespace PSEmu
       SP,                              // Stack Pointer
       FP,                              // Frame Pointer
       RA,                              // Return address (set by function call)
+
+      MAX_GEN_REG_NUM
+   } GeneralRegisterType;
+
+   typedef enum : Word
+   {
       HI,                              // Multiplication 64 bit high result or division remainder
       LO,                              // Multiplication 64 bit low result or division quotient
       PC,                              // Program Counter
 
-      MAX_REG_NUM
+      MAX_SPEC_REG_NUM
+   } SpecialRegisterType; 
+
+   typedef struct
+   {
+      Word genReg[MAX_GEN_REG_NUM];
+      Word specReg[MAX_SPEC_REG_NUM];
    } RegisterType;
 
    typedef struct

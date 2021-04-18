@@ -22,23 +22,18 @@ struct CPUTest : public testing::Test
 
 TEST_F(CPUTest, TestReset)
 {
-   for(int reg = 0; reg < MAX_REG_NUM; reg++)
-   {
-      // Set register to 0xFFFF + reg which is just arbitrary
-      mCPU->SetRegister(static_cast<RegisterType>(reg), reg + 0xFFFF);
-   }
    mCPU->Reset();
 
-   EXPECT_EQ(mCPU->GetRegister(PC), PC_RESET_VAL);
-   for(int reg = 0; reg < MAX_REG_NUM; reg++)
+   EXPECT_EQ(mCPU->GetSpecRegister(PC), PC_RESET_VAL);
+   for(int reg = 0; reg < MAX_GEN_REG_NUM; reg++)
    {
-      if(reg == PC)
+      if(reg == 0)
       {
-         EXPECT_EQ(mCPU->GetRegister(PC), PC_RESET_VAL);
+         EXPECT_EQ(mCPU->GetGenRegister(ZR), 0);
       }
       else
       {
-         EXPECT_EQ(mCPU->GetRegister(static_cast<RegisterType>(reg)), 0);
+         EXPECT_EQ(mCPU->GetGenRegister(static_cast<GeneralRegisterType>(reg)), GARBAGE);
       }
    }
 

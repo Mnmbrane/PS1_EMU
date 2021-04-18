@@ -4,6 +4,8 @@ namespace PSEmu
 {
    const constexpr char* BIOS_FILE_LOC = "external_bin/bios.bin";
 
+   constexpr unsigned int GARBAGE = 0x6B6B6B6B;
+
    // Sizes of fields contained within Instructions
    constexpr unsigned char OP_SIZE     = 6;
    constexpr unsigned char RS_SIZE     = 5;
