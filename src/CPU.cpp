@@ -37,19 +37,30 @@ void CPU::Reset()
    ResetRegisters();
 }
 
+InstructionDecodeType CPU::DecodeInstruction(const Instruction& instruction) 
+{
+   InstructionDecodeType decodedInstruction = {};
+
+   memcpy((void*)&decodedInstruction.instruction, 
+          (void*)&instruction,
+          sizeof(Instruction));
+
+   decodedInstruction.insSelect = GetInstructionSetSelect(instruction);
+   return decodedInstruction;
+}
+
+void CPU::ExecuteInstruction(const InstructionDecodeType& instruction)
+{
+   // TODO
+}
+
 void CPU::IncrementPC()
 {
    // Increment PC by instruction size
    // This will point to the next instruction
-   mRegister[PC] += INSTRUCTION_SIZE;
+   mRegister[PC] += sizeof(Instruction);
 }
 
-void CPU::ExecuteInstruction(const Instruction& instruction)
-{
-   // TODO
-   // Print the instructions
-   printf("Instruction = %x\n", instruction);
-}
 
 void CPU::RunNextInstruction()
 {
@@ -57,10 +68,14 @@ void CPU::RunNextInstruction()
    // Get instruction from memory
     Word instruction = mMMU->GetWord(mRegister[PC]);
 
-   IncrementPC();
+   // Decode instruction
+   InstructionDecodeType decodedInstruction = {};
+   decodedInstruction = DecodeInstruction(instruction);
 
-   // Execute the current instruction
-   ExecuteInstruction(instruction);
+   // Execute the current decoded instruction
+   ExecuteInstruction(decodedInstruction);
+
+   IncrementPC();
 }
 
 void CPU::ResetRegisters() 
@@ -79,4 +94,15 @@ void CPU::SetRegister(RegisterType reg, Word val)
 Word CPU::GetRegister(RegisterType reg) 
 {
    return mRegister[reg];
+}
+
+InsSelectType CPU::GetInstructionSetSelect(const Instruction& instruction) 
+{
+   InsSelectType selectType = E_INSTRUCTION_INVALID;
+   Word opcode = instruction >> 26;
+   switch(opcode)
+   {
+
+   }
+   return selectType;
 }

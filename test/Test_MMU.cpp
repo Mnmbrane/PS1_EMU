@@ -1,27 +1,27 @@
 #include "gtest/gtest.h"
 
-#include "Bios.h"
+#include "MMU.h"
 #include "CommonTypes.h"
 
 using namespace PSEmu;
 
 // Test fixture
-struct BiosTest : public testing::Test
+struct MMUTest : public testing::Test
 {
    virtual void SetUp()
    {
-      mBios = new Bios();
+      mMMU = new MMU();
       // Read in the BIN file
-      mBios->Initialize();
+      mMMU->Initialize();
    }
    virtual void TearDown()
    {
-      delete mBios;
+      delete mMMU;
    }
-   Bios* mBios;
+   MMU* mMMU;
 };
 
-TEST_F(BiosTest, GetWordTest)
+TEST_F(MMUTest, GetWordBiosTest)
 {
    // Test the first Word
    Word firstOffset = 0x0;
@@ -35,7 +35,7 @@ TEST_F(BiosTest, GetWordTest)
    Word arbOffset = 0x0003CFF8;
    Word arb = 2762539470;
 
-   EXPECT_EQ(first, mBios->GetWord(firstOffset));
-   EXPECT_EQ(last, mBios->GetWord(lastOffset));
-   EXPECT_EQ(arb, mBios->GetWord(arbOffset));
+   EXPECT_EQ(first, mMMU->GetWord(BIOS_START_ADDR + firstOffset));
+   EXPECT_EQ(last, mMMU->GetWord(BIOS_START_ADDR + lastOffset));
+   EXPECT_EQ(arb, mMMU->GetWord(BIOS_START_ADDR + arbOffset));
 }

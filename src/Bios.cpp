@@ -29,6 +29,7 @@ bool Bios::Initialize()
    if(CheckSize() == false)
    {
       printf("Bad Bios file size\n");
+      Reset();
       return false;
    }
    else
@@ -46,6 +47,7 @@ bool Bios::Initialize()
       if(Checksum() == false)
       {
          printf("Bad Bios Checksum\n");
+         Reset();
          return false;
       }
    }

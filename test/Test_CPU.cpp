@@ -2,8 +2,6 @@
 
 #include "CPU.h"
 
-#include <stdexcept> // invalid_argument
-
 using namespace PSEmu;
 
 // Test fixture
@@ -12,6 +10,7 @@ struct CPUTest : public testing::Test
    virtual void SetUp()
    {
       mCPU = new CPU();
+      mCPU->Initialize();
    }
    virtual void TearDown()
    {

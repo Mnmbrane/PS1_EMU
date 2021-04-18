@@ -17,7 +17,9 @@ namespace PSEmu
       // Reset registers and Memory
       virtual void Reset();
 
-      void ExecuteInstruction(const Instruction& instruction);
+      InstructionDecodeType DecodeInstruction(const Instruction& instruction);
+
+      void ExecuteInstruction(const InstructionDecodeType& decodedInstruction);
 
       // 1. Fetch the instruction located at address PC
       // 2. Incremete the PC to point to the next instruction
@@ -32,6 +34,8 @@ namespace PSEmu
       Word GetRegister(RegisterType reg);
 
    private:
+
+      InsSelectType GetInstructionSetSelect(const Instruction& instruction);
 
       // Increment the PC to the next instruction
       void IncrementPC();

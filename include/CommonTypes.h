@@ -78,4 +78,25 @@ namespace PSEmu
 
    } InstructionSetRegisterType;
 
+   typedef union 
+   {
+      InstructionSetImmediateType immType;
+      InstructionSetJumpType      jumpType;
+      InstructionSetRegisterType  regType;
+   } InstructionSetType;
+
+   typedef enum
+   {
+      E_INSTRUCTION_INVALID,
+      E_INSTRUCTION_IMM,
+      E_INSTRUCTION_JUMP,
+      E_INSTRUCTION_REG
+   } InsSelectType;
+
+   typedef struct 
+   {
+      InstructionSetType instruction;
+      InsSelectType insSelect;
+   } InstructionDecodeType;
+
 }
