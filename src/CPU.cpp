@@ -111,7 +111,7 @@ void CPU::RunNextInstruction()
 void CPU::ResetRegisters() 
 {
    // Set everything to garbage
-   memset(&mRegister.genReg, GARBAGE, sizeof(mRegister.genReg));
+   memset(&mRegister, GARBAGE, sizeof(mRegister.genReg));
    mRegister.genReg[ZR] = 0;
 
    // reset the PC to the beginning of the BIOS
