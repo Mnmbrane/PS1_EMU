@@ -56,6 +56,8 @@ void CPU::ExecuteInstruction(const InstructionDecodeType& instruction)
       case OP_ORI:
          InstructionHelper::ORI(instruction.immType, mRegisters);
          break;
+      case OP_SW:
+         break;
       default:
          printf("ERROR: Wrong instruction type");
          break;

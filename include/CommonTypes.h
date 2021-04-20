@@ -87,7 +87,8 @@ namespace PSEmu
 
    enum OpcodeType
    {
-      OP_LUI = 0b001111, // Load Upper Immediate
-      OP_ORI = 0b001101, // OR Immediate
+      OP_LUI   = 0b001111, // Load Upper Immediate
+      OP_ORI   = 0b001101, // OR Immediate
+      OP_SW    = 0b101011, // Store Word
    };
 }

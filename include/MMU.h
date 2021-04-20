@@ -16,6 +16,8 @@ namespace PSEmu
 
       // Get word from a location
       Word GetWord(const Word& addr);
+
+      void StoreWord(const Word& addr, const Word val);
    private:
       Bios* mBios;
    };

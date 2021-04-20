@@ -1,6 +1,8 @@
 #include "MMU.h"
 #include "Bios.h"
 
+#include <stdio.h>
+
 using namespace PSEmu;
 
 MMU::MMU():
@@ -34,12 +36,34 @@ Word MMU::GetWord(const Word& addr)
    Word offset = 0;
    Word retVal = 0;
 
-   // If address is in bios, then get the word
-   if(addr >= BIOS_START_ADDR && addr < (BIOS_START_ADDR + BIOS_SIZE))
+   // Address needs to be word aligned
+   if(addr % 4 != 0)
    {
-      offset = addr - BIOS_START_ADDR;
-      retVal = mBios->GetWord(addr - BIOS_START_ADDR);
+      printf("ERROR: %s Unaligned address", __func__);
+   }
+   else
+   {
+      // If address is in bios, then get the word
+      if(addr >= BIOS_START_ADDR && addr < (BIOS_START_ADDR + BIOS_SIZE))
+      {
+         offset = addr - BIOS_START_ADDR;
+         retVal = mBios->GetWord(addr - BIOS_START_ADDR);
+      }
    }
 
+
    return retVal;
+}
+
+void MMU::StoreWord(const Word& addr, const Word val) 
+{
+   // Address needs to be word aligned
+   if(addr % 4 != 0)
+   {
+      printf("ERROR: %s Unaligned address", __func__);
+   }
+   else
+   {
+      // TODO
+   }
 }
