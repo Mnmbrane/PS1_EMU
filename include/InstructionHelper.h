@@ -3,6 +3,8 @@
 
 namespace PSEmu
 {
+   class MMU;
+
    class InstructionHelper
    {
    public:
@@ -27,6 +29,19 @@ namespace PSEmu
        */
       static void ORI(const InstructionSetImmediateType& imm,
                       RegisterType& registers);
+
+      /**
+       * SW Store Word
+       * Sign-extend 16-bit offset and add to contents of register base to form address.
+       * Store least significant word of register rt at addressed location.
+       * 
+       * @param imm        - The immediate instruction
+       * @param registers  - Reference to the register arrays
+       */
+      static void SW(const InstructionSetImmediateType& imm,
+                     RegisterType& registers,
+                     MMU* mmu);
    };
+   
 
 }
