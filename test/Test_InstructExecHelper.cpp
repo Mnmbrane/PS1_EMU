@@ -32,5 +32,5 @@ TEST_F(InstructExecHelperTest, LUITest)
 
    InstructionHelper::LUI(imm, mRegisters);
 
-   EXPECT_EQ( mRegisters.genReg[imm.rt], 0xABCD0000);
+   EXPECT_EQ(mRegisters.genReg[imm.rt], 0xABCD0000);
 }

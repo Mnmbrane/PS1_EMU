@@ -71,10 +71,11 @@ namespace PSEmu
 
    typedef union 
    {
+      Instruction ins;
       InstructionSetImmediateType immType;
       InstructionSetJumpType      jumpType;
       InstructionSetRegisterType  regType;
-   } InstructionSetType;
+   } InstructionDecodeType;
 
    typedef enum
    {
@@ -84,14 +85,9 @@ namespace PSEmu
       E_INSTRUCTION_REG
    } InsSelectType;
 
-   typedef struct 
-   {
-      InstructionSetType instruction;
-      InsSelectType insSelect;
-   } InstructionDecodeType;
-
    enum OpcodeType
    {
-      E_LUI = 0b001111 // Load Upper Immediate
+      OP_LUI = 0b001111, // Load Upper Immediate
+      OP_ORI = 0b001101, // OR Immediate
    };
 }

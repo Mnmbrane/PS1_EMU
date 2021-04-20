@@ -40,28 +40,21 @@ void CPU::Reset()
 
 InstructionDecodeType CPU::DecodeInstruction(const Instruction& instruction) 
 {
-   InstructionDecodeType decodedInstruction = {};
+   InstructionDecodeType decodedInstruction = { instruction };
 
-   memcpy((void*)&decodedInstruction.instruction, 
-          (void*)&instruction,
-          sizeof(Instruction));
-
-   decodedInstruction.insSelect = GetInstructionSetSelect(instruction);
    return decodedInstruction;
 }
 
 void CPU::ExecuteInstruction(const InstructionDecodeType& instruction)
 {
-   switch(instruction.insSelect)
+   Byte opcode = instruction.ins >> 26;
+   switch(opcode)
    {
-      case E_INSTRUCTION_IMM:
-         ExecuteImm(instruction);
+      case OP_LUI:
+         InstructionHelper::LUI(instruction.immType, mRegisters);
          break;
-      case E_INSTRUCTION_REG:
-         ExecuteReg(instruction);
-         break;
-      case E_INSTRUCTION_JUMP:
-         ExecuteJump(instruction);
+      case OP_ORI:
+         InstructionHelper::ORI(instruction.immType, mRegisters);
          break;
       default:
          printf("ERROR: Wrong instruction type");
@@ -76,22 +69,6 @@ void CPU::IncrementPC()
    mRegisters.specReg[PC] += sizeof(Instruction);
 }
 
-void CPU::ExecuteImm(const InstructionDecodeType& decodedInstruction) 
-{
-   
-}
-
-void CPU::ExecuteReg(const InstructionDecodeType& decodedInstruction) 
-{
-   
-}
-
-void CPU::ExecuteJump(const InstructionDecodeType& decodedInstruction) 
-{
-   
-}
-
-
 void CPU::RunNextInstruction()
 {
    // Get word at pointed to by PC in memory
@@ -99,8 +76,7 @@ void CPU::RunNextInstruction()
     Instruction ins = mMMU->GetWord(mRegisters.specReg[PC]);
 
    // Decode instruction
-   InstructionDecodeType decodedInstruction = {};
-   decodedInstruction = DecodeInstruction(ins);
+   InstructionDecodeType decodedInstruction = { ins };
 
    // Execute the current decoded instruction
    ExecuteInstruction(decodedInstruction);
@@ -137,16 +113,3 @@ Word CPU::GetSpecRegister(const SpecialRegisterType& regIndex)
 {
    return mRegisters.specReg[regIndex];
 }
-
-InsSelectType CPU::GetInstructionSetSelect(const Instruction& instruction) 
-{
-   InsSelectType selectType = E_INSTRUCTION_INVALID;
-   Word opcode = instruction >> 26;
-   switch(opcode)
-   {
-      case E_LUI: selectType = E_INSTRUCTION_IMM;
-         break;
-   }
-   return selectType;
-}
-
