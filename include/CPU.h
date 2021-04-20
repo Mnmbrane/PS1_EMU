@@ -56,7 +56,7 @@ namespace PSEmu
       // Data Cache 1KB 
       // Word mDataBuffer[1024 / sizeof(Word)];
 
-      RegisterType mRegister;
+      RegisterType mRegisters;
 
       MMU* mMMU;
    };
