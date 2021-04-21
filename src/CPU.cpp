@@ -1,6 +1,6 @@
 #include "CPU.h"
 #include "Bios.h"
-#include "MMU.h"
+#include "MemoryController.h"
 #include "InstructionHelper.h"
 
 #include <string.h> // memset
@@ -11,7 +11,7 @@ using namespace PSEmu;
 
 CPU::CPU() :
    mRegisters{},
-   mMMU(new MMU())
+   mMMU(new MemoryController())
 {
 }
 

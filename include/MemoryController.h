@@ -6,11 +6,11 @@ namespace PSEmu
 {
    class Bios;
 
-   class MMU : public I_Component
+   class MemoryController : public I_Component
    {
    public:
-      MMU();
-      ~MMU();
+      MemoryController();
+      ~MemoryController();
       virtual bool Initialize();
       virtual void Reset();
 

@@ -4,7 +4,7 @@
 
 namespace PSEmu
 {
-   class MMU;
+   class MemoryController;
 
    class CPU : public I_Component
    {
@@ -52,7 +52,7 @@ namespace PSEmu
 
       RegisterType mRegisters;
 
-      MMU* mMMU;
+      MemoryController* mMMU;
    };
 }
 

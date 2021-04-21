@@ -1,21 +1,21 @@
-#include "MMU.h"
+#include "MemoryController.h"
 #include "Bios.h"
 
 #include <stdio.h>
 
 using namespace PSEmu;
 
-MMU::MMU():
+MemoryController::MemoryController():
    mBios(new Bios())
 {
 }
 
-MMU::~MMU() 
+MemoryController::~MemoryController() 
 {
    delete mBios;
 }
 
-bool MMU::Initialize() 
+bool MemoryController::Initialize() 
 {
    bool retVal = false;
 
@@ -25,13 +25,13 @@ bool MMU::Initialize()
    return retVal;
 }
 
-void MMU::Reset()
+void MemoryController::Reset()
 {
    mBios->Reset();
 }
 
 // Memory Mapping
-Word MMU::GetWord(const Word& addr) 
+Word MemoryController::GetWord(const Word& addr) 
 {
    Word offset = 0;
    Word retVal = 0;
@@ -55,7 +55,7 @@ Word MMU::GetWord(const Word& addr)
    return retVal;
 }
 
-void MMU::StoreWord(const Word& addr, const Word val) 
+void MemoryController::StoreWord(const Word& addr, const Word val) 
 {
    // Address needs to be word aligned
    if(addr % 4 != 0)

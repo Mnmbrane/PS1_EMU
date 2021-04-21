@@ -1,5 +1,5 @@
 #include "InstructionHelper.h"
-#include "MMU.h"
+#include "MemoryController.h"
 
 using namespace PSEmu;
 
@@ -17,7 +17,7 @@ void InstructionHelper::ORI(const InstructionSetImmediateType& imm,
 
 void InstructionHelper::SW(const InstructionSetImmediateType& imm,
                            RegisterType& registers,
-                           MMU* mmu) 
+                           MemoryController* mmu) 
 {
    mmu->StoreWord(registers.genReg[imm.rs] + imm.immediate,
                   registers.genReg[imm.rt]);

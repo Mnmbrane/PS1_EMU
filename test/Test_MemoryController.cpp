@@ -1,6 +1,6 @@
 #include "gtest/gtest.h"
 
-#include "MMU.h"
+#include "MemoryController.h"
 #include "CommonTypes.h"
 
 using namespace PSEmu;
@@ -10,7 +10,7 @@ struct MMUTest : public testing::Test
 {
    virtual void SetUp()
    {
-      mMMU = new MMU();
+      mMMU = new MemoryController();
       // Read in the BIN file
       mMMU->Initialize();
    }
@@ -18,7 +18,7 @@ struct MMUTest : public testing::Test
    {
       delete mMMU;
    }
-   MMU* mMMU;
+   MemoryController* mMMU;
 };
 
 TEST_F(MMUTest, GetWordBiosTest)

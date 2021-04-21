@@ -3,7 +3,7 @@
 
 namespace PSEmu
 {
-   class MMU;
+   class MemoryController;
 
    class InstructionHelper
    {
@@ -40,7 +40,7 @@ namespace PSEmu
        */
       static void SW(const InstructionSetImmediateType& imm,
                      RegisterType& registers,
-                     MMU* mmu);
+                     MemoryController* mmu);
    };
    
 
