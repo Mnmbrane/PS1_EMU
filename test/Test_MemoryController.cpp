@@ -6,7 +6,7 @@
 using namespace PSEmu;
 
 // Test fixture
-struct MMUTest : public testing::Test
+struct MemoryControllerTest : public testing::Test
 {
    virtual void SetUp()
    {
@@ -21,7 +21,7 @@ struct MMUTest : public testing::Test
    MemoryController* mMemController;
 };
 
-TEST_F(MMUTest, GetWordBiosTest)
+TEST_F(MemoryControllerTest, GetWordBiosTest)
 {
    // Test the first Word
    Word firstOffset = 0x0;

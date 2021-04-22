@@ -11,20 +11,20 @@ using namespace PSEmu;
 
 CPU::CPU() :
    mRegisters{},
-   mMMU(new MemoryController())
+   mMemController(new MemoryController())
 {
 }
 
 CPU::~CPU()
 {
-   delete mMMU;
+   delete mMemController;
 }
 
 bool CPU::Initialize() 
 {
    bool retVal = false;
    // Initialize the memory
-   retVal = mMMU->Initialize();
+   retVal = mMemController->Initialize();
    
    ResetRegisters();
 
@@ -33,7 +33,7 @@ bool CPU::Initialize()
 
 void CPU::Reset()
 {
-   mMMU->Reset();
+   mMemController->Reset();
    
    ResetRegisters();
 }
@@ -57,7 +57,7 @@ void CPU::ExecuteInstruction(const InstructionDecodeType& instruction)
          InstructionHelper::ORI(instruction.immType, mRegisters);
          break;
       case OP_SW:
-         InstructionHelper::SW(instruction.immType, mRegisters, mMMU);
+         InstructionHelper::SW(instruction.immType, mRegisters, mMemController);
          break;
       default:
          printf("ERROR: Wrong instruction type");
@@ -76,7 +76,7 @@ void CPU::RunNextInstruction()
 {
    // Get word at pointed to by PC in memory
    // Get instruction from memory
-    Instruction ins = mMMU->GetWord(mRegisters.specReg[PC]);
+    Instruction ins = mMemController->GetWord(mRegisters.specReg[PC]);
 
    // Decode instruction
    InstructionDecodeType decodedInstruction = { ins };

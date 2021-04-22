@@ -1,9 +1,9 @@
 #pragma once
-#include "MemoryInterface.h"
+#include "Memory.h"
 
 namespace PSEmu
 {
-   class Bios : public I_Memory
+   class Bios : public Memory
    {
    public:
    Bios();

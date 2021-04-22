@@ -1,6 +1,6 @@
 #pragma once
 #include "CommonTypes.h"
-#include "Component.h"
+#include "ComponentInterface.h"
 
 namespace PSEmu
 {
@@ -52,7 +52,7 @@ namespace PSEmu
 
       RegisterType mRegisters;
 
-      MemoryController* mMMU;
+      MemoryController* mMemController;
    };
 }
 

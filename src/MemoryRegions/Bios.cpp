@@ -16,7 +16,7 @@ const Byte BIOS_CHECK_SUM[20] = { 0x10, 0x15, 0x5d, 0x8d, 0x6e,
 
 
 Bios::Bios() :
-   I_Memory(BIOS_SIZE)
+   Memory(BIOS_SIZE)
 {
 }
 
