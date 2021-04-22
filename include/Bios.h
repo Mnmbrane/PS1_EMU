@@ -10,15 +10,11 @@ namespace PSEmu
    ~Bios();
 
    virtual bool Initialize();
-   virtual void Reset();
-   virtual Word GetWord(const Word& offset);
 
    private:
+
    // Checks if file size is equal to 512
    bool CheckSize();
-
    bool Checksum();
-
-   
    };
 }

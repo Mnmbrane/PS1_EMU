@@ -1,4 +1,5 @@
-file(GLOB Sources "*.cpp")
+file(GLOB Sources "*.cpp" 
+                  "MemoryRegions/*.cpp")
 
 include_directories(${PROJECT_SOURCE_DIR}/include)
 

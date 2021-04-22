@@ -11,15 +11,19 @@ namespace PSEmu
       I_Memory(Word Size);
       virtual ~I_Memory();
 
+      // Intialize will be implemented by concrete classes
+      virtual bool Initialize() = 0;
+
       virtual void Reset();
       virtual Word GetWord(const Word& address);
+      virtual void SetWord(const Word& address, Word val);
    
    protected:
       Byte* mData;
 
    private:
       I_Memory() = delete;
-      // TODO: Fix the size
+      Word mDataSize;
    };
 }
 

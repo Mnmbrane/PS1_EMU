@@ -55,21 +55,6 @@ bool Bios::Initialize()
    return true;
 }
 
-void Bios::Reset() 
-{
-   memset((void*)mData, 0, BIOS_SIZE);
-}
-
-Word Bios::GetWord(const Word& offset) 
-{
-   Word retData = 0;
-
-   // Get offset and push 4 bytes of data into retData
-   memcpy((void*)&retData, (void*)&(mData[offset]), sizeof(Word));
-
-   return retData;
-}
-
 bool Bios::CheckSize() 
 {
    struct stat results;

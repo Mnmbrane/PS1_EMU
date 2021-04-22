@@ -10,15 +10,14 @@ struct BiosTest : public testing::Test
 {
    virtual void SetUp()
    {
-      mBios = new Bios();
       // Read in the BIN file
-      mBios->Initialize();
+      mBios.Initialize();
    }
    virtual void TearDown()
    {
-      delete mBios;
+      
    }
-   Bios* mBios;
+   Bios mBios;
 };
 
 TEST_F(BiosTest, GetWordTest)
@@ -35,7 +34,7 @@ TEST_F(BiosTest, GetWordTest)
    Word arbOffset = 0x0003CFF8;
    Word arb = 2762539470;
 
-   EXPECT_EQ(first, mBios->GetWord(firstOffset));
-   EXPECT_EQ(last, mBios->GetWord(lastOffset));
-   EXPECT_EQ(arb, mBios->GetWord(arbOffset));
+   EXPECT_EQ(first, mBios.GetWord(firstOffset));
+   EXPECT_EQ(last, mBios.GetWord(lastOffset));
+   EXPECT_EQ(arb, mBios.GetWord(arbOffset));
 }

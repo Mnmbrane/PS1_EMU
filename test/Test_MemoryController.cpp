@@ -10,15 +10,15 @@ struct MMUTest : public testing::Test
 {
    virtual void SetUp()
    {
-      mMMU = new MemoryController();
+      mMemController = new MemoryController();
       // Read in the BIN file
-      mMMU->Initialize();
+      mMemController->Initialize();
    }
    virtual void TearDown()
    {
-      delete mMMU;
+      delete mMemController;
    }
-   MemoryController* mMMU;
+   MemoryController* mMemController;
 };
 
 TEST_F(MMUTest, GetWordBiosTest)
@@ -35,7 +35,7 @@ TEST_F(MMUTest, GetWordBiosTest)
    Word arbOffset = 0x0003CFF8;
    Word arb = 2762539470;
 
-   EXPECT_EQ(first, mMMU->GetWord(BIOS_START_ADDR + firstOffset));
-   EXPECT_EQ(last, mMMU->GetWord(BIOS_START_ADDR + lastOffset));
-   EXPECT_EQ(arb, mMMU->GetWord(BIOS_START_ADDR + arbOffset));
+   EXPECT_EQ(first, mMemController->GetWord(BIOS_START_ADDR + firstOffset));
+   EXPECT_EQ(last, mMemController->GetWord(BIOS_START_ADDR + lastOffset));
+   EXPECT_EQ(arb, mMemController->GetWord(BIOS_START_ADDR + arbOffset));
 }
