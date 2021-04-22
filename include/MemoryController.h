@@ -11,7 +11,7 @@ namespace PSEmu
    public:
       MemoryController();
       ~MemoryController();
-      virtual bool Initialize();
+      virtual void Initialize();
       virtual void Reset();
 
       // Get word from a location

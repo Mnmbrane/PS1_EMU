@@ -20,15 +20,13 @@ CPU::~CPU()
    delete mMemController;
 }
 
-bool CPU::Initialize() 
+void CPU::Initialize() 
 {
-   bool retVal = false;
    // Initialize the memory
-   retVal = mMemController->Initialize();
+   mMemController->Initialize();
    
    ResetRegisters();
 
-   return true;
 }
 
 void CPU::Reset()

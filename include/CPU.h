@@ -12,7 +12,7 @@ namespace PSEmu
       CPU();
       ~CPU();
 
-      virtual bool Initialize();
+      virtual void Initialize();
 
       // Reset registers and Memory
       virtual void Reset();

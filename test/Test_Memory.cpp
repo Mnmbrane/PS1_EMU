@@ -12,11 +12,10 @@ public:
    MemoryMock() :
       Memory(1024)
    { }
-   bool Initialize()
+   void Initialize()
    {
       Word num = 0xDEADBEAF;
       memcpy(&mData[0], &num, 4);
-      return true;
    }
 };
 

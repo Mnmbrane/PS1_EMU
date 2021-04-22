@@ -15,14 +15,10 @@ MemoryController::~MemoryController()
    delete mBios;
 }
 
-bool MemoryController::Initialize() 
+void MemoryController::Initialize() 
 {
-   bool retVal = false;
-
    // Initialize the bios
-   retVal = mBios->Initialize();
-
-   return retVal;
+   mBios->Initialize();
 }
 
 void MemoryController::Reset()
@@ -50,7 +46,6 @@ Word MemoryController::GetWord(const Word& addr)
          retVal = mBios->GetWord(addr - BIOS_START_ADDR);
       }
    }
-
 
    return retVal;
 }

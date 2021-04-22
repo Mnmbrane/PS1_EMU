@@ -9,7 +9,7 @@ namespace PSEmu
    Bios();
    ~Bios();
 
-   virtual bool Initialize();
+   virtual void Initialize();
 
    private:
 

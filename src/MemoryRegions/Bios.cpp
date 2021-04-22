@@ -4,8 +4,8 @@
 #include <string.h>
 #include <fstream>
 #include <sys/stat.h>
-#include <stdexcept>
 #include <openssl/sha.h>
+#include <exception>
 
 using namespace PSEmu;
 
@@ -23,14 +23,12 @@ Bios::Bios() :
 Bios::~Bios() { }
 
 // Get SCPH1001.BIN from external_bin
-bool Bios::Initialize() 
+void Bios::Initialize() 
 {
    // Check size of file
    if(CheckSize() == false)
    {
-      printf("Bad Bios file size\n");
-      Reset();
-      return false;
+      throw std::exception();
    }
    else
    {
@@ -46,13 +44,9 @@ bool Bios::Initialize()
       // Checksum
       if(Checksum() == false)
       {
-         printf("Bad Bios Checksum\n");
-         Reset();
-         return false;
+         throw std::exception();
       }
    }
-   // Place into mData
-   return true;
 }
 
 bool Bios::CheckSize() 

@@ -15,7 +15,7 @@ namespace PSEmu
       virtual Word GetWord(const Word& address);
       virtual void SetWord(const Word& address, Word val);
    
-      virtual bool Initialize() = 0;
+      virtual void Initialize() = 0;
    protected:
       Byte* mData;
 
