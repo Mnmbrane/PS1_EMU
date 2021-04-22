@@ -15,6 +15,7 @@
 
 ### GTEST ###
 !lib/googletest/*
+!internal_utils.cmake
 
 ### VisualStudioCode Patch ###
 # Ignore all local history of files
