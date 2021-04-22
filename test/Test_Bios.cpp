@@ -8,6 +8,9 @@ using namespace PSEmu;
 // Test fixture
 struct BiosTest : public testing::Test
 {
+   BiosTest() :
+      mBios()
+   { }
    virtual void SetUp()
    {
       // Read in the BIN file

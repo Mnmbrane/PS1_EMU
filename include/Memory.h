@@ -16,12 +16,18 @@ namespace PSEmu
       virtual void SetWord(const Word& address, Word val);
    
       virtual void Initialize() = 0;
+
+      virtual Word GetStartingAddress();
+
+      Word mStartingAddress;
    protected:
       Byte* mData;
 
    private:
       Memory() = delete;
+
       Word mDataSize;
    };
+
 }
 

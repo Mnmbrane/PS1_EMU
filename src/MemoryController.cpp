@@ -21,6 +21,16 @@ void MemoryController::Initialize()
    mBios->Initialize();
 }
 
+// Memory Region factory
+Memory* MemoryController::GetMemoryRegion(const Word& addr)
+{
+   if(addr >= BIOS_START_ADDR && addr < (BIOS_START_ADDR + BIOS_SIZE))
+   {
+      return mBios;
+   }
+   return nullptr;
+}
+
 void MemoryController::Reset()
 {
    mBios->Reset();
@@ -31,6 +41,7 @@ Word MemoryController::GetWord(const Word& addr)
 {
    Word offset = 0;
    Word retVal = 0;
+   Memory* memRegion = nullptr;
 
    // Address needs to be word aligned
    if(addr % 4 != 0)
@@ -39,11 +50,11 @@ Word MemoryController::GetWord(const Word& addr)
    }
    else
    {
-      // If address is in bios, then get the word
-      if(addr >= BIOS_START_ADDR && addr < (BIOS_START_ADDR + BIOS_SIZE))
+      memRegion = GetMemoryRegion(addr);
+      if(memRegion != nullptr)
       {
-         offset = addr - BIOS_START_ADDR;
-         retVal = mBios->GetWord(addr - BIOS_START_ADDR);
+         offset = addr - memRegion->GetStartingAddress();
+         retVal = memRegion->GetWord(offset);
       }
    }
 
