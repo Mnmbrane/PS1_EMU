@@ -1,0 +1,3 @@
+#pragma once
+
+#define BIOS_PATH_DATA "@BIOS_PATH_DATA@"

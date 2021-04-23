@@ -1,8 +1,9 @@
 #pragma once
+#include "Config.h"
 
 namespace PSEmu
 {
-   const constexpr char* BIOS_FILE_LOC = "external_bin/bios.bin";
+   const constexpr char* BIOS_FILE_LOC = BIOS_PATH_DATA;
 
    constexpr unsigned int GARBAGE = 0x6B6B6B6B;
 

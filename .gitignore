@@ -5,6 +5,8 @@
 *.a
 *.pc
 
+.vs/*
+
 ### VisualStudioCode ###
 .vscode/*
 !.vscode/c_cpp_properties.json
@@ -22,7 +24,8 @@
 **/.history
 
 ### build ###
-/build
+out/*
+build/*
 CMakeFiles
 CMakeCache.txt
 Makefile

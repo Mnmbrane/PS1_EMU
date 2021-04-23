@@ -1,12 +1,16 @@
-cmake_minimum_required(VERSION  3.16.3)
+cmake_minimum_required(VERSION  3.16.0)
 project(PS1_EMU)
 
 #set CMAKE vars
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+#set dir vars
+set(EXTERNAL_BIN ${PROJECT_SOURCE_DIR}/external_bin)
+
 # Add the project sub directories
 add_subdirectory(app)
+add_subdirectory(config)
 add_subdirectory(src)
 add_subdirectory(test)
 add_subdirectory(lib/googletest)
