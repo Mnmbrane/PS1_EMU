@@ -2,8 +2,10 @@
 #include "Bios.h"
 
 #include <stdio.h>
+#include <map>
 
 using namespace PSEmu;
+
 
 MemoryController::MemoryController():
    mBios(new Bios())

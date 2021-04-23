@@ -4,6 +4,8 @@
 
 namespace PSEmu
 {
+   class Memory;
+
    using Word = unsigned int;
    using HalfWord = unsigned short;
    using Byte = unsigned char;
@@ -91,4 +93,5 @@ namespace PSEmu
       OP_ORI   = 0b001101, // OR Immediate
       OP_SW    = 0b101011, // Store Word
    };
+
 }
