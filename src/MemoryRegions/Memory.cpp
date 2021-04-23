@@ -32,7 +32,7 @@ Word Memory::GetWord(const Word& address)
    return retWord;
 }
 
-void Memory::SetWord(const Word& address, Word val) 
+void Memory::StoreWord(const Word& address, Word val) 
 {
    if(address < 0 || address >= mDataSize)
    {

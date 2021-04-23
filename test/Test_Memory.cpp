@@ -41,10 +41,10 @@ TEST_F(MemoryTest, GetTest)
 
 TEST_F(MemoryTest, SetTest)
 {
-   mMemory->SetWord(8, 0xABCDDCBA);
+   mMemory->StoreWord(8, 0xABCDDCBA);
    EXPECT_EQ(mMemory->GetWord(8), 0xABCDDCBA);
 
-   mMemory->SetWord(24, 0xABFA1234);
+   mMemory->StoreWord(24, 0xABFA1234);
    EXPECT_EQ(mMemory->GetWord(8), 0xABCDDCBA);
    EXPECT_EQ(mMemory->GetWord(24), 0xABFA1234);
 }
@@ -61,6 +61,6 @@ TEST_F(MemoryTest, OutOfBoundsTest)
    EXPECT_THROW(mMemory->GetWord(-1), std::exception);
    EXPECT_THROW(mMemory->GetWord(200000), std::exception);
 
-   EXPECT_THROW(mMemory->SetWord(-1, 1), std::exception);
-   EXPECT_THROW(mMemory->SetWord(200000, 1), std::exception);
+   EXPECT_THROW(mMemory->StoreWord(-1, 1), std::exception);
+   EXPECT_THROW(mMemory->StoreWord(200000, 1), std::exception);
 }

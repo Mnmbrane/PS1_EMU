@@ -4,6 +4,8 @@
 
 namespace PSEmu
 {
+   class Expansion1;
+   class Expansion2;
    class Bios;
    class Memory;
 
@@ -22,6 +24,9 @@ namespace PSEmu
       void StoreWord(const Word& addr, const Word val);
 
    private:
+      bool CheckAddrInRange(const Word& addr,
+                            const Word& startAddr,
+                            const Word& memSize);
       /**
        * Gets the Memory object tied to a specific region.
        * 
@@ -34,6 +39,8 @@ namespace PSEmu
       Memory* GetMemoryRegion(const Word& addr,
                               Word& out_offset);
 
+      Expansion1* mExpansion1;
+      Expansion2* mExpansion2;
       Bios* mBios;
    };
    

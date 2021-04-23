@@ -13,7 +13,7 @@ namespace PSEmu
 
       virtual void Reset();
       virtual Word GetWord(const Word& address);
-      virtual void SetWord(const Word& address, Word val);
+      virtual void StoreWord(const Word& address, Word val);
 
       virtual void Initialize() = 0;
 
