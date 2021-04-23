@@ -5,6 +5,8 @@ project(PS1_EMU)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+enable_testing()
+
 #set dir vars
 set(EXTERNAL_BIN ${PROJECT_SOURCE_DIR}/external_bin)
 
