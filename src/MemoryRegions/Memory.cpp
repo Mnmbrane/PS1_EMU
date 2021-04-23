@@ -6,8 +6,7 @@ using namespace PSEmu;
 
 Memory::Memory(Word size) :
    mData(new Byte[size]),
-   mDataSize(size),
-   mStartingAddress(0)
+   mDataSize(size)
 { }
 
 Memory::~Memory()
@@ -40,9 +39,4 @@ void Memory::SetWord(const Word& address, Word val)
       throw std::exception();
    }
    memcpy((void*)&(mData[address]), (void*)(&val), sizeof(Word));
-}
-
-Word Memory::GetStartingAddress()
-{
-   return mStartingAddress;
 }

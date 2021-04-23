@@ -17,14 +17,17 @@ namespace PSEmu
    constexpr unsigned char SHAMT_SIZE  = 5;
    constexpr unsigned char FUNCT_SIZE  = 6;
 
-   // beginning of the BIOS
-   constexpr unsigned int BIOS_START_ADDR   = 0xbfc00000;
-   constexpr unsigned int PC_RESET_VAL      = BIOS_START_ADDR;
+   // Bios starting and size
+   constexpr unsigned int BIOS_START_ADDR_KUSEG = 0x1fc00000;
+   constexpr unsigned int BIOS_START_ADDR_KSEG0 = 0x9fc00000;
+   constexpr unsigned int BIOS_START_ADDR_KSEG1 = 0xbfc00000;
+   constexpr unsigned int BIOS_SIZE             = 0x200 * 0x400; // 512KB
+
+   constexpr unsigned int PC_RESET_VAL          = BIOS_START_ADDR_KSEG1;
 
    // Size of instructions is 4 bytes
    constexpr unsigned int INSTRUCTION_SIZE = 0x4;
 
    // Memory sizes
-   constexpr unsigned int BIOS_SIZE    = 0x200 * 0x400;
    constexpr unsigned int MAX_MEM_SIZE = 0xFFFFFFFF; // 4GB
 }

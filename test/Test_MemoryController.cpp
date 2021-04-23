@@ -35,7 +35,16 @@ TEST_F(MemoryControllerTest, GetWordBiosTest)
    Word arbOffset = 0x0003CFF8;
    Word arb = 2762539470;
 
-   EXPECT_EQ(first, mMemController->GetWord(BIOS_START_ADDR + firstOffset));
-   EXPECT_EQ(last, mMemController->GetWord(BIOS_START_ADDR + lastOffset));
-   EXPECT_EQ(arb, mMemController->GetWord(BIOS_START_ADDR + arbOffset));
+   // Shouuld be the same for kuseg, kseg0 and kseg1
+   EXPECT_EQ(first, mMemController->GetWord(BIOS_START_ADDR_KUSEG + firstOffset));
+   EXPECT_EQ(last, mMemController->GetWord(BIOS_START_ADDR_KUSEG + lastOffset));
+   EXPECT_EQ(arb, mMemController->GetWord(BIOS_START_ADDR_KUSEG + arbOffset));
+
+   EXPECT_EQ(first, mMemController->GetWord(BIOS_START_ADDR_KSEG0 + firstOffset));
+   EXPECT_EQ(last, mMemController->GetWord(BIOS_START_ADDR_KSEG0 + lastOffset));
+   EXPECT_EQ(arb, mMemController->GetWord(BIOS_START_ADDR_KSEG0 + arbOffset));
+
+   EXPECT_EQ(first, mMemController->GetWord(BIOS_START_ADDR_KSEG1 + firstOffset));
+   EXPECT_EQ(last, mMemController->GetWord(BIOS_START_ADDR_KSEG1 + lastOffset));
+   EXPECT_EQ(arb, mMemController->GetWord(BIOS_START_ADDR_KSEG1 + arbOffset));
 }

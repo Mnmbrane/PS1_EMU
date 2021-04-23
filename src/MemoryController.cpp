@@ -22,13 +22,26 @@ void MemoryController::Initialize()
 }
 
 // Memory Region factory
-Memory* MemoryController::GetMemoryRegion(const Word& addr)
+Memory* MemoryController::GetMemoryRegion(const Word& addr, Word& out_offset)
 {
-   if(addr >= BIOS_START_ADDR && addr < (BIOS_START_ADDR + BIOS_SIZE))
+   Memory* retMem = nullptr;
+   // BIOS
+   if(addr >= BIOS_START_ADDR_KUSEG && addr < (BIOS_START_ADDR_KUSEG + BIOS_SIZE))
    {
-      return mBios;
+      out_offset = addr - BIOS_START_ADDR_KUSEG;
+      retMem = mBios;
    }
-   return nullptr;
+   else if(addr >= BIOS_START_ADDR_KSEG0 && addr < (BIOS_START_ADDR_KSEG0 + BIOS_SIZE))
+   {
+      out_offset = addr - BIOS_START_ADDR_KSEG0;
+      retMem = mBios;
+   }
+   else if(addr >= BIOS_START_ADDR_KSEG1 && addr < (BIOS_START_ADDR_KSEG1 + BIOS_SIZE))
+   {
+      out_offset = addr - BIOS_START_ADDR_KSEG1;
+      retMem = mBios;
+   }
+   return retMem;
 }
 
 void MemoryController::Reset()
@@ -50,10 +63,9 @@ Word MemoryController::GetWord(const Word& addr)
    }
    else
    {
-      memRegion = GetMemoryRegion(addr);
+      memRegion = GetMemoryRegion(addr, offset);
       if(memRegion != nullptr)
       {
-         offset = addr - memRegion->GetStartingAddress();
          retVal = memRegion->GetWord(offset);
       }
    }

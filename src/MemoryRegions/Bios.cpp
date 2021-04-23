@@ -18,7 +18,6 @@ const Byte BIOS_CHECK_SUM[20] = { 0x10, 0x15, 0x5d, 0x8d, 0x6e,
 Bios::Bios() :
    Memory(BIOS_SIZE)
 {
-   Memory::mStartingAddress = BIOS_START_ADDR;
 }
 
 Bios::~Bios() { }
