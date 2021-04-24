@@ -12,18 +12,18 @@ namespace PSEmu
       virtual ~Memory();
 
       virtual void Reset();
-      virtual Word GetWord(const Word& address);
-      virtual void StoreWord(const Word& address, Word val);
 
+      virtual Word GetWord(const Word& address) = 0;
+      virtual void StoreWord(const Word& address, Word val) = 0;
       virtual void Initialize() = 0;
 
    protected:
       Byte* mData;
+      Word mDataSize;
 
    private:
       Memory() = delete;
 
-      Word mDataSize;
    };
 
 }

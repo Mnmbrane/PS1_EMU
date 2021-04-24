@@ -25,19 +25,7 @@ struct BiosTest : public testing::Test
 
 TEST_F(BiosTest, GetWordTest)
 {
-   // Test the first Word
-   Word firstOffset = 0x0;
-   Word first = 1007157267;
-
-   // Test Last last Word
-   Word lastOffset = 0x0007FFFC;
-   Word last = 1111360516;
-
-   // Test arbitrary Word
-   Word arbOffset = 0x0003CFF8;
-   Word arb = 2762539470;
-
-   EXPECT_EQ(first, mBios.GetWord(firstOffset));
-   EXPECT_EQ(last, mBios.GetWord(lastOffset));
-   EXPECT_EQ(arb, mBios.GetWord(arbOffset));
+   EXPECT_EQ(1007157267, mBios.GetWord(BIOS_ADDR));
+   EXPECT_EQ(1111360516, mBios.GetWord(BIOS_ADDR + 0x0007FFFC));
+   EXPECT_EQ(2762539470, mBios.GetWord(BIOS_ADDR + 0x0003CFF8));
 }

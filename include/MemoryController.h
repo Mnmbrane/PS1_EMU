@@ -35,13 +35,10 @@ namespace PSEmu
        * Gets the Memory object tied to a specific region.
        * 
        * @param[in] addr      - Address trying to be accessed
-       * @param[out] offset   - Offset of add when taking starting address
-       *                        into account
        * 
        * @return - Memory object tied region
        */
-      Memory* GetMemoryRegion(const Word& addr,
-                              Word& out_offset);
+      Memory* GetMemoryRegion(const Word& addr);
 
       Kernel*              mKernel;
       UserMemory*          mUserMemory;

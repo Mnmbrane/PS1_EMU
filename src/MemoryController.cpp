@@ -12,7 +12,7 @@
 
 using namespace PSEmu;
 
-// Switch Case ranges between x and x+y
+// Switch Case ranges between x and x+y-1
 #define GET_MEM_RANGE(x, y) x ... (x + y - 1)
 
 MemoryController::MemoryController():
@@ -47,7 +47,7 @@ void MemoryController::Initialize()
 }
 
 // Memory Map
-Memory* MemoryController::GetMemoryRegion(const Word& addr, Word& out_offset)
+Memory* MemoryController::GetMemoryRegion(const Word& addr)
 {
    Memory* retMem = nullptr;
    
@@ -55,60 +55,39 @@ Memory* MemoryController::GetMemoryRegion(const Word& addr, Word& out_offset)
    {
       // Kernel
       case GET_MEM_RANGE(KERNEL_ADDR_1, KERNEL_SIZE):
-         out_offset = addr - KERNEL_ADDR_1;
+      case GET_MEM_RANGE(KERNEL_ADDR_2, KERNEL_SIZE):
+      case GET_MEM_RANGE(KERNEL_ADDR_3, KERNEL_SIZE):
          retMem = mKernel;
          break;
 
       // User Memory
       case GET_MEM_RANGE(USER_MEM_ADDR_1, USER_MEM_SIZE):
-         out_offset = addr - USER_MEM_ADDR_1;
+      case GET_MEM_RANGE(USER_MEM_ADDR_2, USER_MEM_SIZE):
+      case GET_MEM_RANGE(USER_MEM_ADDR_3, USER_MEM_SIZE):
          retMem = mUserMemory;
          break;
 
       // Parallel Ports
       case GET_MEM_RANGE(PARALLEL_PORT_ADDR, PARALLEL_PORT_SIZE):
-         out_offset = addr - PARALLEL_PORT_ADDR;
          retMem = mParallelPort;
          break;
 
       // Scratchpad
       case GET_MEM_RANGE(SCRATCHPAD_ADDR, SCRATCHPAD_SIZE):
-         out_offset = addr - SCRATCHPAD_ADDR;
          retMem = mScratchpad;
          break;
 
       // Hardware Registers
       case GET_MEM_RANGE(HW_REG_ADDR, HW_REG_SIZE):
-         out_offset = addr - HW_REG_ADDR;
          retMem = mHardwareRegisters;
-         break;
-
-      // Kernel and User memory mirror
-      case GET_MEM_RANGE(KERNEL_ADDR_2, KERNEL_SIZE):
-         out_offset = addr - KERNEL_ADDR_2;
-         retMem = mKernel;
-         break;
-      case GET_MEM_RANGE(USER_MEM_ADDR_2, USER_MEM_SIZE):
-         out_offset = addr - USER_MEM_ADDR_1;
-         retMem = mUserMemory;
-         break;
-
-      // Kernel and User memory mirror
-      case GET_MEM_RANGE(KERNEL_ADDR_3, KERNEL_SIZE):
-         out_offset = addr - KERNEL_ADDR_3;
-         retMem = mKernel;
-         break;
-      case GET_MEM_RANGE(USER_MEM_ADDR_3, USER_MEM_SIZE):
-         out_offset = addr - USER_MEM_ADDR_1;
-         retMem = mUserMemory;
          break;
 
       // Bios
       case GET_MEM_RANGE(BIOS_ADDR, BIOS_SIZE):
-         out_offset = addr - BIOS_ADDR;
          retMem = mBios;
          break;
       default:
+         throw std::exception();
          break;
    }
    return retMem;
@@ -127,7 +106,6 @@ void MemoryController::Reset()
 // Memory Mapping
 Word MemoryController::GetWord(const Word& addr) 
 {
-   Word offset = 0;
    Word retVal = 0;
    Memory* memRegion = nullptr;
 
@@ -138,10 +116,10 @@ Word MemoryController::GetWord(const Word& addr)
    }
    else
    {
-      memRegion = GetMemoryRegion(addr, offset);
+      memRegion = GetMemoryRegion(addr);
       if(memRegion != nullptr)
       {
-         retVal = memRegion->GetWord(offset);
+         retVal = memRegion->GetWord(addr);
       }
    }
 
@@ -159,7 +137,7 @@ void MemoryController::StoreWord(const Word& addr, const Word val)
    }
    else
    {
-      memRegion = GetMemoryRegion(addr, offset);
+      memRegion = GetMemoryRegion(addr);
       if(memRegion == mBios)
       {
          throw std::exception();

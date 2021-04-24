@@ -51,6 +51,29 @@ void Bios::Initialize()
    }
 }
 
+Word Bios::GetWord(const Word& address)
+{
+   Word retWord = 0;
+   Word offset = address - BIOS_ADDR;
+
+   if(offset < 0 || offset >= mDataSize)
+   {
+      throw std::exception();
+   }
+   memcpy((void*)&retWord, (void*)&(mData[offset]), sizeof(Word));
+   return retWord;
+}
+
+void Bios::StoreWord(const Word& address, Word val)
+{
+   Word offset = address - BIOS_ADDR;
+   if(offset < 0 || offset >= mDataSize)
+   {
+      throw std::exception();
+   }
+   memcpy((void*)&(mData[offset]), (void*)(&val), sizeof(Word));
+}
+
 bool Bios::CheckSize() 
 {
    struct stat results;
