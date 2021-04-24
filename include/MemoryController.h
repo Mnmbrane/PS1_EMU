@@ -1,9 +1,11 @@
 #pragma once
 #include "ComponentInterface.h"
+#include <map>
 
 
 namespace PSEmu
 {
+
    class Expansion1;
    class Expansion2;
    class Bios;
@@ -39,9 +41,12 @@ namespace PSEmu
       Memory* GetMemoryRegion(const Word& addr,
                               Word& out_offset);
 
+
       Expansion1* mExpansion1;
       Expansion2* mExpansion2;
       Bios* mBios;
+
+
    };
    
 }
