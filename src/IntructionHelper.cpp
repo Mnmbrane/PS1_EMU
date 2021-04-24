@@ -3,6 +3,14 @@
 
 using namespace PSEmu;
 
+void InstructionHelper::LB(const InstructionSetImmediateType& imm,
+                           RegisterType& registers) 
+{
+   Word val = 0;
+   Word addr = imm.rs + imm.immediate;
+   
+}
+
 void InstructionHelper::LUI(const InstructionSetImmediateType& imm,
                             RegisterType& registers) 
 {
@@ -17,8 +25,8 @@ void InstructionHelper::ORI(const InstructionSetImmediateType& imm,
 
 void InstructionHelper::SW(const InstructionSetImmediateType& imm,
                            RegisterType& registers,
-                           MemoryController* mmu) 
+                           MemoryController* memControl) 
 {
-   mmu->StoreWord(registers.genReg[imm.rs] + imm.immediate,
-                  registers.genReg[imm.rt]);
+   memControl->StoreWord(registers.genReg[imm.rs] + imm.immediate,
+                         registers.genReg[imm.rt]);
 }

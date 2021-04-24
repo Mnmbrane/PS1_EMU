@@ -7,7 +7,7 @@
 using namespace PSEmu;
 
 ParallelPort::ParallelPort() :
-   Memory(PARALLEL_PORT_SIZE)
+   I_Memory(PARALLEL_PORT_SIZE)
 {
 }
 
@@ -18,23 +18,50 @@ void ParallelPort::Initialize()
    
 }
 
-Word ParallelPort::GetWord(const Word& address) 
+void ParallelPort::Reset()
+{
+   // Set memory to garbage
+   memset(mData, GARBAGE, PARALLEL_PORT_SIZE);
+}
+
+Byte ParallelPort::GetByte(const Word& addr) 
 {
    Word retWord = 0;
-   Word offset = address - PARALLEL_PORT_ADDR;
+   Word offset = addr - PARALLEL_PORT_ADDR;
 
-   if(offset < 0 || offset >= mDataSize)
+   if(offset < 0 || offset >= PARALLEL_PORT_SIZE)
    {
       throw std::exception();
    }
-   memcpy((void*)&retWord, (void*)&(mData[offset]), sizeof(Word));
-   return retWord;
+   return *((Byte*)&(mData[offset]));
+}
+
+HalfWord ParallelPort::GetHalfWord(const Word& addr) 
+{
+   Word offset = addr - PARALLEL_PORT_ADDR;
+
+   if(offset < 0 || offset >= PARALLEL_PORT_SIZE)
+   {
+      throw std::exception();
+   }
+   return *((HalfWord*)&(mData[offset]));
+}
+
+Word ParallelPort::GetWord(const Word& address) 
+{
+   Word offset = address - PARALLEL_PORT_ADDR;
+
+   if(offset < 0 || offset >= PARALLEL_PORT_SIZE)
+   {
+      throw std::exception();
+   }
+   return *((Word*)&(mData[offset]));
 }
    
 void ParallelPort::StoreWord(const Word& address, Word val) 
 {
    Word offset = address - PARALLEL_PORT_ADDR;
-   if(offset < 0 || offset >= mDataSize)
+   if(offset < 0 || offset >= PARALLEL_PORT_SIZE)
    {
       throw std::exception();
    }

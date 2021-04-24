@@ -11,7 +11,7 @@ namespace PSEmu
    class Scratchpad;
    class HardwareRegisters;
    class Bios;
-   class Memory;
+   class I_Memory;
 
    class MemoryController : public I_Component
    {
@@ -22,8 +22,10 @@ namespace PSEmu
       virtual void Initialize();
       virtual void Reset();
 
-      // Get word from a location
+      Byte GetByte(const Word& addr);
+      HalfWord GetHalfWord(const Word& addr);
       Word GetWord(const Word& addr);
+      
 
       void StoreWord(const Word& addr, const Word val);
 
@@ -38,7 +40,7 @@ namespace PSEmu
        * 
        * @return - Memory object tied region
        */
-      Memory* GetMemoryRegion(const Word& addr);
+      I_Memory* GetMemoryRegion(const Word& addr);
 
       Kernel*              mKernel;
       UserMemory*          mUserMemory;

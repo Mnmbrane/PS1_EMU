@@ -16,7 +16,7 @@ const Byte BIOS_CHECK_SUM[20] = { 0x10, 0x15, 0x5d, 0x8d, 0x6e,
 
 
 Bios::Bios() :
-   Memory(BIOS_SIZE)
+   I_Memory(BIOS_SIZE)
 {
 }
 
@@ -51,23 +51,49 @@ void Bios::Initialize()
    }
 }
 
-Word Bios::GetWord(const Word& address)
+void Bios::Reset()
 {
-   Word retWord = 0;
-   Word offset = address - BIOS_ADDR;
+   // Set memory to garbage
+   memset(mData, GARBAGE, BIOS_SIZE);
+}
 
-   if(offset < 0 || offset >= mDataSize)
+Byte Bios::GetByte(const Word& addr) 
+{
+   Word offset = addr - BIOS_ADDR;
+
+   if(offset < 0 || offset >= BIOS_SIZE)
    {
       throw std::exception();
    }
-   memcpy((void*)&retWord, (void*)&(mData[offset]), sizeof(Word));
-   return retWord;
+   return *((Byte*)&(mData[offset]));
 }
 
-void Bios::StoreWord(const Word& address, Word val)
+HalfWord Bios::GetHalfWord(const Word& addr) 
 {
-   Word offset = address - BIOS_ADDR;
-   if(offset < 0 || offset >= mDataSize)
+   Word offset = addr - BIOS_ADDR;
+
+   if(offset < 0 || offset >= BIOS_SIZE)
+   {
+      throw std::exception();
+   }
+   return *((HalfWord*)&(mData[offset]));
+}
+
+Word Bios::GetWord(const Word& addr)
+{
+   Word offset = addr - BIOS_ADDR;
+
+   if(offset < 0 || offset >= BIOS_SIZE)
+   {
+      throw std::exception();
+   }
+   return *((Word*)&(mData[offset]));
+}
+
+void Bios::StoreWord(const Word& addr, Word val)
+{
+   Word offset = addr - BIOS_ADDR;
+   if(offset < 0 || offset >= BIOS_SIZE)
    {
       throw std::exception();
    }

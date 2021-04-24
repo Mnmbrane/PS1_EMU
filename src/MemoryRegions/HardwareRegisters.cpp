@@ -9,7 +9,7 @@ using namespace PSEmu;
 
 
 HardwareRegisters::HardwareRegisters() :
-   Memory(HW_REG_SIZE)
+   I_Memory(HW_REG_SIZE)
 {
 }
 
@@ -20,23 +20,49 @@ void HardwareRegisters::Initialize()
    
 }
 
-Word HardwareRegisters::GetWord(const Word& address) 
+void HardwareRegisters::Reset()
 {
-   Word retWord = 0;
-   Word offset = address - HW_REG_ADDR;
+   // Set memory to garbage
+   memset(mData, GARBAGE, HW_REG_SIZE);
+}
 
-   if(offset < 0 || offset >= mDataSize)
+Byte HardwareRegisters::GetByte(const Word& addr) 
+{
+   Word offset = addr - HW_REG_ADDR;
+
+   if(offset < 0 || offset >= HW_REG_SIZE)
    {
       throw std::exception();
    }
-   memcpy((void*)&retWord, (void*)&(mData[offset]), sizeof(Word));
-   return retWord;
+   return *((Byte*)&(mData[offset]));
+}
+
+HalfWord HardwareRegisters::GetHalfWord(const Word& addr) 
+{
+   Word offset = addr - HW_REG_ADDR;
+
+   if(offset < 0 || offset >= HW_REG_SIZE)
+   {
+      throw std::exception();
+   }
+   return *((HalfWord*)&(mData[offset]));
+}
+
+Word HardwareRegisters::GetWord(const Word& address) 
+{
+   Word offset = address - HW_REG_ADDR;
+
+   if(offset < 0 || offset >= HW_REG_SIZE)
+   {
+      throw std::exception();
+   }
+   return *((Word*)&(mData[offset]));
 }
 
 void HardwareRegisters::StoreWord(const Word& address, Word val) 
 {
    Word offset = address - HW_REG_ADDR;
-   if(offset < 0 || offset >= mDataSize)
+   if(offset < 0 || offset >= HW_REG_SIZE)
    {
       throw std::exception();
    }

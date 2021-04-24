@@ -7,7 +7,7 @@
 using namespace PSEmu;
 
 UserMemory::UserMemory() :
-   Memory(USER_MEM_SIZE)
+   I_Memory(USER_MEM_SIZE)
 {
 }
 
@@ -18,17 +18,43 @@ void UserMemory::Initialize()
    
 }
 
-Word UserMemory::GetWord(const Word& address) 
+void UserMemory::Reset()
 {
-   Word retWord = 0;
-   Word offset = GetAddrOffset(address);
+   // Set memory to garbage
+   memset(mData, GARBAGE, USER_MEM_SIZE);
+}
 
-   if(offset < 0 || offset >= mDataSize)
+Byte UserMemory::GetByte(const Word& addr) 
+{
+   Word offset = GetAddrOffset(addr);
+
+   if(offset < 0 || offset >= USER_MEM_SIZE)
    {
       throw std::exception();
    }
-   memcpy((void*)&retWord, (void*)&(mData[offset]), sizeof(Word));
-   return retWord;
+   return *((Byte*)&(mData[offset]));
+}
+
+HalfWord UserMemory::GetHalfWord(const Word& addr) 
+{
+   Word offset = GetAddrOffset(addr);
+
+   if(offset < 0 || offset >= USER_MEM_SIZE)
+   {
+      throw std::exception();
+   }
+   return *((HalfWord*)&(mData[offset]));
+}
+
+Word UserMemory::GetWord(const Word& address) 
+{
+   Word offset = GetAddrOffset(address);
+
+   if(offset < 0 || offset >= USER_MEM_SIZE)
+   {
+      throw std::exception();
+   }
+   return *((Word*)&(mData[offset]));
 }
    
 void UserMemory::StoreWord(const Word& address, Word val) 
@@ -36,7 +62,7 @@ void UserMemory::StoreWord(const Word& address, Word val)
    Word retWord = 0;
    Word offset = GetAddrOffset(address);
 
-   if(offset < 0 || offset >= mDataSize)
+   if(offset < 0 || offset >= USER_MEM_SIZE)
    {
       throw std::exception();
    }

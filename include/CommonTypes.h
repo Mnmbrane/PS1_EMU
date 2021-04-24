@@ -4,11 +4,16 @@
 
 namespace PSEmu
 {
-   class Memory;
+   class I_Memory;
 
    using Word = unsigned int;
    using HalfWord = unsigned short;
    using Byte = unsigned char;
+
+   using SWord = int;
+   using SHalfWord = short;
+   using SByte = char;
+
    using Instruction = Word;
 
    typedef enum : Word

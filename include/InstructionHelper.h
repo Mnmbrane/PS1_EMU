@@ -9,6 +9,16 @@ namespace PSEmu
    {
    public:
       /**
+       * LUI - Load Byte
+       * Sign-extend 16-bit offset and add to contents of register base to form address.
+       * Sign-extend contents of addressed byte and load into rt.
+       * 
+       * @param[in] imm        - The immediate instruction
+       * @param[out] registers  - Reference to the register arrays
+       */
+      static void LB(const InstructionSetImmediateType& imm,
+                     RegisterType& registers);
+      /**
        * LUI - Load Upper Immediate
        * Shift 16-bit immediate left 16 bits. Set least significant 16 bits of word to zeroes.
        * Store result in register rt.
@@ -42,6 +52,5 @@ namespace PSEmu
                      RegisterType& registers,
                      MemoryController* mmu);
    };
-   
 
 }

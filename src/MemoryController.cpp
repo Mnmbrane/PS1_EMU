@@ -47,9 +47,9 @@ void MemoryController::Initialize()
 }
 
 // Memory Map
-Memory* MemoryController::GetMemoryRegion(const Word& addr)
+I_Memory* MemoryController::GetMemoryRegion(const Word& addr)
 {
-   Memory* retMem = nullptr;
+   I_Memory* retMem = nullptr;
    
    switch(addr)
    {
@@ -103,11 +103,55 @@ void MemoryController::Reset()
    mBios->Reset();
 }
 
+Byte MemoryController::GetByte(const Word& addr) 
+{
+   Word retVal = 0;
+   I_Memory* memRegion = nullptr;
+
+   // Address needs to be word aligned
+   if(addr % 4 != 0)
+   {
+      printf("ERROR: %s Unaligned address", __func__);
+   }
+   else
+   {
+      memRegion = GetMemoryRegion(addr);
+      if(memRegion != nullptr)
+      {
+         retVal = memRegion->GetByte(addr);
+      }
+   }
+
+   return retVal;
+}
+
+HalfWord MemoryController::GetHalfWord(const Word& addr) 
+{
+   Word retVal = 0;
+   I_Memory* memRegion = nullptr;
+
+   // Address needs to be word aligned
+   if(addr % 4 != 0)
+   {
+      printf("ERROR: %s Unaligned address", __func__);
+   }
+   else
+   {
+      memRegion = GetMemoryRegion(addr);
+      if(memRegion != nullptr)
+      {
+         retVal = memRegion->GetHalfWord(addr);
+      }
+   }
+
+   return retVal;
+}
+
 // Memory Mapping
 Word MemoryController::GetWord(const Word& addr) 
 {
    Word retVal = 0;
-   Memory* memRegion = nullptr;
+   I_Memory* memRegion = nullptr;
 
    // Address needs to be word aligned
    if(addr % 4 != 0)
@@ -129,7 +173,7 @@ Word MemoryController::GetWord(const Word& addr)
 void MemoryController::StoreWord(const Word& addr, const Word val) 
 {
    Word offset = 0;
-   Memory* memRegion = nullptr;
+   I_Memory* memRegion = nullptr;
    // Address needs to be word aligned
    if(addr % 4 != 0)
    {

@@ -8,7 +8,7 @@ using namespace PSEmu;
 
 
 Kernel::Kernel() :
-   Memory(KERNEL_SIZE)
+   I_Memory(KERNEL_SIZE)
 {
 }
 
@@ -19,24 +19,51 @@ void Kernel::Initialize()
    
 }
 
-Word Kernel::GetWord(const Word& address) 
+void Kernel::Reset()
+{
+   // Set memory to garbage
+   memset(mData, GARBAGE, KERNEL_SIZE);
+}
+
+Byte Kernel::GetByte(const Word& addr) 
 {
    Word retWord = 0;
-   Word offset = GetAddrOffset(address);
+   Word offset = GetAddrOffset(addr);
 
-   if(offset < 0 || offset >= mDataSize)
+   if(offset < 0 || offset >= KERNEL_SIZE)
    {
       throw std::exception();
    }
-   memcpy((void*)&retWord, (void*)&(mData[offset]), sizeof(Word));
-   return retWord;
+   return *((Byte*)&(mData[offset]));
+}
+
+HalfWord Kernel::GetHalfWord(const Word& addr) 
+{
+   Word offset = GetAddrOffset(addr);
+
+   if(offset < 0 || offset >= KERNEL_SIZE)
+   {
+      throw std::exception();
+   }
+   return *((HalfWord*)&(mData[offset]));
+}
+
+Word Kernel::GetWord(const Word& address) 
+{
+   Word offset = GetAddrOffset(address);
+
+   if(offset < 0 || offset >= KERNEL_SIZE)
+   {
+      throw std::exception();
+   }
+   return *((Word*)&(mData[offset]));
 }
 
 void Kernel::StoreWord(const Word& address, Word val) 
 {
    Word retWord = 0;
    Word offset = GetAddrOffset(address);
-   if(offset < 0 || offset >= mDataSize)
+   if(offset < 0 || offset >= KERNEL_SIZE)
    {
       throw std::exception();
    }

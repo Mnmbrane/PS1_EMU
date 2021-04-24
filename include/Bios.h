@@ -1,18 +1,21 @@
 #pragma once
-#include "Memory.h"
+#include "MemoryInterface.h"
 
 namespace PSEmu
 {
-   class Bios : public Memory
+   class Bios : public I_Memory
    {
    public:
    Bios();
    ~Bios();
 
    virtual void Initialize();
+   virtual void Reset();
 
-   virtual Word GetWord(const Word& address);
-   virtual void StoreWord(const Word& address, Word val);
+   virtual Byte GetByte(const Word& addr);
+   virtual HalfWord GetHalfWord(const Word& addr);
+   virtual Word GetWord(const Word& addr);
+   virtual void StoreWord(const Word& addr, Word val);
 
    private:
 
