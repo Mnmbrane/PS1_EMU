@@ -3,11 +3,11 @@
 
 namespace PSEmu
 {
-   class MainRam : public Memory
+   class HardwareRegisters : public Memory
    {
    public:
-   MainRam();
-   ~MainRam();
+   HardwareRegisters();
+   ~HardwareRegisters();
 
    virtual void Initialize();
 

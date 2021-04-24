@@ -3,11 +3,11 @@
 
 namespace PSEmu
 {
-   class Expansion3 : public Memory
+   class ParallelPort : public Memory
    {
    public:
-   Expansion3();
-   ~Expansion3();
+   ParallelPort();
+   ~ParallelPort();
 
    virtual void Initialize();
 

@@ -1,94 +1,111 @@
 #include "MemoryController.h"
-#include "Expansion1.h"
-#include "Expansion2.h"
+#include "Kernel.h"
+#include "UserMemory.h"
+#include "ParallelPort.h"
+#include "Scratchpad.h"
+#include "HardwareRegisters.h"
 #include "Bios.h"
+
+
 #include <stdio.h>
 #include <exception>
 
 using namespace PSEmu;
 
 // Switch Case ranges between x and x+y
-#define GET_RANGE(x, y) x ... (x + y)
+#define GET_MEM_RANGE(x, y) x ... (x + y - 1)
 
 MemoryController::MemoryController():
-   mExpansion1(new Expansion1()),
-   mExpansion2(new Expansion2()),
-   mBios(new Bios())
+   mKernel(new Kernel()),
+   mUserMemory(new UserMemory()),
+   mParallelPort(new ParallelPort()),
+   mScratchpad(new Scratchpad()),
+   mHardwareRegisters(new HardwareRegisters()),
+   mBios(new Bios)
+
 {
 }
 
 MemoryController::~MemoryController() 
 {
-   delete mExpansion1;
-   delete mExpansion2;
+   delete mKernel;
+   delete mUserMemory;
+   delete mParallelPort;
+   delete mScratchpad;
+   delete mHardwareRegisters;
    delete mBios;
 }
 
 void MemoryController::Initialize() 
 {
-   // Initialize the bios
+   mKernel->Initialize();
+   mUserMemory->Initialize();
+   mParallelPort->Initialize();
+   mScratchpad->Initialize();
+   mHardwareRegisters->Initialize();
    mBios->Initialize();
 }
 
-// Memory Region factory
+// Memory Map
 Memory* MemoryController::GetMemoryRegion(const Word& addr, Word& out_offset)
 {
    Memory* retMem = nullptr;
    
    switch(addr)
    {
-      // Main Ram
-      case GET_RANGE(MAIN_RAM_START_ADDR_KUSEG, MAIN_RAM_SIZE):
-         out_offset = addr - MAIN_RAM_START_ADDR_KUSEG;
-         retMem = mExpansion1;
-         break;
-      case GET_RANGE(MAIN_RAM_START_ADDR_KSEG0, MAIN_RAM_SIZE):
-         out_offset = addr - MAIN_RAM_START_ADDR_KUSEG;
-         retMem = mExpansion1;
-         break;
-      case GET_RANGE(MAIN_RAM_START_ADDR_KSEG1, MAIN_RAM_SIZE):
-         out_offset = addr - MAIN_RAM_START_ADDR_KUSEG;
-         retMem = mExpansion1;
-         break;
-      // Expansion 1
-      case GET_RANGE(EXPANSION_1_START_ADDR_KUSEG, EXPANSION_1_SIZE):
-         out_offset = addr - EXPANSION_1_START_ADDR_KUSEG;
-         retMem = mExpansion1;
-         break;
-      case GET_RANGE(EXPANSION_1_START_ADDR_KSEG0, EXPANSION_1_SIZE):
-         out_offset = addr - EXPANSION_1_START_ADDR_KSEG0;
-         retMem = mExpansion1;
-         break;
-      case GET_RANGE(EXPANSION_1_START_ADDR_KSEG1, EXPANSION_1_SIZE):
-         out_offset = addr - EXPANSION_1_START_ADDR_KSEG1;
-         retMem = mExpansion1;
+      // Kernel
+      case GET_MEM_RANGE(KERNEL_ADDR_1, KERNEL_SIZE):
+         out_offset = addr - KERNEL_ADDR_1;
+         retMem = mKernel;
          break;
 
-      // Expansion 2
-      case GET_RANGE(EXPANSION_2_START_ADDR_KUSEG, EXPANSION_2_SIZE):
-         out_offset = addr - EXPANSION_1_START_ADDR_KUSEG;
-         retMem = mExpansion2;
+      // User Memory
+      case GET_MEM_RANGE(USER_MEM_ADDR_1, USER_MEM_SIZE):
+         out_offset = addr - USER_MEM_ADDR_1;
+         retMem = mUserMemory;
          break;
-      case GET_RANGE(EXPANSION_2_START_ADDR_KSEG0, EXPANSION_2_SIZE):
-         out_offset = addr - EXPANSION_1_START_ADDR_KSEG0;
-         retMem = mExpansion2;
+
+      // Parallel Ports
+      case GET_MEM_RANGE(PARALLEL_PORT_ADDR, PARALLEL_PORT_SIZE):
+         out_offset = addr - PARALLEL_PORT_ADDR;
+         retMem = mParallelPort;
          break;
-      case GET_RANGE(EXPANSION_2_START_ADDR_KSEG1, EXPANSION_2_SIZE):
-         out_offset = addr - EXPANSION_2_START_ADDR_KSEG1;
-         retMem = mExpansion2;
+
+      // Scratchpad
+      case GET_MEM_RANGE(SCRATCHPAD_ADDR, SCRATCHPAD_SIZE):
+         out_offset = addr - SCRATCHPAD_ADDR;
+         retMem = mScratchpad;
          break;
-      
+
+      // Hardware Registers
+      case GET_MEM_RANGE(HW_REG_ADDR, HW_REG_SIZE):
+         out_offset = addr - HW_REG_ADDR;
+         retMem = mHardwareRegisters;
+         break;
+
+      // Kernel and User memory mirror
+      case GET_MEM_RANGE(KERNEL_ADDR_2, KERNEL_SIZE):
+         out_offset = addr - KERNEL_ADDR_2;
+         retMem = mKernel;
+         break;
+      case GET_MEM_RANGE(USER_MEM_ADDR_2, USER_MEM_SIZE):
+         out_offset = addr - USER_MEM_ADDR_1;
+         retMem = mUserMemory;
+         break;
+
+      // Kernel and User memory mirror
+      case GET_MEM_RANGE(KERNEL_ADDR_3, KERNEL_SIZE):
+         out_offset = addr - KERNEL_ADDR_3;
+         retMem = mKernel;
+         break;
+      case GET_MEM_RANGE(USER_MEM_ADDR_3, USER_MEM_SIZE):
+         out_offset = addr - USER_MEM_ADDR_1;
+         retMem = mUserMemory;
+         break;
+
       // Bios
-      case GET_RANGE(BIOS_START_ADDR_KUSEG, BIOS_SIZE):
-         out_offset = addr - BIOS_START_ADDR_KUSEG;
-         retMem = mBios;
-         break;
-      case GET_RANGE(BIOS_START_ADDR_KSEG0, BIOS_SIZE):
-         out_offset = addr - BIOS_START_ADDR_KSEG0;
-         retMem = mBios;
-         break;
-      case GET_RANGE(BIOS_START_ADDR_KSEG1, BIOS_SIZE):
-         out_offset = addr - BIOS_START_ADDR_KSEG1;
+      case GET_MEM_RANGE(BIOS_ADDR, BIOS_SIZE):
+         out_offset = addr - BIOS_ADDR;
          retMem = mBios;
          break;
       default:
@@ -99,6 +116,11 @@ Memory* MemoryController::GetMemoryRegion(const Word& addr, Word& out_offset)
 
 void MemoryController::Reset()
 {
+   mKernel->Reset();
+   mUserMemory->Reset();
+   mParallelPort->Reset();
+   mScratchpad->Reset();
+   mHardwareRegisters->Reset();
    mBios->Reset();
 }
 
@@ -138,9 +160,7 @@ void MemoryController::StoreWord(const Word& addr, const Word val)
    else
    {
       memRegion = GetMemoryRegion(addr, offset);
-      if(memRegion == mBios ||
-         memRegion == mExpansion1 ||
-         memRegion == mExpansion2)
+      if(memRegion == mBios)
       {
          throw std::exception();
       }

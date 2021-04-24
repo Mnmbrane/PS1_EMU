@@ -5,9 +5,11 @@
 
 namespace PSEmu
 {
-
-   class Expansion1;
-   class Expansion2;
+   class Kernel;
+   class UserMemory;
+   class ParallelPort;
+   class Scratchpad;
+   class HardwareRegisters;
    class Bios;
    class Memory;
 
@@ -41,12 +43,12 @@ namespace PSEmu
       Memory* GetMemoryRegion(const Word& addr,
                               Word& out_offset);
 
-
-      Expansion1* mExpansion1;
-      Expansion2* mExpansion2;
-      Bios* mBios;
-
-
+      Kernel*              mKernel;
+      UserMemory*          mUserMemory;
+      ParallelPort*        mParallelPort;
+      Scratchpad*          mScratchpad;
+      HardwareRegisters*   mHardwareRegisters;
+      Bios*                mBios;
    };
    
 }

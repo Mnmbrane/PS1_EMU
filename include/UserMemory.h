@@ -3,11 +3,11 @@
 
 namespace PSEmu
 {
-   class IOPorts : public Memory
+   class UserMemory : public Memory
    {
    public:
-   IOPorts();
-   ~IOPorts();
+   UserMemory();
+   ~UserMemory();
 
    virtual void Initialize();
 

@@ -3,11 +3,11 @@
 
 namespace PSEmu
 {
-   class Expansion2 : public Memory
+   class Kernel : public Memory
    {
    public:
-   Expansion2();
-   ~Expansion2();
+   Kernel();
+   ~Kernel();
 
    virtual void Initialize();
 
