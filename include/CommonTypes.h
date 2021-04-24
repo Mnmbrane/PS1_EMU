@@ -89,9 +89,104 @@ namespace PSEmu
 
    enum OpcodeType
    {
-      OP_LUI   = 0b001111, // Load Upper Immediate
-      OP_ORI   = 0b001101, // OR Immediate
-      OP_SW    = 0b101011, // Store Word
+      OP_SPECIAL,
+      OP_BCOND,
+      OP_J,
+      OP_JAL,
+      OP_BEQ,
+      OP_BNE,
+      OP_BLEZ,
+      OP_BGTZ,
+      OP_ADDI,
+      OP_ADDIU,
+      OP_SLTI,
+      OP_SLTIU,
+      OP_ANDI,
+      OP_ORI, // OR Immediate
+      OP_XORI,
+      OP_LUI, // Load Upper Immediate
+      OP_COP0,
+      OP_COP1,
+      OP_COP2,
+      OP_COP3,
+      OP_LB = 32,
+      OP_LH,
+      OP_LWL,
+      OP_LW,
+      OP_LBU,
+      OP_LHU,
+      OP_LWR,
+      OP_SB = 40,
+      OP_SH,
+      OP_SWL,
+      OP_SW, // Store Word
+      OP_SWR = 46,
+      OP_LWC0 = 48,
+      OP_LWC1,
+      OP_LWC2,
+      OP_LWC3,
+      OP_SWC0 = 56,
+      OP_SWC1,
+      OP_SWC2,
+      OP_SWC3
    };
 
+   enum SpecialType
+   {
+      SPEC_SLL,
+      SPEC_SRL = 2,
+      SPEC_SRA,
+      SPEC_SLLV,
+      SPEC_SRLV = 6,
+      SPEC_SRAV,
+      SPEC_JR,
+      SPEC_JALR,
+      SPEC_SYSCALL = 12,
+      SPEC_BREAK,
+      SPEC_MFHI = 16,
+      SPEC_MTHI,
+      SPEC_MFLO,
+      SPEC_MTLO,
+      SPEC_MULT = 24,
+      SPEC_MULTU,
+      SPEC_DIV,
+      SPEC_DIVU,
+      SPEC_ADD = 32,
+      SPEC_ADDU,
+      SPEC_SUB,
+      SPEC_SUBU,
+      SPEC_AND,
+      SPEC_OR,
+      SPEC_XOR,
+      SPEC_NOR,
+      SPEC_SLT = 42,
+      SPEC_SLTU
+   };
+
+   // Branch conditions
+   enum BCondType
+   {
+      BCOND_BLTZ,
+      BCOND_BGEZ,
+      BCOND_BLTZAL = 17,
+      BCOND_BGEZAL,
+   };
+
+   enum COP
+   {
+      COP_MF,
+      COP_CF = 2,
+      COP_MT = 4,
+      COP_CT = 6,
+      COP_BC = 8
+   };
+
+   enum SysControlType
+   {
+      SC_TLBR = 1,
+      SC_TLBWI,
+      SC_TLBWR = 6,
+      SC_TLBP = 8,
+      SC_RFE = 16
+   };
 }
