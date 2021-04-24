@@ -57,7 +57,17 @@ Word Scratchpad::GetWord(const Word& address)
    }
    return *((Word*)&(mData[offset]));
 }
+
+void Scratchpad::StoreByte(const Word& addr, Word val) 
+{
    
+}
+   
+void Scratchpad::StoreHalfWord(const Word& addr, Word val)
+{
+   
+}
+
 void Scratchpad::StoreWord(const Word& address, Word val)
 {
    Word offset = address - SCRATCHPAD_ADDR;

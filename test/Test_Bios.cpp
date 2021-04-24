@@ -3,29 +3,35 @@
 #include "Bios.h"
 #include "CommonTypes.h"
 
+#include <exception>
+
 using namespace PSEmu;
 
-// Test fixture
-struct BiosTest : public testing::Test
+TEST(BiosTest, ResetTest)
 {
-   BiosTest() :
-      mBios()
-   { }
-   virtual void SetUp()
-   {
-      // Read in the BIN file
-      mBios.Initialize();
-   }
-   virtual void TearDown()
-   {
-      
-   }
-   Bios mBios;
-};
+   Bios bios = {};
+   bios.Initialize();
+   bios.Reset();
+   EXPECT_EQ(GARBAGE, bios.GetWord(BIOS_ADDR));
+   EXPECT_EQ(GARBAGE, bios.GetWord(BIOS_ADDR + 0x0007FFFC));
+   EXPECT_EQ(GARBAGE, bios.GetWord(BIOS_ADDR + 0x0003CFF8));
+}
 
-TEST_F(BiosTest, GetWordTest)
+TEST(BiosTest, GetWordTest)
 {
-   EXPECT_EQ(1007157267, mBios.GetWord(BIOS_ADDR));
-   EXPECT_EQ(1111360516, mBios.GetWord(BIOS_ADDR + 0x0007FFFC));
-   EXPECT_EQ(2762539470, mBios.GetWord(BIOS_ADDR + 0x0003CFF8));
+   Bios bios = {};
+   bios.Initialize();
+
+   EXPECT_EQ(1007157267, bios.GetWord(BIOS_ADDR));
+   EXPECT_EQ(1111360516, bios.GetWord(BIOS_ADDR + 0x0007FFFC));
+   EXPECT_EQ(2762539470, bios.GetWord(BIOS_ADDR + 0x0003CFF8));
+}
+
+TEST(BiosTest, StoreWordTest)
+{
+   Bios bios = {};
+   bios.Initialize();
+   EXPECT_THROW(bios.StoreByte(BIOS_ADDR, 1), std::exception);
+   EXPECT_THROW(bios.StoreHalfWord(BIOS_ADDR, 1), std::exception);
+   EXPECT_THROW(bios.StoreWord(BIOS_ADDR, 1), std::exception);
 }

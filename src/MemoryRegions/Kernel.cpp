@@ -59,6 +59,16 @@ Word Kernel::GetWord(const Word& address)
    return *((Word*)&(mData[offset]));
 }
 
+void Kernel::StoreByte(const Word& addr, Word val) 
+{
+   
+}
+   
+void Kernel::StoreHalfWord(const Word& addr, Word val)
+{
+   
+}
+
 void Kernel::StoreWord(const Word& address, Word val) 
 {
    Word retWord = 0;

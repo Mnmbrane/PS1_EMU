@@ -16,6 +16,8 @@ namespace PSEmu
       virtual Byte GetByte(const Word& addr) = 0;
       virtual HalfWord GetHalfWord(const Word& addr) = 0;
       virtual Word GetWord(const Word& address) = 0;
+      virtual void StoreByte(const Word& addr, Word val) = 0;
+      virtual void StoreHalfWord(const Word& addr, Word val) = 0;
       virtual void StoreWord(const Word& address, Word val) = 0;
 
    protected:

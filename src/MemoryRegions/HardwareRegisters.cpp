@@ -59,6 +59,16 @@ Word HardwareRegisters::GetWord(const Word& address)
    return *((Word*)&(mData[offset]));
 }
 
+void HardwareRegisters::StoreByte(const Word& addr, Word val) 
+{
+   
+}
+   
+void HardwareRegisters::StoreHalfWord(const Word& addr, Word val)
+{
+   
+}
+
 void HardwareRegisters::StoreWord(const Word& address, Word val) 
 {
    Word offset = address - HW_REG_ADDR;

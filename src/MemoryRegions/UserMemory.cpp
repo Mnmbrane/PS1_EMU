@@ -56,7 +56,17 @@ Word UserMemory::GetWord(const Word& address)
    }
    return *((Word*)&(mData[offset]));
 }
+
+void UserMemory::StoreByte(const Word& addr, Word val) 
+{
    
+}
+   
+void UserMemory::StoreHalfWord(const Word& addr, Word val)
+{
+   
+}
+
 void UserMemory::StoreWord(const Word& address, Word val) 
 {
    Word retWord = 0;

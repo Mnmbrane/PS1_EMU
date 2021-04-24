@@ -90,14 +90,19 @@ Word Bios::GetWord(const Word& addr)
    return *((Word*)&(mData[offset]));
 }
 
+void Bios::StoreByte(const Word& addr, Word val) 
+{
+   throw std::exception();
+}
+   
+void Bios::StoreHalfWord(const Word& addr, Word val)
+{
+   throw std::exception();
+}
+
 void Bios::StoreWord(const Word& addr, Word val)
 {
-   Word offset = addr - BIOS_ADDR;
-   if(offset < 0 || offset >= BIOS_SIZE)
-   {
-      throw std::exception();
-   }
-   memcpy((void*)&(mData[offset]), (void*)(&val), sizeof(Word));
+   throw std::exception();
 }
 
 bool Bios::CheckSize() 

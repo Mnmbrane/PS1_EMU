@@ -57,7 +57,17 @@ Word ParallelPort::GetWord(const Word& address)
    }
    return *((Word*)&(mData[offset]));
 }
+
+void ParallelPort::StoreByte(const Word& addr, Word val) 
+{
    
+}
+   
+void ParallelPort::StoreHalfWord(const Word& addr, Word val)
+{
+   
+}
+
 void ParallelPort::StoreWord(const Word& address, Word val) 
 {
    Word offset = address - PARALLEL_PORT_ADDR;
