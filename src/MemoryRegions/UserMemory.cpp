@@ -59,24 +59,35 @@ Word UserMemory::GetWord(const Word& address)
 
 void UserMemory::StoreByte(const Word& addr, Word val) 
 {
-   
+   Word offset = GetAddrOffset(addr);
+
+   if(offset < 0 || offset >= USER_MEM_SIZE)
+   {
+      throw std::exception();
+   }
+   *(Byte*)(&mData[offset]) = val;
 }
-   
+
 void UserMemory::StoreHalfWord(const Word& addr, Word val)
 {
-   
+   Word offset = GetAddrOffset(addr);
+
+   if(offset < 0 || offset >= USER_MEM_SIZE)
+   {
+      throw std::exception();
+   }
+   *(HalfWord*)(&mData[offset]) = val;
 }
 
 void UserMemory::StoreWord(const Word& address, Word val) 
 {
-   Word retWord = 0;
    Word offset = GetAddrOffset(address);
 
    if(offset < 0 || offset >= USER_MEM_SIZE)
    {
       throw std::exception();
    }
-   memcpy((void*)&(mData[offset]), (void*)(&val), sizeof(Word));
+   *(Word*)(&mData[offset]) = val;
 }
 
 Word UserMemory::GetAddrOffset(const Word& address) 

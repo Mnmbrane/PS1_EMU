@@ -14,14 +14,14 @@ namespace PSEmu
 
    virtual Byte GetByte(const Word& addr);
    virtual HalfWord GetHalfWord(const Word& addr);
-   virtual Word GetWord(const Word& address);
+   virtual Word GetWord(const Word& addr);
 
    virtual void StoreByte(const Word& addr, Word val);
    virtual void StoreHalfWord(const Word& addr, Word val);
-   virtual void StoreWord(const Word& address, Word val);
+   virtual void StoreWord(const Word& addr, Word val);
 
    private:
-   Word GetAddrOffset(const Word& address);
+   Word GetAddrOffset(const Word& addr);
 
    };
 }

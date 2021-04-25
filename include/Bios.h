@@ -18,7 +18,7 @@ namespace PSEmu
 
    virtual void StoreByte(const Word& addr, Word val);
    virtual void StoreHalfWord(const Word& addr, Word val);
-   virtual void StoreWord(const Word& address, Word val);
+   virtual void StoreWord(const Word& addr, Word val);
 
    private:
 

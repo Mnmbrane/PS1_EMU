@@ -60,20 +60,30 @@ Word ParallelPort::GetWord(const Word& address)
 
 void ParallelPort::StoreByte(const Word& addr, Word val) 
 {
-   
-}
-   
-void ParallelPort::StoreHalfWord(const Word& addr, Word val)
-{
-   
-}
-
-void ParallelPort::StoreWord(const Word& address, Word val) 
-{
-   Word offset = address - PARALLEL_PORT_ADDR;
+   Word offset = addr - PARALLEL_PORT_ADDR;
    if(offset < 0 || offset >= PARALLEL_PORT_SIZE)
    {
       throw std::exception();
    }
-   memcpy((void*)&(mData[offset]), (void*)(&val), sizeof(Word));
+   *(Byte*)(&mData[offset]) = val;
+}
+   
+void ParallelPort::StoreHalfWord(const Word& addr, Word val)
+{
+   Word offset = addr - PARALLEL_PORT_ADDR;
+   if(offset < 0 || offset >= PARALLEL_PORT_SIZE)
+   {
+      throw std::exception();
+   }
+   *(HalfWord*)(&mData[offset]) = val;
+}
+
+void ParallelPort::StoreWord(const Word& addr, Word val) 
+{
+   Word offset = addr - PARALLEL_PORT_ADDR;
+   if(offset < 0 || offset >= PARALLEL_PORT_SIZE)
+   {
+      throw std::exception();
+   }
+   *(Word*)(&mData[offset]) = val;
 }

@@ -60,20 +60,30 @@ Word Scratchpad::GetWord(const Word& address)
 
 void Scratchpad::StoreByte(const Word& addr, Word val) 
 {
-   
-}
-   
-void Scratchpad::StoreHalfWord(const Word& addr, Word val)
-{
-   
-}
-
-void Scratchpad::StoreWord(const Word& address, Word val)
-{
-   Word offset = address - SCRATCHPAD_ADDR;
+   Word offset = addr - SCRATCHPAD_ADDR;
    if(offset < 0 || offset >= SCRATCHPAD_SIZE)
    {
       throw std::exception();
    }
-   memcpy((void*)&(mData[offset]), (void*)(&val), sizeof(Word));
+   *(Byte*)(&mData[offset]) = val;
+}
+
+void Scratchpad::StoreHalfWord(const Word& addr, Word val)
+{
+   Word offset = addr - SCRATCHPAD_ADDR;
+   if(offset < 0 || offset >= SCRATCHPAD_SIZE)
+   {
+      throw std::exception();
+   }
+   *(HalfWord*)(&mData[offset]) = val;
+}
+
+void Scratchpad::StoreWord(const Word& addr, Word val)
+{
+   Word offset = addr - SCRATCHPAD_ADDR;
+   if(offset < 0 || offset >= SCRATCHPAD_SIZE)
+   {
+      throw std::exception();
+   }
+   *(Word*)(&mData[offset]) = val;
 }

@@ -48,9 +48,9 @@ HalfWord HardwareRegisters::GetHalfWord(const Word& addr)
    return *((HalfWord*)&(mData[offset]));
 }
 
-Word HardwareRegisters::GetWord(const Word& address) 
+Word HardwareRegisters::GetWord(const Word& addr) 
 {
-   Word offset = address - HW_REG_ADDR;
+   Word offset = addr - HW_REG_ADDR;
 
    if(offset < 0 || offset >= HW_REG_SIZE)
    {
@@ -61,20 +61,30 @@ Word HardwareRegisters::GetWord(const Word& address)
 
 void HardwareRegisters::StoreByte(const Word& addr, Word val)
 {
-   
-}
-
-void HardwareRegisters::StoreHalfWord(const Word& addr, Word val)
-{
-   
-}
-
-void HardwareRegisters::StoreWord(const Word& address, Word val) 
-{
-   Word offset = address - HW_REG_ADDR;
+   Word offset = addr - HW_REG_ADDR;
    if(offset < 0 || offset >= HW_REG_SIZE)
    {
       throw std::exception();
    }
-   memcpy((void*)&(mData[offset]), (void*)(&val), sizeof(Word));
+   *(Byte*)(&mData[offset]) = val;
+}
+
+void HardwareRegisters::StoreHalfWord(const Word& addr, Word val)
+{
+   Word offset = addr - HW_REG_ADDR;
+   if(offset < 0 || offset >= HW_REG_SIZE)
+   {
+      throw std::exception();
+   }
+   *(HalfWord*)(&mData[offset]) = val;
+}
+
+void HardwareRegisters::StoreWord(const Word& addr, Word val) 
+{
+   Word offset = addr - HW_REG_ADDR;
+   if(offset < 0 || offset >= HW_REG_SIZE)
+   {
+      throw std::exception();
+   }
+   *(Word*)(&mData[offset]) = val;
 }

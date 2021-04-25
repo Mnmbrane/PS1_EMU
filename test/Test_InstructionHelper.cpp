@@ -29,6 +29,18 @@ struct InstructionHelperTest : public testing::Test
    InstructionHelper* mInstructionHelper;
 };
 
+// TEST_F(InstructionHelperTest, LBTest)
+// {
+//    Reset();
+//    InstructionSetImmediateType imm;
+//    imm.rs = 0b10;
+//    imm.immediate = 0xCD;
+
+//    mInstructionHelper->LB(imm);
+
+//    EXPECT_EQ(mRegisters.genReg[imm.rt], 0xABCD0000);
+// }
+
 TEST_F(InstructionHelperTest, LUITest)
 {
    Reset();

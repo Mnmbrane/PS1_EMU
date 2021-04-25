@@ -61,23 +61,32 @@ Word Kernel::GetWord(const Word& address)
 
 void Kernel::StoreByte(const Word& addr, Word val) 
 {
-   
-}
-   
-void Kernel::StoreHalfWord(const Word& addr, Word val)
-{
-   
-}
-
-void Kernel::StoreWord(const Word& address, Word val) 
-{
-   Word retWord = 0;
-   Word offset = GetAddrOffset(address);
+   Word offset = GetAddrOffset(addr);
    if(offset < 0 || offset >= KERNEL_SIZE)
    {
       throw std::exception();
    }
-   memcpy((void*)&(mData[offset]), (void*)(&val), sizeof(Word));
+   *(Byte*)(&mData[offset]) = val;
+}
+   
+void Kernel::StoreHalfWord(const Word& addr, Word val)
+{
+   Word offset = GetAddrOffset(addr);
+   if(offset < 0 || offset >= KERNEL_SIZE)
+   {
+      throw std::exception();
+   }
+   *(HalfWord*)(&mData[offset]) = val;
+}
+
+void Kernel::StoreWord(const Word& addr, Word val) 
+{
+   Word offset = GetAddrOffset(addr);
+   if(offset < 0 || offset >= KERNEL_SIZE)
+   {
+      throw std::exception();
+   }
+   *(Word*)(&mData[offset]) = val;
 }
 
 Word Kernel::GetAddrOffset(const Word& address) 
