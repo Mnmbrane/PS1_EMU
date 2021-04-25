@@ -6,13 +6,8 @@ using namespace PSEmu;
 
 int main()
 {
-   Bios* b = new Bios();
+   Word num = 0xF001;
 
-   b->Initialize();
-
-   unsigned int num = 0xdeadbeef;
-   Byte arr[4] = {};
-
-   delete b;
+   printf("%x\n", (num << 16) >> 16);
    return 0;
 }

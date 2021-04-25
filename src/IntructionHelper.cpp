@@ -3,6 +3,9 @@
 
 using namespace PSEmu;
 
+#define SIGNED_BYTE(x) ((x << 24) >> 24)
+#define SIGNED_HALFWORD(x) ((x << 16) >> 16)
+
 InstructionHelper::InstructionHelper(MemoryController* memControl, RegisterType* reg) :
    mMemController(memControl),
    mRegisters(reg)
@@ -13,8 +16,9 @@ InstructionHelper::~InstructionHelper() { }
 
 void InstructionHelper::LB(const InstructionSetImmediateType& imm) 
 {
-   Word addr = imm.rs + imm.immediate;
-   
+   Word addr = mRegisters->genReg[imm.rs] + imm.immediate;
+
+   mRegisters->genReg[imm.rt] = SIGNED_BYTE(mMemController->GetByte(addr));
 }
 
 void InstructionHelper::LUI(const InstructionSetImmediateType& imm) 

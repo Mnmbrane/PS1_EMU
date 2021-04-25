@@ -13,6 +13,7 @@ struct InstructionHelperTest : public testing::Test
    {
       mMemoryController = new MemoryController();
       mInstructionHelper = new InstructionHelper(mMemoryController, &mRegisters);
+      mMemoryController->Initialize();
       Reset();
    }
    virtual void TearDown()
@@ -29,17 +30,24 @@ struct InstructionHelperTest : public testing::Test
    InstructionHelper* mInstructionHelper;
 };
 
-// TEST_F(InstructionHelperTest, LBTest)
-// {
-//    Reset();
-//    InstructionSetImmediateType imm;
-//    imm.rs = 0b10;
-//    imm.immediate = 0xCD;
+TEST_F(InstructionHelperTest, LBTest)
+{
+   Reset();
+   InstructionSetImmediateType imm;
+   imm.rs = 0b10;
+   // Set to the beginning of the bios
+   mRegisters.genReg[imm.rs] = BIOS_ADDR;
 
-//    mInstructionHelper->LB(imm);
+   // Byte Value at 0x124 is 49
+   imm.immediate = 0x124;
+   mInstructionHelper->LB(imm);
+   EXPECT_EQ(mRegisters.genReg[imm.rt], 0x49);
 
-//    EXPECT_EQ(mRegisters.genReg[imm.rt], 0xABCD0000);
-// }
+   // Byte Value at 0x124 is DF or -33 signed
+   imm.immediate = 0x320;
+   mInstructionHelper->LB(imm);
+   EXPECT_EQ(mRegisters.genReg[imm.rt], -33);
+}
 
 TEST_F(InstructionHelperTest, LUITest)
 {
