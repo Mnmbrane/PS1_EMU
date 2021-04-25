@@ -3,6 +3,8 @@
 #include "MemoryController.h"
 #include "CommonTypes.h"
 
+#include <exception>
+
 using namespace PSEmu;
 
 // Test fixture
@@ -20,6 +22,11 @@ struct MemoryControllerTest : public testing::Test
    }
    MemoryController* mMemController;
 };
+
+TEST_F(MemoryControllerTest, UnalignedTest)
+{
+   EXPECT_THROW(mMemController->GetWord(1), std::exception);
+}
 
 TEST_F(MemoryControllerTest, GetWordBiosTest)
 {

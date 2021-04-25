@@ -106,6 +106,94 @@ TEST_F(InstructionHelperTest, LWTest)
    EXPECT_EQ(mRegisters.genReg[imm.rt], -1388314500);
 }
 
+TEST_F(InstructionHelperTest, LWLTest)
+{
+   Reset();
+   InstructionSetImmediateType imm;
+   imm.rs = 0b01;
+   imm.rt = 0b10;
+
+   mRegisters.genReg[imm.rt] = 0;
+   mRegisters.genReg[imm.rs] = BIOS_ADDR + 0x150;
+   imm.immediate = 0x3;
+   mInstructionHelper->LWL(imm);
+   EXPECT_EQ(mRegisters.genReg[imm.rt], 0x3C091F80);
+
+   mRegisters.genReg[imm.rt] = 0;
+   mRegisters.genReg[imm.rs] = BIOS_ADDR + 0x151;
+   imm.immediate = 0x3;
+   mInstructionHelper->LWL(imm);
+   EXPECT_EQ(mRegisters.genReg[imm.rt], 0x00000000);
+
+   mRegisters.genReg[imm.rt] = 0;
+   mRegisters.genReg[imm.rs] = BIOS_ADDR + 0x152;
+   imm.immediate = 0x3;
+   mInstructionHelper->LWL(imm);
+   EXPECT_EQ(mRegisters.genReg[imm.rt], 0x10000000);
+
+   mRegisters.genReg[imm.rt] = 0;
+   mRegisters.genReg[imm.rs] = BIOS_ADDR + 0x153;
+   imm.immediate = 0x3;
+   mInstructionHelper->LWL(imm);
+   EXPECT_EQ(mRegisters.genReg[imm.rt], 0x29100000);
+}
+
+TEST_F(InstructionHelperTest, LWRTest)
+{
+   Reset();
+   InstructionSetImmediateType imm;
+   imm.rs = 0b01;
+   imm.rt = 0b10;
+
+   mRegisters.genReg[imm.rt] = 0;
+   mRegisters.genReg[imm.rs] = BIOS_ADDR + 0x150;
+   imm.immediate = 0x0;
+   mInstructionHelper->LWR(imm);
+   EXPECT_EQ(mRegisters.genReg[imm.rt], 0x3C091F80);
+
+   mRegisters.genReg[imm.rt] = 0;
+   mRegisters.genReg[imm.rs] = BIOS_ADDR + 0x151;
+   imm.immediate = 0x0;
+   mInstructionHelper->LWR(imm);
+   EXPECT_EQ(mRegisters.genReg[imm.rt], 0x003C091F);
+
+   mRegisters.genReg[imm.rt] = 0;
+   mRegisters.genReg[imm.rs] = BIOS_ADDR + 0x152;
+   imm.immediate = 0x0;
+   mInstructionHelper->LWR(imm);
+   EXPECT_EQ(mRegisters.genReg[imm.rt], 0x00003C09);
+
+   mRegisters.genReg[imm.rt] = 0;
+   mRegisters.genReg[imm.rs] = BIOS_ADDR + 0x153;
+   imm.immediate = 0x0;
+   mInstructionHelper->LWR(imm);
+   EXPECT_EQ(mRegisters.genReg[imm.rt], 0x0000003C);
+
+}
+
+TEST_F(InstructionHelperTest, LWLandLWRTest)
+{
+   Reset();
+   InstructionSetImmediateType imm;
+   imm.rs = 0b10;
+   // Set to the beginning of the bios
+   mRegisters.genReg[imm.rs] = BIOS_ADDR + 0x153;
+
+   mRegisters.genReg[imm.rt] = 0;
+   imm.immediate = 0x0;
+   mInstructionHelper->LWR(imm);
+   imm.immediate = 0x3;
+   mInstructionHelper->LWL(imm);
+   EXPECT_EQ(mRegisters.genReg[imm.rt], 0x2910003C);
+
+   mRegisters.genReg[imm.rt] = 0;
+   imm.immediate = 0x3;
+   mInstructionHelper->LWL(imm);
+   imm.immediate = 0x0;
+   mInstructionHelper->LWR(imm);
+   EXPECT_EQ(mRegisters.genReg[imm.rt], 0x2910003C);
+}
+
 TEST_F(InstructionHelperTest, LHUTest)
 {
    Reset();

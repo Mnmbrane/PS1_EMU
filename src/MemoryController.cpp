@@ -133,7 +133,7 @@ HalfWord MemoryController::GetHalfWord(const Word& addr)
    // Address needs to be word aligned
    if(addr % 4 != 0)
    {
-      printf("ERROR: %s Unaligned address", __func__);
+      throw std::exception();
    }
    else
    {
@@ -156,7 +156,7 @@ Word MemoryController::GetWord(const Word& addr)
    // Address needs to be word aligned
    if(addr % 4 != 0)
    {
-      printf("ERROR: %s Unaligned address", __func__);
+      throw std::exception();
    }
    else
    {

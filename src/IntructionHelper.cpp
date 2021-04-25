@@ -46,6 +46,77 @@ void InstructionHelper::LW(const InstructionSetImmediateType& imm)
    mRegisters->genReg[imm.rt] = mMemController->GetWord(addr);
 }
 
+void InstructionHelper::LWR(const InstructionSetImmediateType& imm) 
+{
+   // Unaligned address
+   Word addr = mRegisters->genReg[imm.rs] + imm.immediate;
+   // Align address(ex. 0x153 -> 0x150)
+   Word alignedAddr = (addr & ~3);
+   Word offset = (addr & 3);
+   
+   // mask is to make sure rt still has it's data
+   Word mask = ~(((4 - offset) << 8) - 1);
+
+   mRegisters->genReg[imm.rt] = 
+      (mRegisters->genReg[imm.rt] & mask ) | (mMemController->GetWord(alignedAddr) >> (offset << 3));
+}
+
+void InstructionHelper::LWL(const InstructionSetImmediateType& imm) 
+{
+   // Unaligned address
+   Word addr = mRegisters->genReg[imm.rs] + imm.immediate;
+
+   // Align address(ex. 0x156 -> 0x154)
+   Word alignedAddr = (addr & ~3);
+   Word offset = (addr & 3);
+
+   Word val = mMemController->GetWord(alignedAddr);
+
+   switch(offset)
+   {
+      case 0:
+         mRegisters->genReg[imm.rt] = (mRegisters->genReg[imm.rt] & 0x00ffffff) | (val << 24);
+         break;
+      case 1:
+         mRegisters->genReg[imm.rt] = (mRegisters->genReg[imm.rt] & 0x0000ffff) | (val << 16);
+         break;
+      case 2:
+         mRegisters->genReg[imm.rt] = (mRegisters->genReg[imm.rt] & 0x000000ff) | (val << 8);
+         break;
+      case 3:
+         mRegisters->genReg[imm.rt] = val;
+         break;
+   }
+}
+
+
+void InstructionHelper::SB(const InstructionSetImmediateType& imm) 
+{
+
+}
+
+void InstructionHelper::SH(const InstructionSetImmediateType& imm) 
+{
+
+}
+
+void InstructionHelper::SW(const InstructionSetImmediateType& imm) 
+{
+   mMemController->StoreWord(mRegisters->genReg[imm.rs] + imm.immediate,
+                             mRegisters->genReg[imm.rt]);
+}
+
+void InstructionHelper::SWL(const InstructionSetImmediateType& imm) 
+{
+
+}
+
+void InstructionHelper::SWR(const InstructionSetImmediateType& imm) 
+{
+
+}
+
+
 void InstructionHelper::LUI(const InstructionSetImmediateType& imm) 
 {
    mRegisters->genReg[imm.rt] = (imm.immediate << 16);
@@ -54,10 +125,4 @@ void InstructionHelper::LUI(const InstructionSetImmediateType& imm)
 void InstructionHelper::ORI(const InstructionSetImmediateType& imm) 
 {
    mRegisters->genReg[imm.rt] = mRegisters->genReg[imm.rs] | imm.immediate;
-}
-
-void InstructionHelper::SW(const InstructionSetImmediateType& imm) 
-{
-   mMemController->StoreWord(mRegisters->genReg[imm.rs] + imm.immediate,
-                             mRegisters->genReg[imm.rt]);
 }
