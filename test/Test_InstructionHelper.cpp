@@ -257,6 +257,40 @@ TEST_F(InstructionHelperTest, SBTest)
    EXPECT_EQ(mMemoryController->GetWord(SCRATCHPAD_ADDR + imm.immediate), 0xEF);
 }
 
+TEST_F(InstructionHelperTest, SHTest)
+{
+   Reset();
+   InstructionSetImmediateType imm;
+   imm.rs = 1;
+   imm.rt = 2;
+   // Set to the beginning of the bios
+   imm.immediate = 4;
+   mRegisters.genReg[imm.rs] = SCRATCHPAD_ADDR;
+   mRegisters.genReg[imm.rt] = 0xDEADBEEF;
+
+   mInstructionHelper->SH(imm);
+   EXPECT_EQ(mMemoryController->GetByte(SCRATCHPAD_ADDR + imm.immediate), 0xEF);
+   EXPECT_EQ(mMemoryController->GetHalfWord(SCRATCHPAD_ADDR + imm.immediate), 0xBEEF);
+   EXPECT_EQ(mMemoryController->GetWord(SCRATCHPAD_ADDR + imm.immediate), 0xBEEF);
+}
+
+TEST_F(InstructionHelperTest, SWTest)
+{
+   Reset();
+   InstructionSetImmediateType imm;
+   imm.rs = 1;
+   imm.rt = 2;
+   // Set to the beginning of the bios
+   imm.immediate = 4;
+   mRegisters.genReg[imm.rs] = SCRATCHPAD_ADDR;
+   mRegisters.genReg[imm.rt] = 0xDEADBEEF;
+
+   mInstructionHelper->SW(imm);
+   EXPECT_EQ(mMemoryController->GetByte(SCRATCHPAD_ADDR + imm.immediate), 0xEF);
+   EXPECT_EQ(mMemoryController->GetHalfWord(SCRATCHPAD_ADDR + imm.immediate), 0xBEEF);
+   EXPECT_EQ(mMemoryController->GetWord(SCRATCHPAD_ADDR + imm.immediate), 0xDEADBEEF);
+}
+
 TEST_F(InstructionHelperTest, LHUTest)
 {
    Reset();

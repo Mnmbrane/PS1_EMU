@@ -85,7 +85,8 @@ void InstructionHelper::SB(const InstructionSetImmediateType& imm)
 
 void InstructionHelper::SH(const InstructionSetImmediateType& imm) 
 {
-
+   mMemController->StoreHalfWord(mRegisters->genReg[imm.rs] + imm.immediate,
+                                 mRegisters->genReg[imm.rt]);
 }
 
 void InstructionHelper::SW(const InstructionSetImmediateType& imm) 
