@@ -68,6 +68,25 @@ TEST_F(InstructionHelperTest, LBUTest)
    EXPECT_EQ(mRegisters.genReg[imm.rt], 223);
 }
 
+TEST_F(InstructionHelperTest, LHTest)
+{
+   Reset();
+   InstructionSetImmediateType imm;
+   imm.rs = 0b10;
+   // Set to the beginning of the bios
+   mRegisters.genReg[imm.rs] = BIOS_ADDR;
+
+   // Byte Value at 0x124 is 49 6E -> 0x6E49
+   imm.immediate = 0x124;
+   mInstructionHelper->LH(imm);
+   EXPECT_EQ(mRegisters.genReg[imm.rt], 0x6E49);
+
+   // Byte Value at 0x320 is 25 F8 or -2011
+   imm.immediate = 0x228;
+   mInstructionHelper->LH(imm);
+   EXPECT_EQ(mRegisters.genReg[imm.rt], -2011);
+}
+
 TEST_F(InstructionHelperTest, LUITest)
 {
    Reset();

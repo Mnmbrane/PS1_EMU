@@ -62,5 +62,6 @@
       "stdexcept": "cpp",
       "cinttypes": "cpp",
       "typeindex": "cpp"
-   }
+   },
+   "hexdump.littleEndian": true
 }
