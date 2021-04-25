@@ -55,9 +55,10 @@ void InstructionHelper::LWR(const InstructionSetImmediateType& imm)
    Word offset = (addr & 3);
 
    // Make sure to get the original data from rt, only masking what is necessary
-   Word orgData = mRegisters->genReg[imm.rt] & ~(((4 - offset) << 8) - 1);
+   Word orgData = mRegisters->genReg[imm.rt] & 0xffffffff<<((4-offset)<<3);
 
-   mRegisters->genReg[imm.rt] = orgData | (mMemController->GetWord(alignedAddr) >> (offset << 3));
+   mRegisters->genReg[imm.rt] =
+      orgData | (mMemController->GetWord(alignedAddr) >> (offset << 3));
 }
 
 void InstructionHelper::LWL(const InstructionSetImmediateType& imm) 
@@ -70,9 +71,10 @@ void InstructionHelper::LWL(const InstructionSetImmediateType& imm)
    Word offset = (addr & 3);
 
    // Make sure to get the original data from rt, only masking what is necessary
-   Word orgData = mRegisters->genReg[imm.rt] & (1 << ((3 ^ offset) << 3)) - 1;
+   Word orgData = mRegisters->genReg[imm.rt] & (0xffffffff>>(offset<<3));
 
-   mRegisters->genReg[imm.rt] = orgData | mMemController->GetWord(alignedAddr) << ((3 ^ offset) << 3);
+   mRegisters->genReg[imm.rt] =
+      orgData | (mMemController->GetWord(alignedAddr) << ((3 ^ offset) << 3));
 }
 
 void InstructionHelper::SB(const InstructionSetImmediateType& imm) 
