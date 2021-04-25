@@ -70,25 +70,12 @@ void InstructionHelper::LWL(const InstructionSetImmediateType& imm)
    Word alignedAddr = (addr & ~3);
    Word offset = (addr & 3);
 
-   Word val = mMemController->GetWord(alignedAddr);
+   // mask is to make sure rt still has it's data
+   Word mask = (1 << ((3 ^ offset) << 3)) - 1;
 
-   switch(offset)
-   {
-      case 0:
-         mRegisters->genReg[imm.rt] = (mRegisters->genReg[imm.rt] & 0x00ffffff) | (val << 24);
-         break;
-      case 1:
-         mRegisters->genReg[imm.rt] = (mRegisters->genReg[imm.rt] & 0x0000ffff) | (val << 16);
-         break;
-      case 2:
-         mRegisters->genReg[imm.rt] = (mRegisters->genReg[imm.rt] & 0x000000ff) | (val << 8);
-         break;
-      case 3:
-         mRegisters->genReg[imm.rt] = val;
-         break;
-   }
+   mRegisters->genReg[imm.rt] =
+      (mRegisters->genReg[imm.rt] & mask ) | mMemController->GetWord(alignedAddr) << ((3 ^ offset) << 3);
 }
-
 
 void InstructionHelper::SB(const InstructionSetImmediateType& imm) 
 {
