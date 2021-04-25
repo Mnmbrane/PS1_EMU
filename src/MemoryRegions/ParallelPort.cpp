@@ -65,6 +65,7 @@ void ParallelPort::StoreByte(const Word& addr, Word val)
    {
       throw std::exception();
    }
+   *(Word*)(&mData[offset]) = 0;
    *(Byte*)(&mData[offset]) = val;
 }
    
@@ -75,6 +76,7 @@ void ParallelPort::StoreHalfWord(const Word& addr, Word val)
    {
       throw std::exception();
    }
+   *(Word*)(&mData[offset]) = 0;
    *(HalfWord*)(&mData[offset]) = val;
 }
 

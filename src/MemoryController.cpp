@@ -170,9 +170,8 @@ Word MemoryController::GetWord(const Word& addr)
    return retVal;
 }
 
-void MemoryController::StoreWord(const Word& addr, const Word val) 
+void MemoryController::StoreByte(const Word& addr, const Word val) 
 {
-   Word offset = 0;
    I_Memory* memRegion = nullptr;
    // Address needs to be word aligned
    if(addr % 4 != 0)
@@ -188,7 +187,52 @@ void MemoryController::StoreWord(const Word& addr, const Word val)
       }
       else if(memRegion != nullptr)
       {
-         memRegion->StoreWord(offset, val);
+         memRegion->StoreByte(addr, val);
+      }
+   }
+}
+
+void MemoryController::StoreHalfWord(const Word& addr, const Word val) 
+{
+   I_Memory* memRegion = nullptr;
+   // Address needs to be word aligned
+   if(addr % 4 != 0)
+   {
+      printf("ERROR: %s Unaligned address", __func__);
+   }
+   else
+   {
+      memRegion = GetMemoryRegion(addr);
+      if(memRegion == mBios)
+      {
+         throw std::exception();
+      }
+      else if(memRegion != nullptr)
+      {
+         memRegion->StoreHalfWord(addr, val);
+      }
+
+   }
+}
+
+void MemoryController::StoreWord(const Word& addr, const Word val) 
+{
+   I_Memory* memRegion = nullptr;
+   // Address needs to be word aligned
+   if(addr % 4 != 0)
+   {
+      printf("ERROR: %s Unaligned address", __func__);
+   }
+   else
+   {
+      memRegion = GetMemoryRegion(addr);
+      if(memRegion == mBios)
+      {
+         throw std::exception();
+      }
+      else if(memRegion != nullptr)
+      {
+         memRegion->StoreWord(addr, val);
       }
 
    }

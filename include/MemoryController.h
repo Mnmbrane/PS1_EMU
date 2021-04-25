@@ -26,7 +26,8 @@ namespace PSEmu
       HalfWord GetHalfWord(const Word& addr);
       Word GetWord(const Word& addr);
       
-
+      void StoreByte(const Word& addr, const Word val);
+      void StoreHalfWord(const Word& addr, const Word val);
       void StoreWord(const Word& addr, const Word val);
 
    private:

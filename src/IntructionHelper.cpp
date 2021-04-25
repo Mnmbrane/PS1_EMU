@@ -79,7 +79,8 @@ void InstructionHelper::LWL(const InstructionSetImmediateType& imm)
 
 void InstructionHelper::SB(const InstructionSetImmediateType& imm) 
 {
-
+   mMemController->StoreByte(mRegisters->genReg[imm.rs] + imm.immediate,
+                             mRegisters->genReg[imm.rt]);
 }
 
 void InstructionHelper::SH(const InstructionSetImmediateType& imm) 

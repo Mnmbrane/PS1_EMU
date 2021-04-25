@@ -23,6 +23,8 @@ struct InstructionHelperTest : public testing::Test
    void Reset()
    {
       memset(&mRegisters, GARBAGE, sizeof(mRegisters.genReg));
+      mMemoryController->Reset();
+      mMemoryController->Initialize();
       mRegisters.genReg[ZR] = 0;
    }
    RegisterType mRegisters;
@@ -34,7 +36,7 @@ TEST_F(InstructionHelperTest, LBTest)
 {
    Reset();
    InstructionSetImmediateType imm;
-   imm.rs = 0b10;
+   imm.rs = 1;
    // Set to the beginning of the bios
    mRegisters.genReg[imm.rs] = BIOS_ADDR;
 
@@ -53,7 +55,7 @@ TEST_F(InstructionHelperTest, LBUTest)
 {
    Reset();
    InstructionSetImmediateType imm;
-   imm.rs = 0b10;
+   imm.rs = 1;
    // Set to the beginning of the bios
    mRegisters.genReg[imm.rs] = BIOS_ADDR;
 
@@ -72,7 +74,7 @@ TEST_F(InstructionHelperTest, LHTest)
 {
    Reset();
    InstructionSetImmediateType imm;
-   imm.rs = 0b10;
+   imm.rs = 1;
    // Set to the beginning of the bios
    mRegisters.genReg[imm.rs] = BIOS_ADDR;
 
@@ -91,7 +93,7 @@ TEST_F(InstructionHelperTest, LWTest)
 {
    Reset();
    InstructionSetImmediateType imm;
-   imm.rs = 0b10;
+   imm.rs = 1;
    // Set to the beginning of the bios
    mRegisters.genReg[imm.rs] = BIOS_ADDR;
 
@@ -175,7 +177,7 @@ TEST_F(InstructionHelperTest, LWLandLWRTest)
 {
    Reset();
    InstructionSetImmediateType imm;
-   imm.rs = 0b10;
+   imm.rs = 1;
    // Set to the beginning of the bios
    mRegisters.genReg[imm.rs] = BIOS_ADDR + 0x153;
    mRegisters.genReg[imm.rt] = 0;
@@ -238,11 +240,28 @@ TEST_F(InstructionHelperTest, LWLandLWRTest)
    EXPECT_EQ(mRegisters.genReg[imm.rt], 0x3C091F80);
 }
 
+TEST_F(InstructionHelperTest, SBTest)
+{
+   Reset();
+   InstructionSetImmediateType imm;
+   imm.rs = 1;
+   imm.rt = 2;
+   // Set to the beginning of the bios
+   imm.immediate = 4;
+   mRegisters.genReg[imm.rs] = SCRATCHPAD_ADDR;
+   mRegisters.genReg[imm.rt] = 0xDEADBEEF;
+
+   mInstructionHelper->SB(imm);
+   EXPECT_EQ(mMemoryController->GetByte(SCRATCHPAD_ADDR + imm.immediate), 0xEF);
+   EXPECT_EQ(mMemoryController->GetHalfWord(SCRATCHPAD_ADDR + imm.immediate), 0xEF);
+   EXPECT_EQ(mMemoryController->GetWord(SCRATCHPAD_ADDR + imm.immediate), 0xEF);
+}
+
 TEST_F(InstructionHelperTest, LHUTest)
 {
    Reset();
    InstructionSetImmediateType imm;
-   imm.rs = 0b10;
+   imm.rs = 1;
    // Set to the beginning of the bios
    mRegisters.genReg[imm.rs] = BIOS_ADDR;
 
