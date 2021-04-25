@@ -53,12 +53,11 @@ void InstructionHelper::LWR(const InstructionSetImmediateType& imm)
    // Align address(ex. 0x153 -> 0x150)
    Word alignedAddr = (addr & ~3);
    Word offset = (addr & 3);
-   
-   // mask is to make sure rt still has it's data
-   Word mask = ~(((4 - offset) << 8) - 1);
 
-   mRegisters->genReg[imm.rt] = 
-      (mRegisters->genReg[imm.rt] & mask ) | (mMemController->GetWord(alignedAddr) >> (offset << 3));
+   // Make sure to get the original data from rt, only masking what is necessary
+   Word orgData = mRegisters->genReg[imm.rt] & ~(((4 - offset) << 8) - 1);
+
+   mRegisters->genReg[imm.rt] = orgData | (mMemController->GetWord(alignedAddr) >> (offset << 3));
 }
 
 void InstructionHelper::LWL(const InstructionSetImmediateType& imm) 
@@ -70,11 +69,10 @@ void InstructionHelper::LWL(const InstructionSetImmediateType& imm)
    Word alignedAddr = (addr & ~3);
    Word offset = (addr & 3);
 
-   // mask is to make sure rt still has it's data
-   Word mask = (1 << ((3 ^ offset) << 3)) - 1;
+   // Make sure to get the original data from rt, only masking what is necessary
+   Word orgData = mRegisters->genReg[imm.rt] & (1 << ((3 ^ offset) << 3)) - 1;
 
-   mRegisters->genReg[imm.rt] =
-      (mRegisters->genReg[imm.rt] & mask ) | mMemController->GetWord(alignedAddr) << ((3 ^ offset) << 3);
+   mRegisters->genReg[imm.rt] = orgData | mMemController->GetWord(alignedAddr) << ((3 ^ offset) << 3);
 }
 
 void InstructionHelper::SB(const InstructionSetImmediateType& imm) 
