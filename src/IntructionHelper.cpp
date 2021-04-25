@@ -40,6 +40,12 @@ void InstructionHelper::LHU(const InstructionSetImmediateType& imm)
    mRegisters->genReg[imm.rt] = mMemController->GetHalfWord(addr);
 }
 
+void InstructionHelper::LW(const InstructionSetImmediateType& imm) 
+{
+   Word addr = mRegisters->genReg[imm.rs] + imm.immediate;
+   mRegisters->genReg[imm.rt] = mMemController->GetWord(addr);
+}
+
 void InstructionHelper::LUI(const InstructionSetImmediateType& imm) 
 {
    mRegisters->genReg[imm.rt] = (imm.immediate << 16);
