@@ -34,6 +34,12 @@ void InstructionHelper::LH(const InstructionSetImmediateType& imm)
    mRegisters->genReg[imm.rt] = SIGNED_HALFWORD(mMemController->GetHalfWord(addr));
 }
 
+void InstructionHelper::LHU(const InstructionSetImmediateType& imm) 
+{
+   Word addr = mRegisters->genReg[imm.rs] + imm.immediate;
+   mRegisters->genReg[imm.rt] = mMemController->GetHalfWord(addr);
+}
+
 void InstructionHelper::LUI(const InstructionSetImmediateType& imm) 
 {
    mRegisters->genReg[imm.rt] = (imm.immediate << 16);
