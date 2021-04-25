@@ -49,6 +49,25 @@ TEST_F(InstructionHelperTest, LBTest)
    EXPECT_EQ(mRegisters.genReg[imm.rt], -33);
 }
 
+TEST_F(InstructionHelperTest, LBUTest)
+{
+   Reset();
+   InstructionSetImmediateType imm;
+   imm.rs = 0b10;
+   // Set to the beginning of the bios
+   mRegisters.genReg[imm.rs] = BIOS_ADDR;
+
+   // Byte Value at 0x124 is 49
+   imm.immediate = 0x124;
+   mInstructionHelper->LBU(imm);
+   EXPECT_EQ(mRegisters.genReg[imm.rt], 0x49);
+
+   // Byte Value at 0x124 is DF or 223 signed
+   imm.immediate = 0x320;
+   mInstructionHelper->LBU(imm);
+   EXPECT_EQ(mRegisters.genReg[imm.rt], 223);
+}
+
 TEST_F(InstructionHelperTest, LUITest)
 {
    Reset();

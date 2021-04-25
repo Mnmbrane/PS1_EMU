@@ -21,6 +21,12 @@ void InstructionHelper::LB(const InstructionSetImmediateType& imm)
    mRegisters->genReg[imm.rt] = SIGNED_BYTE(mMemController->GetByte(addr));
 }
 
+void InstructionHelper::LBU(const InstructionSetImmediateType& imm) 
+{
+   Word addr = mRegisters->genReg[imm.rs] + imm.immediate;
+   mRegisters->genReg[imm.rt] = mMemController->GetByte(addr);
+}
+
 void InstructionHelper::LUI(const InstructionSetImmediateType& imm) 
 {
    mRegisters->genReg[imm.rt] = (imm.immediate << 16);

@@ -11,13 +11,23 @@ namespace PSEmu
       InstructionHelper(MemoryController* memControl, RegisterType* reg);
       ~InstructionHelper();
       /**
-       * LUI - Load Byte
+       * LB - Load Byte
        * Sign-extend 16-bit offset and add to contents of register base to form address.
        * Sign-extend contents of addressed byte and load into rt.
        * 
        * @param[in] imm        - The immediate instruction
        */
       void LB(const InstructionSetImmediateType& imm);
+
+      /**
+       * LBU - Load Byte Unsigned
+       * Sign-extend 16-bit offset and add to contents of register base to form address.
+       * Zero-extend contents of addressed byte and load into rt.
+       * 
+       * @param[in] imm        - The immediate instruction
+       */
+      void LBU(const InstructionSetImmediateType& imm);
+
       /**
        * LUI - Load Upper Immediate
        * Shift 16-bit immediate left 16 bits. Set least significant 16 bits of word to zeroes.
@@ -49,4 +59,5 @@ namespace PSEmu
       MemoryController* mMemController;
       RegisterType* mRegisters;
    };
+   
 }
