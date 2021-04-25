@@ -10,9 +10,8 @@ int main()
 
    b->Initialize();
 
-   unsigned int num = 0xdeadbeef; 
-
-   printf("%x\n", (*(char*)&num));
+   unsigned int num = 0xdeadbeef;
+   Byte arr[4] = {};
 
    delete b;
    return 0;

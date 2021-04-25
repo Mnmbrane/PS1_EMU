@@ -11,7 +11,8 @@ using namespace PSEmu;
 
 CPU::CPU() :
    mRegisters{},
-   mMemController(new MemoryController())
+   mMemController(new MemoryController()),
+   mInstructionHelper(new InstructionHelper(mMemController, &mRegisters))
 {
 }
 
@@ -49,13 +50,13 @@ void CPU::ExecuteInstruction(const InstructionDecodeType& instruction)
    switch(opcode)
    {
       case OP_LUI:
-         InstructionHelper::LUI(instruction.immType, mRegisters);
+         mInstructionHelper->LUI(instruction.immType);
          break;
       case OP_ORI:
-         InstructionHelper::ORI(instruction.immType, mRegisters);
+         mInstructionHelper->ORI(instruction.immType);
          break;
       case OP_SW:
-         InstructionHelper::SW(instruction.immType, mRegisters, mMemController);
+         mInstructionHelper->SW(instruction.immType);
          break;
       default:
          printf("ERROR: Wrong instruction type");

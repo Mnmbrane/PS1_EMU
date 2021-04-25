@@ -5,6 +5,7 @@
 namespace PSEmu
 {
    class MemoryController;
+   class InstructionHelper;
 
    class CPU : public I_Component
    {
@@ -53,6 +54,8 @@ namespace PSEmu
       RegisterType mRegisters;
 
       MemoryController* mMemController;
+
+      InstructionHelper* mInstructionHelper;
    };
 }
 

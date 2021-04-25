@@ -3,30 +3,32 @@
 
 using namespace PSEmu;
 
-void InstructionHelper::LB(const InstructionSetImmediateType& imm,
-                           RegisterType& registers) 
+InstructionHelper::InstructionHelper(MemoryController* memControl, RegisterType* reg) :
+   mMemController(memControl),
+   mRegisters(reg)
 {
-   Word val = 0;
+}
+
+InstructionHelper::~InstructionHelper() { }
+
+void InstructionHelper::LB(const InstructionSetImmediateType& imm) 
+{
    Word addr = imm.rs + imm.immediate;
    
 }
 
-void InstructionHelper::LUI(const InstructionSetImmediateType& imm,
-                            RegisterType& registers) 
+void InstructionHelper::LUI(const InstructionSetImmediateType& imm) 
 {
-   registers.genReg[imm.rt] = (imm.immediate << 16);
+   mRegisters->genReg[imm.rt] = (imm.immediate << 16);
 }
 
-void InstructionHelper::ORI(const InstructionSetImmediateType& imm,
-                            RegisterType& registers) 
+void InstructionHelper::ORI(const InstructionSetImmediateType& imm) 
 {
-   registers.genReg[imm.rt] = registers.genReg[imm.rs] | imm.immediate;
+   mRegisters->genReg[imm.rt] = mRegisters->genReg[imm.rs] | imm.immediate;
 }
 
-void InstructionHelper::SW(const InstructionSetImmediateType& imm,
-                           RegisterType& registers,
-                           MemoryController* memControl) 
+void InstructionHelper::SW(const InstructionSetImmediateType& imm) 
 {
-   memControl->StoreWord(registers.genReg[imm.rs] + imm.immediate,
-                         registers.genReg[imm.rt]);
+   mMemController->StoreWord(mRegisters->genReg[imm.rs] + imm.immediate,
+                             mRegisters->genReg[imm.rt]);
 }
