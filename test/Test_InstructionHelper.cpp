@@ -115,29 +115,29 @@ TEST_F(InstructionHelperTest, LWLTest)
    imm.rs = 0b01;
    imm.rt = 0b10;
 
-   mRegisters.genReg[imm.rt] = 0;
+   mRegisters.genReg[imm.rt] = GARBAGE;
    mRegisters.genReg[imm.rs] = BIOS_ADDR + 0x150;
    imm.immediate = 0x3;
    mInstructionHelper->LWL(imm);
    EXPECT_EQ(mRegisters.genReg[imm.rt], 0x3C091F80);
 
-   mRegisters.genReg[imm.rt] = 0;
+   mRegisters.genReg[imm.rt] = GARBAGE;
    mRegisters.genReg[imm.rs] = BIOS_ADDR + 0x151;
    imm.immediate = 0x3;
    mInstructionHelper->LWL(imm);
-   EXPECT_EQ(mRegisters.genReg[imm.rt], 0x00000000);
+   EXPECT_EQ(mRegisters.genReg[imm.rt], GARBAGE >> 8);
 
-   mRegisters.genReg[imm.rt] = 0;
+   mRegisters.genReg[imm.rt] = GARBAGE;
    mRegisters.genReg[imm.rs] = BIOS_ADDR + 0x152;
    imm.immediate = 0x3;
    mInstructionHelper->LWL(imm);
-   EXPECT_EQ(mRegisters.genReg[imm.rt], 0x10000000);
+   EXPECT_EQ(mRegisters.genReg[imm.rt], (GARBAGE >> 16) | 0x10000000);
 
-   mRegisters.genReg[imm.rt] = 0;
+   mRegisters.genReg[imm.rt] = GARBAGE;
    mRegisters.genReg[imm.rs] = BIOS_ADDR + 0x153;
    imm.immediate = 0x3;
    mInstructionHelper->LWL(imm);
-   EXPECT_EQ(mRegisters.genReg[imm.rt], 0x29100000);
+   EXPECT_EQ(mRegisters.genReg[imm.rt], (GARBAGE >> 24) | 0x29100000);
 }
 
 TEST_F(InstructionHelperTest, LWRTest)
@@ -147,29 +147,29 @@ TEST_F(InstructionHelperTest, LWRTest)
    imm.rs = 0b01;
    imm.rt = 0b10;
 
-   mRegisters.genReg[imm.rt] = 0;
+   mRegisters.genReg[imm.rt] = GARBAGE;
    mRegisters.genReg[imm.rs] = BIOS_ADDR + 0x150;
    imm.immediate = 0x0;
    mInstructionHelper->LWR(imm);
    EXPECT_EQ(mRegisters.genReg[imm.rt], 0x3C091F80);
 
-   mRegisters.genReg[imm.rt] = 0;
+   mRegisters.genReg[imm.rt] = GARBAGE;
    mRegisters.genReg[imm.rs] = BIOS_ADDR + 0x151;
    imm.immediate = 0x0;
    mInstructionHelper->LWR(imm);
-   EXPECT_EQ(mRegisters.genReg[imm.rt], 0x003C091F);
+   EXPECT_EQ(mRegisters.genReg[imm.rt], (GARBAGE << 24) | 0x003C091F);
 
-   mRegisters.genReg[imm.rt] = 0;
+   mRegisters.genReg[imm.rt] = GARBAGE;
    mRegisters.genReg[imm.rs] = BIOS_ADDR + 0x152;
    imm.immediate = 0x0;
    mInstructionHelper->LWR(imm);
-   EXPECT_EQ(mRegisters.genReg[imm.rt], 0x00003C09);
+   EXPECT_EQ(mRegisters.genReg[imm.rt], (GARBAGE << 16) | 0x00003C09);
 
-   mRegisters.genReg[imm.rt] = 0;
+   mRegisters.genReg[imm.rt] = GARBAGE;
    mRegisters.genReg[imm.rs] = BIOS_ADDR + 0x153;
    imm.immediate = 0x0;
    mInstructionHelper->LWR(imm);
-   EXPECT_EQ(mRegisters.genReg[imm.rt], 0x0000003C);
+   EXPECT_EQ(mRegisters.genReg[imm.rt], (GARBAGE << 8) | 0x0000003C);
 
 }
 
@@ -180,14 +180,14 @@ TEST_F(InstructionHelperTest, LWLandLWRTest)
    imm.rs = 1;
    // Set to the beginning of the bios
    mRegisters.genReg[imm.rs] = BIOS_ADDR + 0x153;
-   mRegisters.genReg[imm.rt] = 0;
+   mRegisters.genReg[imm.rt] = GARBAGE;
    imm.immediate = 0x0;
    mInstructionHelper->LWR(imm);
    imm.immediate = 0x3;
    mInstructionHelper->LWL(imm);
    EXPECT_EQ(mRegisters.genReg[imm.rt], 0x2910003C);
 
-   mRegisters.genReg[imm.rt] = 0;
+   mRegisters.genReg[imm.rt] = GARBAGE;
    imm.immediate = 0x3;
    mInstructionHelper->LWL(imm);
    imm.immediate = 0x0;
@@ -195,14 +195,14 @@ TEST_F(InstructionHelperTest, LWLandLWRTest)
    EXPECT_EQ(mRegisters.genReg[imm.rt], 0x2910003C);
 
    mRegisters.genReg[imm.rs] = BIOS_ADDR + 0x152;
-   mRegisters.genReg[imm.rt] = 0;
+   mRegisters.genReg[imm.rt] = GARBAGE;
    imm.immediate = 0x0;
    mInstructionHelper->LWR(imm);
    imm.immediate = 0x3;
    mInstructionHelper->LWL(imm);
    EXPECT_EQ(mRegisters.genReg[imm.rt], 0x10003C09);
 
-   mRegisters.genReg[imm.rt] = 0;
+   mRegisters.genReg[imm.rt] = GARBAGE;
    imm.immediate = 0x3;
    mInstructionHelper->LWL(imm);
    imm.immediate = 0x0;
@@ -210,14 +210,14 @@ TEST_F(InstructionHelperTest, LWLandLWRTest)
    EXPECT_EQ(mRegisters.genReg[imm.rt], 0x10003C09);
 
    mRegisters.genReg[imm.rs] = BIOS_ADDR + 0x151;
-   mRegisters.genReg[imm.rt] = 0;
+   mRegisters.genReg[imm.rt] = GARBAGE;
    imm.immediate = 0x0;
    mInstructionHelper->LWR(imm);
    imm.immediate = 0x3;
    mInstructionHelper->LWL(imm);
    EXPECT_EQ(mRegisters.genReg[imm.rt], 0x003C091F);
 
-   mRegisters.genReg[imm.rt] = 0;
+   mRegisters.genReg[imm.rt] = GARBAGE;
    imm.immediate = 0x3;
    mInstructionHelper->LWL(imm);
    imm.immediate = 0x0;
@@ -225,14 +225,14 @@ TEST_F(InstructionHelperTest, LWLandLWRTest)
    EXPECT_EQ(mRegisters.genReg[imm.rt], 0x003C091F);
 
    mRegisters.genReg[imm.rs] = BIOS_ADDR + 0x150;
-   mRegisters.genReg[imm.rt] = 0;
+   mRegisters.genReg[imm.rt] = GARBAGE;
    imm.immediate = 0x0;
    mInstructionHelper->LWR(imm);
    imm.immediate = 0x3;
    mInstructionHelper->LWL(imm);
    EXPECT_EQ(mRegisters.genReg[imm.rt], 0x3C091F80);
 
-   mRegisters.genReg[imm.rt] = 0;
+   mRegisters.genReg[imm.rt] = GARBAGE;
    imm.immediate = 0x3;
    mInstructionHelper->LWL(imm);
    imm.immediate = 0x0;
