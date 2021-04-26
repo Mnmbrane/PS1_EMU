@@ -253,8 +253,8 @@ TEST_F(InstructionHelperTest, SBTest)
 
    mInstructionHelper->SB(imm);
    EXPECT_EQ(mMemoryController->GetByte(SCRATCHPAD_ADDR + imm.immediate), 0xEF);
-   EXPECT_EQ(mMemoryController->GetHalfWord(SCRATCHPAD_ADDR + imm.immediate), 0xEF);
-   EXPECT_EQ(mMemoryController->GetWord(SCRATCHPAD_ADDR + imm.immediate), 0xEF);
+   EXPECT_EQ(mMemoryController->GetHalfWord(SCRATCHPAD_ADDR + imm.immediate), 0x6BEF);
+   EXPECT_EQ(mMemoryController->GetWord(SCRATCHPAD_ADDR + imm.immediate), 0x6B6B6BEF);
 }
 
 TEST_F(InstructionHelperTest, SHTest)
@@ -271,7 +271,7 @@ TEST_F(InstructionHelperTest, SHTest)
    mInstructionHelper->SH(imm);
    EXPECT_EQ(mMemoryController->GetByte(SCRATCHPAD_ADDR + imm.immediate), 0xEF);
    EXPECT_EQ(mMemoryController->GetHalfWord(SCRATCHPAD_ADDR + imm.immediate), 0xBEEF);
-   EXPECT_EQ(mMemoryController->GetWord(SCRATCHPAD_ADDR + imm.immediate), 0xBEEF);
+   EXPECT_EQ(mMemoryController->GetWord(SCRATCHPAD_ADDR + imm.immediate), 0x6B6BBEEF);
 }
 
 TEST_F(InstructionHelperTest, SWTest)
