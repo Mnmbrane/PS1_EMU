@@ -125,16 +125,54 @@ namespace PSEmu
       void SWR(const InstructionSetImmediateType& imm);
 
       /**
-       * LUI - Load Upper Immediate
-       * Shift 16-bit immediate left 16 bits. Set least significant 16 bits of word to zeroes.
-       * Store result in register rt.
+       * ADDI - ADD Immediate
+       * Add 16-bit sign-extended immediate to register rs and place 32-bit result in
+       * register rt . Trap on two’s complement overflow.
        * 
-       * @param[in] imm        - The immediate instruction
+       * @param imm        - The immediate instruction
        */
-      void LUI(const InstructionSetImmediateType& imm);
+      void ADDI(const InstructionSetImmediateType& imm);
 
       /**
-       * ORI OR Immediate
+       * ADDIU - ADD Immediate Unsigned
+       * Add 16-bit sign-extended immediate to register rs and place 32-bit result in
+       * register rt . Do not trap on overflow.
+       * 
+       * @param imm        - The immediate instruction
+       */
+      void ADDIU(const InstructionSetImmediateType& imm);
+
+      /**
+       * SLTI - Set on Less Than Immediate
+       * Compare 16-bit sign-extended immediate with register rs as signed 32-bit
+       * integers. Result = 1 if rs is less than immediate; otherwise result = 0.
+       * Place result in register rt.
+       * 
+       * @param imm        - The immediate instruction
+       */
+      void SLTI(const InstructionSetImmediateType& imm);
+
+      /**
+       * SLTIU - Set on Less Than Unsigned Immediate
+       * Compare 16-bit sign-extended immediate with register rs as unsigned 32-bit
+       * integers. Result = 1 if rs is less than immediate; otherwise result = 0. Place
+       * result in register rt. Do not trap on overflow.
+       *
+       * @param imm        - The immediate instruction
+       */
+      void SLTIU(const InstructionSetImmediateType& imm);
+
+      /**
+       * ANDI - AND Immediate
+       * Zero-extend 16-bit immediate, AND with contents of register rs and place result
+       * in register rt.
+       *
+       * @param imm        - The immediate instruction
+       */
+      void ANDI(const InstructionSetImmediateType& imm);
+
+      /**
+       * ORI - OR Immediate
        * Zero-extend 16-bit immediate, OR with contents of register rs and place result in
        * register rt.
        * 
@@ -142,6 +180,23 @@ namespace PSEmu
        */
       void ORI(const InstructionSetImmediateType& imm);
 
+      /**
+       * XORI - Exclusive OR Immediate
+       * Zero-extend 16-bit immediate, exclusive OR with contents of register rs and
+       * place result in register rt.
+       * 
+       * @param imm        - The immediate instruction
+       */
+      void XORI(const InstructionSetImmediateType& imm);
+
+      /**
+       * LUI - Load Upper Immediate
+       * Shift 16-bit immediate left 16 bits. Set least significant 16 bits of word to zeroes.
+       * Store result in register rt.
+       * 
+       * @param[in] imm        - The immediate instruction
+       */
+      void LUI(const InstructionSetImmediateType& imm);
 
    private:
       MemoryController* mMemController;

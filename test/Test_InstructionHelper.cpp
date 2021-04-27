@@ -410,7 +410,6 @@ TEST_F(InstructionHelperTest, SWLandSWRTest)
    EXPECT_EQ(mMemoryController->GetWord(SCRATCHPAD_ADDR + 4), 0xDEADBEEF);
 }
 
-
 TEST_F(InstructionHelperTest, LHUTest)
 {
    Reset();
@@ -459,4 +458,9 @@ TEST_F(InstructionHelperTest, ORTest)
    mInstructionHelper->ORI(imm2);
 
    EXPECT_EQ(mRegisters.genReg[imm2.rt], 0xABCD0000 | 0xDEAD);
+}
+
+TEST_F(InstructionHelperTest, ADDITest)
+{
+
 }

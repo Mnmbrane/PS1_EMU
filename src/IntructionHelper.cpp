@@ -1,10 +1,13 @@
 #include "InstructionHelper.h"
 #include "MemoryController.h"
 
+#include <exception>
+
 using namespace PSEmu;
 
 #define SIGNED_BYTE(x) ((x << 24) >> 24)
 #define SIGNED_HALFWORD(x) ((x << 16) >> 16)
+#define SIGNED_IMM(x) SIGNED_HALFWORD(x)
 
 InstructionHelper::InstructionHelper(MemoryController* memControl, RegisterType* reg) :
    mMemController(memControl),
@@ -16,40 +19,40 @@ InstructionHelper::~InstructionHelper() { }
 
 void InstructionHelper::LB(const InstructionSetImmediateType& imm) 
 {
-   Word addr = mRegisters->genReg[imm.rs] + imm.immediate;
+   Word addr = mRegisters->genReg[imm.rs] + SIGNED_IMM(imm.immediate);
 
    mRegisters->genReg[imm.rt] = SIGNED_BYTE(mMemController->GetByte(addr));
 }
 
 void InstructionHelper::LBU(const InstructionSetImmediateType& imm) 
 {
-   Word addr = mRegisters->genReg[imm.rs] + imm.immediate;
+   Word addr = mRegisters->genReg[imm.rs] + SIGNED_IMM(imm.immediate);
    mRegisters->genReg[imm.rt] = mMemController->GetByte(addr);
 }
 
 void InstructionHelper::LH(const InstructionSetImmediateType& imm) 
 {
-   Word addr = mRegisters->genReg[imm.rs] + imm.immediate;
+   Word addr = mRegisters->genReg[imm.rs] + SIGNED_IMM(imm.immediate);
 
    mRegisters->genReg[imm.rt] = SIGNED_HALFWORD(mMemController->GetHalfWord(addr));
 }
 
 void InstructionHelper::LHU(const InstructionSetImmediateType& imm) 
 {
-   Word addr = mRegisters->genReg[imm.rs] + imm.immediate;
+   Word addr = mRegisters->genReg[imm.rs] + SIGNED_IMM(imm.immediate);
    mRegisters->genReg[imm.rt] = mMemController->GetHalfWord(addr);
 }
 
 void InstructionHelper::LW(const InstructionSetImmediateType& imm) 
 {
-   Word addr = mRegisters->genReg[imm.rs] + imm.immediate;
+   Word addr = mRegisters->genReg[imm.rs] + SIGNED_IMM(imm.immediate);
    mRegisters->genReg[imm.rt] = mMemController->GetWord(addr);
 }
 
 void InstructionHelper::LWR(const InstructionSetImmediateType& imm) 
 {
    // Unaligned address
-   Word addr = mRegisters->genReg[imm.rs] + imm.immediate;
+   Word addr = mRegisters->genReg[imm.rs] + SIGNED_IMM(imm.immediate);
    // Align address(ex. 0x153 -> 0x150)
    Word alignedAddr = (addr & ~3);
    Word offset = (addr & 3);
@@ -64,7 +67,7 @@ void InstructionHelper::LWR(const InstructionSetImmediateType& imm)
 void InstructionHelper::LWL(const InstructionSetImmediateType& imm) 
 {
    // Unaligned address
-   Word addr = mRegisters->genReg[imm.rs] + imm.immediate;
+   Word addr = mRegisters->genReg[imm.rs] + SIGNED_IMM(imm.immediate);
 
    // Align address(ex. 0x156 -> 0x154)
    Word alignedAddr = (addr & ~3);
@@ -79,13 +82,13 @@ void InstructionHelper::LWL(const InstructionSetImmediateType& imm)
 
 void InstructionHelper::SB(const InstructionSetImmediateType& imm) 
 {
-   mMemController->StoreByte(mRegisters->genReg[imm.rs] + imm.immediate,
+   mMemController->StoreByte(mRegisters->genReg[imm.rs] + SIGNED_IMM(imm.immediate),
                              mRegisters->genReg[imm.rt]);
 }
 
 void InstructionHelper::SH(const InstructionSetImmediateType& imm) 
 {
-   mMemController->StoreHalfWord(mRegisters->genReg[imm.rs] + imm.immediate,
+   mMemController->StoreHalfWord(mRegisters->genReg[imm.rs] + SIGNED_IMM(imm.immediate),
                                  mRegisters->genReg[imm.rt]);
 }
 
@@ -124,12 +127,53 @@ void InstructionHelper::SWL(const InstructionSetImmediateType& imm)
    mMemController->StoreWord(alignedAddr, origData | (mRegisters->genReg[imm.rt] >> shift));
 }
 
-void InstructionHelper::LUI(const InstructionSetImmediateType& imm) 
+
+void InstructionHelper::ADDI(const InstructionSetImmediateType& imm) 
 {
-   mRegisters->genReg[imm.rt] = (imm.immediate << 16);
+   Word regVal = mRegisters->genReg[imm.rs];
+   Word addVal = (int)regVal + (int)SIGNED_IMM(imm.immediate);
+   if( addVal < (int)regVal)
+   {
+      // overflow
+      throw std::exception();
+   }
+   else
+   {
+      mRegisters->genReg[imm.rt] = addVal;
+   }
+}
+
+void InstructionHelper::ADDIU(const InstructionSetImmediateType& imm) 
+{
+   mRegisters->genReg[imm.rt] = mRegisters->genReg[imm.rs] + SIGNED_IMM(imm.immediate);
+}
+
+void InstructionHelper::SLTI(const InstructionSetImmediateType& imm) 
+{
+   mRegisters->genReg[imm.rt] = (int)mRegisters->genReg[imm.rs] < (int)SIGNED_IMM(imm.immediate);
+}
+
+void InstructionHelper::SLTIU(const InstructionSetImmediateType& imm) 
+{
+   mRegisters->genReg[imm.rt] = mRegisters->genReg[imm.rs] < SIGNED_IMM(imm.immediate);
+}
+
+void InstructionHelper::ANDI(const InstructionSetImmediateType& imm) 
+{
+   mRegisters->genReg[imm.rt] = mRegisters->genReg[imm.rs] & imm.immediate;
 }
 
 void InstructionHelper::ORI(const InstructionSetImmediateType& imm) 
 {
    mRegisters->genReg[imm.rt] = mRegisters->genReg[imm.rs] | imm.immediate;
+}
+
+void InstructionHelper::XORI(const InstructionSetImmediateType& imm) 
+{
+    mRegisters->genReg[imm.rt] = mRegisters->genReg[imm.rs] ^ imm.immediate;
+}
+
+void InstructionHelper::LUI(const InstructionSetImmediateType& imm) 
+{
+   mRegisters->genReg[imm.rt] = (imm.immediate << 16);
 }
