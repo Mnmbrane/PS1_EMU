@@ -291,6 +291,54 @@ TEST_F(InstructionHelperTest, SWTest)
    EXPECT_EQ(mMemoryController->GetWord(SCRATCHPAD_ADDR + imm.immediate), 0xDEADBEEF);
 }
 
+TEST_F(InstructionHelperTest, SWLTest)
+{
+   Reset();
+   InstructionSetImmediateType imm;
+   imm.rs = 1;
+   imm.rt = 2;
+
+   mRegisters.genReg[imm.rs] = SCRATCHPAD_ADDR;
+   mRegisters.genReg[imm.rt] = 0xDEADBEEF;
+   imm.immediate = 6;
+   mInstructionHelper->SWL(imm);
+   EXPECT_EQ(mMemoryController->GetWord(SCRATCHPAD_ADDR + 4), 0x6BDEADBE);
+
+   // Reset();
+   // mRegisters.genReg[imm.rs] = SCRATCHPAD_ADDR;
+   // mRegisters.genReg[imm.rt] = 0xDEADBEEF;
+   // imm.immediate = 7;
+   // mInstructionHelper->SWL(imm);
+   // EXPECT_EQ(mMemoryController->GetWord(SCRATCHPAD_ADDR + 4), 0xDEADBEEF);
+}
+
+TEST_F(InstructionHelperTest, SWRTest)
+{
+   Reset();
+   InstructionSetImmediateType imm;
+   imm.rs = 1;
+   imm.rt = 2;
+   imm.immediate = 3;
+   mRegisters.genReg[imm.rs] = SCRATCHPAD_ADDR;
+   mRegisters.genReg[imm.rt] = 0xDEADBEEF;
+
+   mInstructionHelper->SWR(imm);
+   EXPECT_EQ(mMemoryController->GetWord(SCRATCHPAD_ADDR), 0xEF6b6b6b);
+}
+
+TEST_F(InstructionHelperTest, SWLandSWRTest)
+{
+   Reset();
+   InstructionSetImmediateType imm;
+   imm.rs = 1;
+   imm.rt = 2;
+   imm.immediate = 0;
+   mRegisters.genReg[imm.rs] = SCRATCHPAD_ADDR;
+   mRegisters.genReg[imm.rt] = 0xDEADBEEF;
+
+}
+
+
 TEST_F(InstructionHelperTest, LHUTest)
 {
    Reset();

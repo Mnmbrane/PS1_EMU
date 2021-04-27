@@ -68,11 +68,12 @@ void InstructionHelper::LWL(const InstructionSetImmediateType& imm)
    // Align address(ex. 0x156 -> 0x154)
    Word alignedAddr = (addr & ~3);
    Word offset = (addr & 3);
+   Word shift = (3 ^ offset) << 3;
 
    // Make sure to get the original data from rt, only masking what is necessary
-   Word origData = mRegisters->genReg[imm.rt] & (1 << ((3 ^ offset) << 3)) - 1;
+   Word origData = mRegisters->genReg[imm.rt] & (1 << shift) - 1;
 
-   mRegisters->genReg[imm.rt] = origData | mMemController->GetWord(alignedAddr) << ((3 ^ offset) << 3);
+   mRegisters->genReg[imm.rt] = origData | (mMemController->GetWord(alignedAddr) << shift);
 }
 
 void InstructionHelper::SB(const InstructionSetImmediateType& imm) 
@@ -93,16 +94,34 @@ void InstructionHelper::SW(const InstructionSetImmediateType& imm)
                              mRegisters->genReg[imm.rt]);
 }
 
-void InstructionHelper::SWL(const InstructionSetImmediateType& imm) 
-{
-
-}
-
 void InstructionHelper::SWR(const InstructionSetImmediateType& imm) 
 {
+   // Unaligned address
+   Word addr = mRegisters->genReg[imm.rs] + imm.immediate;
 
+   // Align address(ex. 0x156 -> 0x154)
+   Word alignedAddr = (addr & ~3);
+   Word offset = (addr & 3);
+   Word shift = offset<<3;
+
+   Word origData = mMemController->GetWord(alignedAddr) & ~(0xffffffff<<(shift));
+
+   mMemController->StoreWord(alignedAddr, origData | (mRegisters->genReg[imm.rt] << shift));
 }
 
+void InstructionHelper::SWL(const InstructionSetImmediateType& imm) 
+{
+   // Unaligned address
+   Word addr = mRegisters->genReg[imm.rs] + imm.immediate;
+
+   // Align address(ex. 0x156 -> 0x154)
+   Word alignedAddr = (addr & ~3);
+   Word offset =  (addr & 3);
+   Word shift = ((~offset) & 3) << 3;
+
+   Word origData = mMemController->GetWord(alignedAddr) & ~(0xffffffff >> (shift));
+   mMemController->StoreWord(alignedAddr, origData | (mRegisters->genReg[imm.rt] >> shift));
+}
 
 void InstructionHelper::LUI(const InstructionSetImmediateType& imm) 
 {
