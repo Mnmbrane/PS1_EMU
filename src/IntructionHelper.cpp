@@ -53,11 +53,12 @@ void InstructionHelper::LWR(const InstructionSetImmediateType& imm)
    // Align address(ex. 0x153 -> 0x150)
    Word alignedAddr = (addr & ~3);
    Word offset = (addr & 3);
+   Word shift = offset<<3;
 
    // Make sure to get the original data from rt, only masking what is necessary
-   Word origData = mRegisters->genReg[imm.rt] & ~(0xffffffff>>(offset<<3));
+   Word origData = mRegisters->genReg[imm.rt] & ~(0xffffffff>>shift);
 
-   mRegisters->genReg[imm.rt] = origData | (mMemController->GetWord(alignedAddr) >> (offset << 3));
+   mRegisters->genReg[imm.rt] = origData | (mMemController->GetWord(alignedAddr) >> shift);
 }
 
 void InstructionHelper::LWL(const InstructionSetImmediateType& imm) 

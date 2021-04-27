@@ -27,6 +27,12 @@ struct InstructionHelperTest : public testing::Test
       mMemoryController->Initialize();
       mRegisters.genReg[ZR] = 0;
    }
+   void StoreTestReset(InstructionSetImmediateType& imm)
+   {
+      Reset();
+      mRegisters.genReg[imm.rs] = SCRATCHPAD_ADDR;
+      mRegisters.genReg[imm.rt] = 0xDEADBEEF;
+   }
    RegisterType mRegisters;
    MemoryController* mMemoryController;
    InstructionHelper* mInstructionHelper;
@@ -293,49 +299,115 @@ TEST_F(InstructionHelperTest, SWTest)
 
 TEST_F(InstructionHelperTest, SWLTest)
 {
-   Reset();
    InstructionSetImmediateType imm;
    imm.rs = 1;
    imm.rt = 2;
 
-   mRegisters.genReg[imm.rs] = SCRATCHPAD_ADDR;
-   mRegisters.genReg[imm.rt] = 0xDEADBEEF;
+   StoreTestReset(imm);
+   imm.immediate = 3;
+   mInstructionHelper->SWL(imm);
+   EXPECT_EQ(mMemoryController->GetWord(SCRATCHPAD_ADDR + 4), 0x6B6B6B6B);
+   EXPECT_EQ(mMemoryController->GetWord(SCRATCHPAD_ADDR), 0xDEADBEEF);
+
+   StoreTestReset(imm);
+   imm.immediate = 4;
+   mInstructionHelper->SWL(imm);
+   EXPECT_EQ(mMemoryController->GetWord(SCRATCHPAD_ADDR + 4), 0x6B6B6BDE);
+
+   StoreTestReset(imm);
+   imm.immediate = 5;
+   mInstructionHelper->SWL(imm);
+   EXPECT_EQ(mMemoryController->GetWord(SCRATCHPAD_ADDR + 4), 0x6B6BDEAD);
+
+   StoreTestReset(imm);
    imm.immediate = 6;
    mInstructionHelper->SWL(imm);
    EXPECT_EQ(mMemoryController->GetWord(SCRATCHPAD_ADDR + 4), 0x6BDEADBE);
 
-   // Reset();
-   // mRegisters.genReg[imm.rs] = SCRATCHPAD_ADDR;
-   // mRegisters.genReg[imm.rt] = 0xDEADBEEF;
-   // imm.immediate = 7;
-   // mInstructionHelper->SWL(imm);
-   // EXPECT_EQ(mMemoryController->GetWord(SCRATCHPAD_ADDR + 4), 0xDEADBEEF);
+   StoreTestReset(imm);
+   imm.immediate = 7;
+   mInstructionHelper->SWL(imm);
+   EXPECT_EQ(mMemoryController->GetWord(SCRATCHPAD_ADDR + 4), 0xDEADBEEF);
 }
 
 TEST_F(InstructionHelperTest, SWRTest)
 {
-   Reset();
    InstructionSetImmediateType imm;
    imm.rs = 1;
    imm.rt = 2;
-   imm.immediate = 3;
-   mRegisters.genReg[imm.rs] = SCRATCHPAD_ADDR;
-   mRegisters.genReg[imm.rt] = 0xDEADBEEF;
 
+   StoreTestReset(imm);
+   imm.immediate = 4;
    mInstructionHelper->SWR(imm);
-   EXPECT_EQ(mMemoryController->GetWord(SCRATCHPAD_ADDR), 0xEF6b6b6b);
+   EXPECT_EQ(mMemoryController->GetWord(SCRATCHPAD_ADDR), 0x6B6B6B6B);
+   EXPECT_EQ(mMemoryController->GetWord(SCRATCHPAD_ADDR + 4), 0xDEADBEEF);
+
+   StoreTestReset(imm);
+   imm.immediate = 3;
+   mInstructionHelper->SWR(imm);
+   EXPECT_EQ(mMemoryController->GetWord(SCRATCHPAD_ADDR), 0xEF6B6B6B);
+
+   StoreTestReset(imm);
+   imm.immediate = 2;
+   mInstructionHelper->SWR(imm);
+   EXPECT_EQ(mMemoryController->GetWord(SCRATCHPAD_ADDR), 0xBEEF6B6B);
+
+   StoreTestReset(imm);
+   imm.immediate = 1;
+   mInstructionHelper->SWR(imm);
+   EXPECT_EQ(mMemoryController->GetWord(SCRATCHPAD_ADDR), 0xADBEEF6B);
+
+   StoreTestReset(imm);
+   imm.immediate = 0;
+   mInstructionHelper->SWR(imm);
+   EXPECT_EQ(mMemoryController->GetWord(SCRATCHPAD_ADDR), 0xDEADBEEF);
 }
 
 TEST_F(InstructionHelperTest, SWLandSWRTest)
 {
-   Reset();
    InstructionSetImmediateType imm;
    imm.rs = 1;
-   imm.rt = 2;
-   imm.immediate = 0;
-   mRegisters.genReg[imm.rs] = SCRATCHPAD_ADDR;
-   mRegisters.genReg[imm.rt] = 0xDEADBEEF;
+   imm.rt = 2; 
 
+   StoreTestReset(imm);
+   imm.immediate = 0;
+   mInstructionHelper->SWR(imm);
+   imm.immediate = 3;
+   mInstructionHelper->SWL(imm);
+   EXPECT_EQ(mMemoryController->GetWord(SCRATCHPAD_ADDR), 0xDEADBEEF);
+   EXPECT_EQ(mMemoryController->GetWord(SCRATCHPAD_ADDR + 4), 0x6B6B6B6B);
+
+   StoreTestReset(imm);
+   imm.immediate = 1;
+   mInstructionHelper->SWR(imm);
+   imm.immediate = 4;
+   mInstructionHelper->SWL(imm);
+   EXPECT_EQ(mMemoryController->GetWord(SCRATCHPAD_ADDR), 0xADBEEF6B);
+   EXPECT_EQ(mMemoryController->GetWord(SCRATCHPAD_ADDR + 4), 0x6B6B6BDE);
+
+   StoreTestReset(imm);
+   imm.immediate = 2;
+   mInstructionHelper->SWR(imm);
+   imm.immediate = 5;
+   mInstructionHelper->SWL(imm);
+   EXPECT_EQ(mMemoryController->GetWord(SCRATCHPAD_ADDR), 0xBEEF6B6B);
+   EXPECT_EQ(mMemoryController->GetWord(SCRATCHPAD_ADDR + 4), 0x6B6BDEAD);
+
+   StoreTestReset(imm);
+   imm.immediate = 3;
+   mInstructionHelper->SWR(imm);
+   imm.immediate = 6;
+   mInstructionHelper->SWL(imm);
+   EXPECT_EQ(mMemoryController->GetWord(SCRATCHPAD_ADDR), 0xEF6B6B6B);
+   EXPECT_EQ(mMemoryController->GetWord(SCRATCHPAD_ADDR + 4), 0x6BDEADBE);
+
+   StoreTestReset(imm);
+   imm.immediate = 4;
+   mInstructionHelper->SWR(imm);
+   imm.immediate = 8;
+   mInstructionHelper->SWL(imm);
+   EXPECT_EQ(mMemoryController->GetWord(SCRATCHPAD_ADDR), 0x6B6B6B6B);
+   EXPECT_EQ(mMemoryController->GetWord(SCRATCHPAD_ADDR + 4), 0xDEADBEEF);
 }
 
 
