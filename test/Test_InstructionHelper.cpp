@@ -429,6 +429,64 @@ TEST_F(InstructionHelperTest, LHUTest)
    EXPECT_EQ(mRegisters.genReg[imm.rt], 63525);
 }
 
+TEST_F(InstructionHelperTest, ADDITest)
+{
+
+}
+
+TEST_F(InstructionHelperTest, ADDIUTest)
+{
+
+}
+
+TEST_F(InstructionHelperTest, SLTITest)
+{
+
+}
+
+TEST_F(InstructionHelperTest, SLTIUTest)
+{
+
+}
+
+TEST_F(InstructionHelperTest, ANDITest)
+{
+
+}
+
+TEST_F(InstructionHelperTest, ORITest)
+{
+   Reset();
+
+   InstructionSetImmediateType imm;
+   imm.rs = 0b10101;
+   imm.rt = 0b10110;
+   imm.immediate = 0xDEAD;
+   mRegisters.genReg[imm.rs] = 0xABCD;
+   mInstructionHelper->ORI(imm);
+
+   EXPECT_EQ(mRegisters.genReg[imm.rt], 0xABCD | 0xDEAD);
+
+   mRegisters.genReg[imm.rs] = 0xABCD0000;
+   mInstructionHelper->ORI(imm);
+
+   EXPECT_EQ(mRegisters.genReg[imm.rt], 0xABCDDEAD);
+}
+
+TEST_F(InstructionHelperTest, XORITest)
+{
+   Reset();
+
+   InstructionSetImmediateType imm;
+   imm.rs = 0b10101;
+   imm.rt = 0b10110;
+   imm.immediate = 0xDEAD;
+   mRegisters.genReg[imm.rs] = 0xABCD;
+   mInstructionHelper->XORI(imm);
+
+   EXPECT_EQ(mRegisters.genReg[imm.rt], 0xABCD ^ 0xDEAD);
+}
+
 TEST_F(InstructionHelperTest, LUITest)
 {
    Reset();
@@ -441,26 +499,3 @@ TEST_F(InstructionHelperTest, LUITest)
    EXPECT_EQ(mRegisters.genReg[imm.rt], 0xABCD0000);
 }
 
-TEST_F(InstructionHelperTest, ORTest)
-{
-   Reset();
-   InstructionSetImmediateType imm1;
-   imm1.rt = 0b10101;
-   imm1.immediate = 0xABCD;
-
-   mInstructionHelper->LUI(imm1);
-
-   InstructionSetImmediateType imm2;
-   imm2.rs = 0b10101;
-   imm2.rt = 0b10110;
-   imm2.immediate = 0xDEAD;
-
-   mInstructionHelper->ORI(imm2);
-
-   EXPECT_EQ(mRegisters.genReg[imm2.rt], 0xABCD0000 | 0xDEAD);
-}
-
-TEST_F(InstructionHelperTest, ADDITest)
-{
-
-}
