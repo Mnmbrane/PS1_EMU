@@ -63,5 +63,7 @@
       "cinttypes": "cpp",
       "typeindex": "cpp"
    },
-   "hexdump.littleEndian": true
+   "hexdump.littleEndian": true,
+   "vim.vimrc.enable": true,
+   "vim.vimrc.path": "~/.vimrc"
 }

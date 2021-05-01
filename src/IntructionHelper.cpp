@@ -127,18 +127,19 @@ void InstructionHelper::SWL(const InstructionSetImmediateType& imm)
    mMemController->StoreWord(alignedAddr, origData | (mRegisters->genReg[imm.rt] >> shift));
 }
 
-
 void InstructionHelper::ADDI(const InstructionSetImmediateType& imm) 
 {
    Word regVal = mRegisters->genReg[imm.rs];
-   Word addVal = (int)regVal + (int)SIGNED_IMM(imm.immediate);
-   if( addVal < (int)regVal)
+   int sImm = ((int)SIGNED_IMM(imm.immediate));
+
+   if(CheckAddOverflow(sImm, regVal))
    {
       // overflow
       throw std::exception();
    }
    else
    {
+      Word addVal = (int)regVal + sImm;
       mRegisters->genReg[imm.rt] = addVal;
    }
 }
@@ -176,4 +177,10 @@ void InstructionHelper::XORI(const InstructionSetImmediateType& imm)
 void InstructionHelper::LUI(const InstructionSetImmediateType& imm) 
 {
    mRegisters->genReg[imm.rt] = (imm.immediate << 16);
+}
+
+bool InstructionHelper::CheckAddOverflow(const SWord& num1, const SWord& num2) 
+{
+   int temp;
+   return __builtin_add_overflow(num1, num2, &temp);
 }

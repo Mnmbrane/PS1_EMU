@@ -4,6 +4,7 @@
 #include "CommonTypes.h"
 #include "MemoryController.h"
 
+#include <limits.h>
 using namespace PSEmu;
 
 // Test fixture
@@ -313,21 +314,25 @@ TEST_F(InstructionHelperTest, SWLTest)
    imm.immediate = 4;
    mInstructionHelper->SWL(imm);
    EXPECT_EQ(mMemoryController->GetWord(SCRATCHPAD_ADDR + 4), 0x6B6B6BDE);
+   EXPECT_EQ(mMemoryController->GetWord(SCRATCHPAD_ADDR), 0x6B6B6B6B);
 
    StoreTestReset(imm);
    imm.immediate = 5;
    mInstructionHelper->SWL(imm);
    EXPECT_EQ(mMemoryController->GetWord(SCRATCHPAD_ADDR + 4), 0x6B6BDEAD);
+   EXPECT_EQ(mMemoryController->GetWord(SCRATCHPAD_ADDR), 0x6B6B6B6B);
 
    StoreTestReset(imm);
    imm.immediate = 6;
    mInstructionHelper->SWL(imm);
    EXPECT_EQ(mMemoryController->GetWord(SCRATCHPAD_ADDR + 4), 0x6BDEADBE);
+   EXPECT_EQ(mMemoryController->GetWord(SCRATCHPAD_ADDR), 0x6B6B6B6B);
 
    StoreTestReset(imm);
    imm.immediate = 7;
    mInstructionHelper->SWL(imm);
    EXPECT_EQ(mMemoryController->GetWord(SCRATCHPAD_ADDR + 4), 0xDEADBEEF);
+   EXPECT_EQ(mMemoryController->GetWord(SCRATCHPAD_ADDR), 0x6B6B6B6B);
 }
 
 TEST_F(InstructionHelperTest, SWRTest)
@@ -431,7 +436,25 @@ TEST_F(InstructionHelperTest, LHUTest)
 
 TEST_F(InstructionHelperTest, ADDITest)
 {
+   Reset();
 
+   InstructionSetImmediateType imm;
+   imm.rs = 0b10101;
+   imm.rt = 0b10110;
+
+   imm.immediate = (HalfWord)(2);
+   mRegisters.genReg[imm.rs] = 2;
+   mInstructionHelper->ADDI(imm);
+   EXPECT_EQ(mRegisters.genReg[imm.rt], 4);
+
+   imm.immediate = (HalfWord)(-1347);
+   mRegisters.genReg[imm.rs] = 0xABCD;
+   mInstructionHelper->ADDI(imm);
+   EXPECT_EQ(mRegisters.genReg[imm.rt], -1347 + 0xABCD);
+
+   imm.immediate = 1;
+   mRegisters.genReg[imm.rs] = INT_MAX;
+   EXPECT_THROW(mInstructionHelper->ADDI(imm), std::exception);
 }
 
 TEST_F(InstructionHelperTest, ADDIUTest)

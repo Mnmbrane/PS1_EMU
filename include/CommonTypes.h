@@ -10,6 +10,8 @@ namespace PSEmu
    using HalfWord = unsigned short;
    using Byte = unsigned char;
 
+   using SWord = int;
+
    using Instruction = Word;
 
    typedef enum : Word

@@ -64,8 +64,8 @@ void UserMemory::StoreByte(const Word& addr, Word val)
    if(offset < 0 || offset >= USER_MEM_SIZE)
    {
       throw std::exception();
-   }
    *(Byte*)(&mData[offset]) = val;
+   }
 }
 
 void UserMemory::StoreHalfWord(const Word& addr, Word val)
