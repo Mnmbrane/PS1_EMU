@@ -542,7 +542,26 @@ TEST_F(InstructionHelperTest, SLTIUTest)
 
 TEST_F(InstructionHelperTest, ANDITest)
 {
+   Reset();
 
+   InstructionSetImmediateType imm;
+   imm.rs = 0b10101;
+   imm.rt = 0b10110;
+   imm.immediate = 0xDEAD;
+   mRegisters.genReg[imm.rs] = 0xABCD;
+   mInstructionHelper->ANDI(imm);
+
+   EXPECT_EQ(mRegisters.genReg[imm.rt], 0xABCD & 0xDEAD);
+
+   mRegisters.genReg[imm.rs] = 0xABCD0000;
+   mInstructionHelper->ANDI(imm);
+
+   EXPECT_EQ(mRegisters.genReg[imm.rt], 0x00000000);
+
+   mRegisters.genReg[imm.rs] = 0xFFFF;
+   mInstructionHelper->ANDI(imm);
+
+   EXPECT_EQ(mRegisters.genReg[imm.rt], 0xDEAD);
 }
 
 TEST_F(InstructionHelperTest, ORITest)
