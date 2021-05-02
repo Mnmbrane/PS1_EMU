@@ -459,7 +459,26 @@ TEST_F(InstructionHelperTest, ADDITest)
 
 TEST_F(InstructionHelperTest, ADDIUTest)
 {
+   Reset();
 
+   InstructionSetImmediateType imm;
+   imm.rs = 0b10101;
+   imm.rt = 0b10110;
+
+   imm.immediate = (HalfWord)(2);
+   mRegisters.genReg[imm.rs] = 2;
+   mInstructionHelper->ADDIU(imm);
+   EXPECT_EQ(mRegisters.genReg[imm.rt], 4);
+
+   imm.immediate = (HalfWord)(-1347);
+   mRegisters.genReg[imm.rs] = 0xABCD;
+   mInstructionHelper->ADDIU(imm);
+   EXPECT_EQ(mRegisters.genReg[imm.rt], -1347 + 0xABCD);
+
+   imm.immediate = 1;
+   mRegisters.genReg[imm.rs] = INT_MAX;
+   mInstructionHelper->ADDIU(imm);
+   EXPECT_EQ(mRegisters.genReg[imm.rt], (SWord)(1 + (Word)0x7FFFFFFF));
 }
 
 TEST_F(InstructionHelperTest, SLTITest)
