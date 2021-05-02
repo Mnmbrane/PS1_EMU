@@ -483,12 +483,61 @@ TEST_F(InstructionHelperTest, ADDIUTest)
 
 TEST_F(InstructionHelperTest, SLTITest)
 {
+   Reset();
 
+   InstructionSetImmediateType imm;
+   imm.rs = 0b10101;
+   imm.rt = 0b10110;
+
+   imm.immediate = (HalfWord)(-20);
+   mRegisters.genReg[imm.rs] = 2;
+   mInstructionHelper->SLTI(imm);
+   EXPECT_EQ(mRegisters.genReg[imm.rt], false);
+
+   imm.immediate = (HalfWord)(20);
+   mRegisters.genReg[imm.rs] = 2;
+   mInstructionHelper->SLTI(imm);
+   EXPECT_EQ(mRegisters.genReg[imm.rt], true);
+
+   imm.immediate = (HalfWord)(1234);
+   mRegisters.genReg[imm.rs] = 1234;
+   mInstructionHelper->SLTI(imm);
+   EXPECT_EQ(mRegisters.genReg[imm.rt], false);
+
+   imm.immediate = (HalfWord)(1234);
+   mRegisters.genReg[imm.rs] = 1233;
+   mInstructionHelper->SLTI(imm);
+   EXPECT_EQ(mRegisters.genReg[imm.rt], true);
 }
 
 TEST_F(InstructionHelperTest, SLTIUTest)
 {
+   Reset();
 
+   InstructionSetImmediateType imm;
+   imm.rs = 0b10101;
+   imm.rt = 0b10110;
+
+   imm.immediate = (HalfWord)(-20);
+   mRegisters.genReg[imm.rs] = 2;
+   mInstructionHelper->SLTIU(imm);
+   // -20 = 0xFFFFFFEC > 2
+   EXPECT_EQ(mRegisters.genReg[imm.rt], true);
+
+   imm.immediate = (HalfWord)(20);
+   mRegisters.genReg[imm.rs] = 2;
+   mInstructionHelper->SLTIU(imm);
+   EXPECT_EQ(mRegisters.genReg[imm.rt], true);
+
+   imm.immediate = (HalfWord)(1234);
+   mRegisters.genReg[imm.rs] = 1234;
+   mInstructionHelper->SLTIU(imm);
+   EXPECT_EQ(mRegisters.genReg[imm.rt], false);
+
+   imm.immediate = (HalfWord)(1234);
+   mRegisters.genReg[imm.rs] = 1233;
+   mInstructionHelper->SLTIU(imm);
+   EXPECT_EQ(mRegisters.genReg[imm.rt], true);
 }
 
 TEST_F(InstructionHelperTest, ANDITest)
