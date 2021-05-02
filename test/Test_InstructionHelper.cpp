@@ -609,3 +609,33 @@ TEST_F(InstructionHelperTest, LUITest)
    EXPECT_EQ(mRegisters.genReg[imm.rt], 0xABCD0000);
 }
 
+TEST_F(InstructionHelperTest, ADDTest)
+{
+   Reset();
+
+   InstructionSetRegisterType reg;
+   reg.rs = 0b10101;
+   reg.rt = 0b10110;
+
+   // Add 2 and 2
+   mRegisters.genReg[reg.rs] = 2;
+   mRegisters.genReg[reg.rt] = 2;
+   mInstructionHelper->ADD(reg);
+   EXPECT_EQ(mRegisters.genReg[reg.rd], 4);
+
+   // Add -40 and 34
+   mRegisters.genReg[reg.rs] = -40;
+   mRegisters.genReg[reg.rt] = 34;
+   mInstructionHelper->ADD(reg);
+   EXPECT_EQ(mRegisters.genReg[reg.rd], -40 + 34);
+
+   // Add -40 and 0x7fffffff
+   mRegisters.genReg[reg.rs] = -40;
+   mRegisters.genReg[reg.rt] = INT_MAX;
+   mInstructionHelper->ADD(reg);
+   EXPECT_EQ(mRegisters.genReg[reg.rd], 2147483607);
+
+   mRegisters.genReg[reg.rs] = 1;
+   mRegisters.genReg[reg.rt] = INT_MAX;
+   EXPECT_THROW(mInstructionHelper->ADD(reg), std::exception);
+}

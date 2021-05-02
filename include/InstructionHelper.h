@@ -198,6 +198,94 @@ namespace PSEmu
        */
       void LUI(const InstructionSetImmediateType& imm);
 
+      /**
+       * ADD - Add
+       * Add contents of registers rs and rt and place 32-bit result in register rd. Trap on
+       * two’s complement overflow.
+       *
+       * @param[in] reg         - The register instruction
+       */
+      void ADD(const InstructionSetRegisterType& reg);
+
+      /**
+       * ADDU - Add Unsigned
+       * Add contents of registers rs and rt and place 32-bit result in register rd. Do not
+       * trap on overflow.
+       * 
+       * @param[in] reg         - The register instruction
+       */
+      void ADDU(const InstructionSetRegisterType& reg);
+
+      /**
+       * SUB - Subtract
+       * Subtract contents of registers rt and rs and place 32-bit result in register rd. Trap
+       * on two’s complement overflow.
+       *
+       * @param[in] reg         - The register instruction
+       */
+      void SUB(const InstructionSetRegisterType& reg);
+
+      /**
+       * SUBU - Subtract Unsigned
+       * Subtract contents of registers rt and rs and place 32-bit result in register rd. Do
+       * not trap on overflow.
+       *
+       * @param[in] reg         - The register instruction
+       */
+      void SUBU(const InstructionSetRegisterType& reg);
+
+      /**
+       * SLT - Set on Less Than
+       * Compare contents of register rt to register rs (as signed 32-bit integers).
+       * If register rs is less than rt, result = 1; otherwise, result = 0.
+       *
+       * @param[in] reg         - The register instruction
+       */
+      void SLT(const InstructionSetRegisterType& reg);
+
+      /**
+       * SLTU - Set on Less Than Unsigned
+       * Compare contents of register rt to register rs (as unsigned 32-bit integers). If
+       * register rs is less than rt, result = 1; otherwise, result = 0.
+       *
+       * @param[in] reg         - The register instruction
+       */
+      void SLTU(const InstructionSetRegisterType& reg);
+
+      /**
+       * AND - And
+       * Bit-wise AND contents of registers rs and rt and place result in register rd.
+       *
+       * @param[in] reg         - The register instruction
+       */
+      void AND(const InstructionSetRegisterType& reg);
+
+      /**
+       * OR - Or
+       * Bit-wise OR contents of registers rs and rt and place result in register rd.
+       *
+       * @param[in] reg         - The register instruction
+       */
+      void OR(const InstructionSetRegisterType& reg);
+
+      /**
+       * XOR - Exclusive Or
+       * Bit-wise Exclusive OR contents of registers rs and rt and place result in register
+       * rd.
+       *
+       * @param[in] reg         - The register instruction
+       */
+      void XOR(const InstructionSetRegisterType& reg);
+
+      /**
+       * NOR - Load Upper Immediate
+       * Bit-wise NOR contents of registers rs and rt and place result in register rd.
+       *
+       * @param[in] reg         - The register instruction
+       */
+
+      void NOR(const InstructionSetRegisterType& reg);
+
    private:
       static bool CheckAddOverflow(const SWord& num1, const SWord& num2);
       MemoryController* mMemController;

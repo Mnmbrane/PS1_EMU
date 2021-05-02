@@ -179,6 +179,66 @@ void InstructionHelper::LUI(const InstructionSetImmediateType& imm)
    mRegisters->genReg[imm.rt] = (imm.immediate << 16);
 }
 
+void InstructionHelper::ADD(const InstructionSetRegisterType& reg) 
+{
+   int s = mRegisters->genReg[reg.rs];
+   int t = mRegisters->genReg[reg.rt];
+
+   if(CheckAddOverflow(s, t))
+   {
+      throw std::exception();
+   }
+   else
+   {
+      mRegisters->genReg[reg.rd] = mRegisters->genReg[reg.rs] + mRegisters->genReg[reg.rt];
+   }
+}
+
+void InstructionHelper::ADDU(const InstructionSetRegisterType& reg) 
+{
+
+}
+
+void InstructionHelper::SUB(const InstructionSetRegisterType& reg) 
+{
+
+}
+
+void InstructionHelper::SUBU(const InstructionSetRegisterType& reg) 
+{
+
+}
+
+void InstructionHelper::SLT(const InstructionSetRegisterType& reg) 
+{
+
+}
+
+void InstructionHelper::SLTU(const InstructionSetRegisterType& reg) 
+{
+
+}
+
+void InstructionHelper::AND(const InstructionSetRegisterType& reg) 
+{
+
+}
+
+void InstructionHelper::OR(const InstructionSetRegisterType& reg) 
+{
+
+}
+
+void InstructionHelper::XOR(const InstructionSetRegisterType& reg) 
+{
+
+}
+
+void InstructionHelper::NOR(const InstructionSetRegisterType& reg) 
+{
+
+}
+
 bool InstructionHelper::CheckAddOverflow(const SWord& num1, const SWord& num2) 
 {
    int temp;
