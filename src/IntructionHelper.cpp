@@ -196,17 +196,27 @@ void InstructionHelper::ADD(const InstructionSetRegisterType& reg)
 
 void InstructionHelper::ADDU(const InstructionSetRegisterType& reg) 
 {
-
+   mRegisters->genReg[reg.rd] = mRegisters->genReg[reg.rs] + mRegisters->genReg[reg.rt];
 }
 
 void InstructionHelper::SUB(const InstructionSetRegisterType& reg) 
 {
+   int s = mRegisters->genReg[reg.rs];
+   int t = mRegisters->genReg[reg.rt];
 
+   if(CheckAddOverflow(s, t))
+   {
+      throw std::exception();
+   }
+   else
+   {
+      mRegisters->genReg[reg.rd] = mRegisters->genReg[reg.rs] - mRegisters->genReg[reg.rt];
+   }
 }
 
 void InstructionHelper::SUBU(const InstructionSetRegisterType& reg) 
 {
-
+   mRegisters->genReg[reg.rd] = mRegisters->genReg[reg.rs] - mRegisters->genReg[reg.rt];
 }
 
 void InstructionHelper::SLT(const InstructionSetRegisterType& reg) 
