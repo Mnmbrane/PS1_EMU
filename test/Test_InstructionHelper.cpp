@@ -635,8 +635,14 @@ TEST_F(InstructionHelperTest, ADDTest)
    mInstructionHelper->ADD(reg);
    EXPECT_EQ(mRegisters.genReg[reg.rd], 2147483607);
 
+   // Adding 1 to INT_MAX should result in an overflow exception
    mRegisters.genReg[reg.rs] = 1;
    mRegisters.genReg[reg.rt] = INT_MAX;
+   EXPECT_THROW(mInstructionHelper->ADD(reg), std::exception);
+
+   // Adding -1 to INT_MIN should result in an overflow exception
+   mRegisters.genReg[reg.rs] = -1;
+   mRegisters.genReg[reg.rt] = INT_MIN;
    EXPECT_THROW(mInstructionHelper->ADD(reg), std::exception);
 }
 
@@ -666,7 +672,13 @@ TEST_F(InstructionHelperTest, SUBTest)
    mInstructionHelper->SUB(reg);
    EXPECT_EQ(mRegisters.genReg[reg.rd], 2147483607);
 
+   // Subtracting 1 from INT_MIN should result in an overflow exception
    mRegisters.genReg[reg.rs] = INT_MIN;
    mRegisters.genReg[reg.rt] = 1;
+   EXPECT_THROW(mInstructionHelper->SUB(reg), std::exception);
+
+   // Subtracting -1 from INT_MAX should result in an overflow exception
+   mRegisters.genReg[reg.rs] = INT_MAX;
+   mRegisters.genReg[reg.rt] = -1;
    EXPECT_THROW(mInstructionHelper->SUB(reg), std::exception);
 }
