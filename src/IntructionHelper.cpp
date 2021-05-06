@@ -194,7 +194,7 @@ void InstructionHelper::ADD(const InstructionSetRegisterType& reg)
    }
 }
 
-void InstructionHelper::ADDU(const InstructionSetRegisterType& reg) 
+void InstructionHelper::ADDU(const InstructionSetRegisterType& reg)
 {
    mRegisters->genReg[reg.rd] = mRegisters->genReg[reg.rs] + mRegisters->genReg[reg.rt];
 }
@@ -204,7 +204,7 @@ void InstructionHelper::SUB(const InstructionSetRegisterType& reg)
    int s = mRegisters->genReg[reg.rs];
    int t = mRegisters->genReg[reg.rt];
 
-   if(CheckAddOverflow(s, t))
+   if(CheckSubOverflow(s, t))
    {
       throw std::exception();
    }
@@ -253,4 +253,10 @@ bool InstructionHelper::CheckAddOverflow(const SWord& num1, const SWord& num2)
 {
    int temp;
    return __builtin_add_overflow(num1, num2, &temp);
+}
+
+bool InstructionHelper::CheckSubOverflow(const SWord& num1, const SWord& num2) 
+{
+   int temp;
+   return __builtin_sub_overflow(num1, num2, &temp);
 }

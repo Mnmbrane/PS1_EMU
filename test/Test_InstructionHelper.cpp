@@ -639,3 +639,34 @@ TEST_F(InstructionHelperTest, ADDTest)
    mRegisters.genReg[reg.rt] = INT_MAX;
    EXPECT_THROW(mInstructionHelper->ADD(reg), std::exception);
 }
+
+TEST_F(InstructionHelperTest, SUBTest)
+{
+   Reset();
+
+   InstructionSetRegisterType reg;
+   reg.rs = 0b10101;
+   reg.rt = 0b10110;
+
+   // Sub 2 and 2
+   mRegisters.genReg[reg.rs] = 2;
+   mRegisters.genReg[reg.rt] = 2;
+   mInstructionHelper->SUB(reg);
+   EXPECT_EQ(mRegisters.genReg[reg.rd], 0);
+
+   // Sub -40 and 34
+   mRegisters.genReg[reg.rs] = -40;
+   mRegisters.genReg[reg.rt] = 34;
+   mInstructionHelper->SUB(reg);
+   EXPECT_EQ(mRegisters.genReg[reg.rd], -40 - 34);
+
+   // Sub 0x7fffffff and 40
+   mRegisters.genReg[reg.rs] = INT_MAX;
+   mRegisters.genReg[reg.rt] = 40;
+   mInstructionHelper->SUB(reg);
+   EXPECT_EQ(mRegisters.genReg[reg.rd], 2147483607);
+
+   mRegisters.genReg[reg.rs] = INT_MIN;
+   mRegisters.genReg[reg.rt] = 1;
+   EXPECT_THROW(mInstructionHelper->SUB(reg), std::exception);
+}

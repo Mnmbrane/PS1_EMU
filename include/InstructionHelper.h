@@ -288,6 +288,7 @@ namespace PSEmu
 
    private:
       static bool CheckAddOverflow(const SWord& num1, const SWord& num2);
+      static bool CheckSubOverflow(const SWord& num1, const SWord& num2);
       MemoryController* mMemController;
       RegisterType* mRegisters;
    };
