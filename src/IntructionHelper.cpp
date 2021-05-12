@@ -221,32 +221,32 @@ void InstructionHelper::SUBU(const InstructionSetRegisterType& reg)
 
 void InstructionHelper::SLT(const InstructionSetRegisterType& reg) 
 {
-
+   mRegisters->genReg[reg.rd] = (int)mRegisters->genReg[reg.rs] < (int)mRegisters->genReg[reg.rt];
 }
 
 void InstructionHelper::SLTU(const InstructionSetRegisterType& reg) 
 {
-
+   mRegisters->genReg[reg.rd] = mRegisters->genReg[reg.rs] < mRegisters->genReg[reg.rt];
 }
 
 void InstructionHelper::AND(const InstructionSetRegisterType& reg) 
 {
-
+   mRegisters->genReg[reg.rd] = mRegisters->genReg[reg.rs] & mRegisters->genReg[reg.rt];
 }
 
 void InstructionHelper::OR(const InstructionSetRegisterType& reg) 
 {
-
+   mRegisters->genReg[reg.rd] = mRegisters->genReg[reg.rs] | mRegisters->genReg[reg.rt];
 }
 
 void InstructionHelper::XOR(const InstructionSetRegisterType& reg) 
 {
-
+   mRegisters->genReg[reg.rd] = mRegisters->genReg[reg.rs] ^ mRegisters->genReg[reg.rt];
 }
 
 void InstructionHelper::NOR(const InstructionSetRegisterType& reg) 
 {
-
+   mRegisters->genReg[reg.rd] = ~(mRegisters->genReg[reg.rs] | mRegisters->genReg[reg.rt]);
 }
 
 bool InstructionHelper::CheckAddOverflow(const SWord& num1, const SWord& num2) 
